@@ -1,24 +1,24 @@
 <script setup lang="ts">
-
-import {onMounted, ref, VNodeRef} from "vue";
-import {PlayerProps} from "@/types";
+import { onMounted, provide, ref, VNodeRef } from 'vue';
+import { PlayerProps } from '@/types';
 import Hls from 'hls.js';
-import {useVideo} from "@/core/useVideo.ts";
-
+import { useLoad } from '@/core/hooks/useLoad.ts';
+import { useVideo } from '@/core/hooks/useVideo.ts';
+import Test from './Test.vue';
 
 // Props
-const props = defineProps<PlayerProps>()
-const {videoSrc, autoPlay, videoType} = props.option;
+const props = defineProps<PlayerProps>();
+const { videoSrc, autoPlay, videoType, height, width } = props.option;
 
-const videoRef = ref<VNodeRef | null>(null)
+// States
+const videoRef = ref<VNodeRef | null>(null);
+provide('videoRef', videoRef);
 
 // hooks
-const {
-  sourceFile,
-  sourceFileType
-} = useVideo(videoSrc, videoRef)
+const { sourceFile, sourceFileType } = useLoad(videoSrc);
+const { videoStates } = useVideo(videoRef);
 
-// HLS支持
+// HLS Support
 const setHls = (videoElem: HTMLVideoElement) => {
   if (videoType && videoType === 'hls') {
     // 检查浏览器是否支持hls格式
@@ -30,19 +30,25 @@ const setHls = (videoElem: HTMLVideoElement) => {
   }
 };
 
-
 onMounted(() => {
-  setHls(videoRef.value)
-})
+  setHls(videoRef.value);
+});
 </script>
 
 <template>
-  <div class="cy-player-container">
-    <video class="cy-player" ref="videoRef" :src="videoSrc" :autoplay="autoPlay" muted>
-      <source v-if="sourceFile" :src="sourceFile"
-              :type="sourceFileType!"/>
+  <div class="cy-player-container" :style="{ width, height }">
+    <video
+      class="cy-player"
+      id="cy-player"
+      ref="videoRef"
+      :src="videoSrc"
+      :autoplay="autoPlay"
+      muted
+    >
+      <source v-if="sourceFile" :src="sourceFile" :type="sourceFileType!" />
     </video>
   </div>
+  <Test></Test>
 </template>
 
 <style scoped>

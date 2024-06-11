@@ -1,0 +1,27 @@
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import pluginVue from 'eslint-plugin-vue';
+import pluginPrettier from 'eslint-plugin-prettier';
+import vueParser from 'vue-eslint-parser';
+
+export default [
+  {
+    languageOptions: {
+      globals: globals.browser,
+      parser: vueParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        parser: '@typescript-eslint/parser',
+      },
+    },
+    files: ['**/*.ts?(x)', '**/*.vue'],
+    ignores: ['**/dist/**', '**/node_modules/**'],
+    // recommended.plugins: ['prettier']
+    plugins: {
+      prettier: pluginPrettier,
+    },
+  },
+  ...tseslint.configs.recommended,
+  ...pluginVue.configs['flat/essential'],
+];
