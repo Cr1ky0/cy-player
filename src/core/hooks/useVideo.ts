@@ -1,7 +1,10 @@
-import { onBeforeUnmount, reactive, Ref, watch } from 'vue';
+import { onBeforeUnmount, reactive, ref, Ref, VNodeRef, watch } from 'vue';
 import { VideoController, VideoState } from '@/types';
 
 export const useVideo = (videoRef: Ref) => {
+  // 内部额外定义一个Ref的意义在于，全局事件监听或卸载只在该对象上进行，不用依赖传入的Ref
+  // 传入的Ref的作用在于初始化vRef
+  const vRef = ref<VNodeRef | null>(null);
   // States
   const videoStates = reactive<VideoState>({
     isPlay: false, // 是否播放
@@ -25,9 +28,6 @@ export const useVideo = (videoRef: Ref) => {
     },
   });
 
-  // watch(()=>videoStates.currentPlayTime,()=>{
-  //   console.log(videoStates.currentPlayTime);
-  // })
   // 相关监听事件
   /**
    * @description 视频暂停
@@ -64,8 +64,10 @@ export const useVideo = (videoRef: Ref) => {
 
   // 监听VideoRef
   watch(videoRef, () => {
-    if (videoRef) {
-      const videoElement = <HTMLVideoElement>videoRef.value;
+    if (videoRef.value) {
+      console.log('mount');
+      vRef.value = videoRef.value;
+      const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.addEventListener('canplay', setDuration);
       videoElement.addEventListener('progress', setBufferedTime);
       videoElement.addEventListener('timeupdate', setCurrentPlayTime);
@@ -76,8 +78,9 @@ export const useVideo = (videoRef: Ref) => {
 
   // remove events
   onBeforeUnmount(() => {
-    if (videoRef) {
-      const videoElement = <HTMLVideoElement>videoRef.value;
+    if (vRef.value) {
+      console.log('unmount');
+      const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.removeEventListener('canplay', setDuration);
       videoElement.removeEventListener('progress', setBufferedTime);
       videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
@@ -88,6 +91,6 @@ export const useVideo = (videoRef: Ref) => {
 
   return {
     videoStates,
-    videoController
+    videoController,
   };
 };

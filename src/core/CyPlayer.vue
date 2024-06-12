@@ -10,14 +10,12 @@ import Test from './Test.vue';
 const props = defineProps<PlayerProps>();
 const { videoSrc, autoPlay, videoType, height, width } = props.option;
 
-
 // States
 const videoRef = ref<VNodeRef | null>(null);
 provide('videoRef', videoRef);
 
 // hooks
 const { usefulCheck, sourceFileType } = useLoad(videoSrc);
-const { videoStates } = useVideo(videoRef);
 
 // HLS Support
 const setHls = (videoElem: HTMLVideoElement) => {
