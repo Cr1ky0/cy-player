@@ -1,5 +1,5 @@
 import { onBeforeUnmount, reactive, Ref, watch } from 'vue';
-import { VideoController, VideoController, VideoState } from '@/types';
+import { VideoController, VideoState } from '@/types';
 
 export const useVideo = (videoRef: Ref) => {
   // States
