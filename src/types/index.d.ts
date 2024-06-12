@@ -1,13 +1,8 @@
 // VideoType
 export type VideoType = 'h264' | 'hls';
 
-// Player Props
-export interface PlayerProps {
-  option: PlayerOption;
-}
-
 // Player选项
-export interface PlayerOption<T = string, U = boolean, K = number> {
+export interface PlayerOption<T = string, U = boolean> {
   /**
    * @description 视频地址
    */
@@ -17,10 +12,6 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    */
   autoPlay?: U;
   /**
-   * @description 视频播放格式，支持h264(.mp4,.webm,.ogg)，hls(m3u8),默认h264格式
-   */
-  videoType?: VideoType;
-  /**
    * @description 播放器高度
    */
   height?: number;
@@ -28,6 +19,32 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 播放器宽度
    */
   width?: number;
+}
+
+// Video回调
+export type CallbackType<T = VideoState> = (e: T) => void;
+
+export interface VideoCallback<T = CallbackType> {
+  /**
+   * @description 视频开始播放回调
+   */
+  onPlay?: T;
+  /**
+   * @description 视频暂停播放的回调
+   */
+  onPause?: T;
+  /**
+   * @description 视频在播放，时间变化回调
+   */
+  onTimeChange?: T;
+  /**
+   * @description 视频结束时回调
+   */
+  onPlayEnd?: T;
+  /**
+   * @description 音量改变时的回调
+   */
+  onVolumeChange?: T;
 }
 
 // Video状态
@@ -60,10 +77,10 @@ export interface VideoState<T = number, U = boolean> {
 }
 
 // Video操作
-export interface VideoController{
-  load:()=>void;
-  play:()=>void;
-  pause:()=>void;
-  setVolume:(volume:number)=>void;
-  setCurTime:(curTime:number)=>void;
+export interface VideoController {
+  load: () => void;
+  play: () => void;
+  pause: () => void;
+  setVolume: (volume: number) => void;
+  setCurTime: (curTime: number) => void;
 }

@@ -1,11 +1,25 @@
-import { onBeforeUnmount, reactive, ref, Ref, VNodeRef, watch } from 'vue';
-import { VideoController, VideoState } from '@/types';
+import {
+  onBeforeUnmount,
+  reactive,
+  ref,
+  Ref,
+  watch,
+  watchEffect,
+} from 'vue';
+import {
+  PlayerOption,
+  VideoController,
+  VideoState,
+} from '@/types';
 
-export const useVideo = (videoRef: Ref) => {
+export const useVideo = (
+  videoRef: Ref,
+  options?: Partial<PlayerOption>,
+) => {
   /**
    * @description 内部ref，全局事件监听或卸载只在该对象上进行，避免组件卸载后无法进行事件移除
    */
-  const vRef = ref<VNodeRef | null>(null);
+  const vRef = ref<HTMLVideoElement>();
   // States
   const videoStates = reactive<VideoState>({
     isPlay: false, // 是否播放
@@ -22,7 +36,8 @@ export const useVideo = (videoRef: Ref) => {
     pause: () => vRef.value?.pause(),
     setVolume: (volume) => {
       if (vRef.value)
-        vRef.value.volume = volume < 1 ? volume : volume / 100;
+        vRef.value.volume =
+          volume < 1 ? volume : volume / 100;
     },
     setCurTime: (curTime) => {
       if (vRef.value) vRef.value.currentTime = curTime;
@@ -34,34 +49,47 @@ export const useVideo = (videoRef: Ref) => {
    * @description 视频暂停
    */
   const setIsPlay = () => {
-    videoStates.isPlay = !vRef.value?.paused;
+    if (vRef.value)
+      videoStates.isPlay = vRef.value.paused;
   };
   /**
    * @description 视频结束
    */
   const setIsPlayEnd = () => {
-    videoStates.isPlayEnd = vRef.value?.ended;
+    if (vRef.value)
+      videoStates.isPlayEnd = vRef.value.ended;
   };
   /**
    *
    * @description 总时长
    */
   const setDuration = () => {
-    videoStates.duration = vRef.value?.duration;
+    if (vRef.value)
+      videoStates.duration = vRef.value.duration || 0;
   };
 
   /**
    * @description 缓冲时间
    */
   const setBufferedTime = () => {
-    videoStates.bufferedTime = vRef.value?.buffered.end(0); // 浏览器已经缓冲的媒体数据的最远时间点
+    if (vRef.value)
+      videoStates.bufferedTime =
+        vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
   };
   /**
    * @description 播放时间
    */
   const setCurrentPlayTime = () => {
-    videoStates.currentPlayTime = vRef.value?.currentTime;
+    if (vRef.value)
+      videoStates.currentPlayTime = vRef.value.currentTime;
   };
+
+  // 监听相关的options
+  watchEffect(() => {
+    if (options && options.autoPlay) {
+      videoStates.isPlay = options.autoPlay;
+    }
+  });
 
   // 监听VideoRef
   watch(videoRef, () => {
@@ -70,8 +98,14 @@ export const useVideo = (videoRef: Ref) => {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.addEventListener('canplay', setDuration);
-      videoElement.addEventListener('progress', setBufferedTime);
-      videoElement.addEventListener('timeupdate', setCurrentPlayTime);
+      videoElement.addEventListener(
+        'progress',
+        setBufferedTime,
+      );
+      videoElement.addEventListener(
+        'timeupdate',
+        setCurrentPlayTime,
+      );
       videoElement.addEventListener('pause', setIsPlay);
       videoElement.addEventListener('ended', setIsPlayEnd);
     }
@@ -82,11 +116,23 @@ export const useVideo = (videoRef: Ref) => {
     if (vRef.value) {
       // console.log('unmount');
       const videoElement = <HTMLVideoElement>vRef.value;
-      videoElement.removeEventListener('canplay', setDuration);
-      videoElement.removeEventListener('progress', setBufferedTime);
-      videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
+      videoElement.removeEventListener(
+        'canplay',
+        setDuration,
+      );
+      videoElement.removeEventListener(
+        'progress',
+        setBufferedTime,
+      );
+      videoElement.removeEventListener(
+        'timeupdate',
+        setCurrentPlayTime,
+      );
       videoElement.removeEventListener('pause', setIsPlay);
-      videoElement.removeEventListener('ended', setIsPlayEnd);
+      videoElement.removeEventListener(
+        'ended',
+        setIsPlayEnd,
+      );
     }
   });
 

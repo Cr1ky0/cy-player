@@ -1,47 +1,75 @@
 <script setup lang="ts">
-import { onMounted, provide, ref, VNodeRef } from 'vue';
-import { PlayerProps } from '@/types';
+import { computed, onMounted, provide, ref, watch } from 'vue';
+import { PlayerOption, VideoCallback } from '@/types';
 import Hls from 'hls.js';
 import { useLoad } from '@/core/hooks/useLoad.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Test from './Test.vue';
+import { useCallback } from '@/core/hooks/useCallback.ts';
+
+export interface PlayerProps {
+  option: PlayerOption;
+  callback?: VideoCallback;
+}
 
 // Props
 const props = defineProps<PlayerProps>();
 const { videoSrc, autoPlay, videoType, height, width } = props.option;
 
 // States
-const videoRef = ref<VNodeRef | null>(null);
+const videoRef = ref<HTMLVideoElement>();
+const styles = computed(() => {
+  return {
+    height: `${height}px`,
+    width: `${width}px`,
+  };
+});
 provide('videoRef', videoRef);
+provide('playerOption', props.option);
 
-// hooks
-const { usefulCheck, sourceFileType } = useLoad(videoSrc);
-useVideo(videoRef)
+// Hooks
+const { usefulCheck, sourceFileType, isHls } = useLoad(videoSrc);
+const { videoStates } = useVideo(videoRef, { autoPlay });
+useCallback(videoStates, {
+  onTimeChange: props.callback?.onTimeChange,
+  onPause: props.callback?.onPause,
+  onPlay: props.callback?.onPlay,
+  onPlayEnd: props.callback?.onPlayEnd,
+  onVolumeChange: props.callback?.onVolumeChange,
+});
+
+// LifeCircle
+onMounted(() => {
+  // 如果直接在标签上加src，初始化时为空
+  // 注意必须在setHls之前执行，因为如果src为空那么attach会失败
+  videoRef.value!.src = videoSrc;
+});
 
 // HLS Support
 const setHls = (videoElem: HTMLVideoElement) => {
-  if (videoType && videoType === 'hls') {
-    // 检查浏览器是否支持hls格式
-    if (Hls.isSupported()) {
-      var hls = new Hls();
-      hls.loadSource(videoSrc); // 将视频源加载到 HLS 对象中
-      hls.attachMedia(videoElem); // 将 HLS 对象附加到 videoElem 上
-    }
+  // 检查浏览器是否支持hls格式
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+    hls.loadSource(videoSrc); // 将视频源加载到 HLS 对象中
+    hls.attachMedia(videoElem); // 将 HLS 对象附加到 videoElem 上
+  } else {
+    //TODO:浏览器不支持操作
+    console.log('当前浏览器不支持HLS');
   }
 };
 
-onMounted(() => {
-  setHls(videoRef.value);
+// Watch
+watch(isHls, () => {
+  if (isHls) setHls(videoRef.value!);
 });
 </script>
 
 <template>
-  <div class="cy-player-container" :style="{ width, height }">
+  <div class="cy-player-container" :style="styles">
     <video
       class="cy-player"
       id="cy-player"
       ref="videoRef"
-      :src="videoSrc"
       :autoplay="autoPlay"
       muted
     >
@@ -53,7 +81,8 @@ onMounted(() => {
 
 <style scoped>
 .cy-player {
-  width: 1000px;
-  height: 600px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

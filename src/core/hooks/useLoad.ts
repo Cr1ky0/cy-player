@@ -7,7 +7,8 @@ export const supportTypes = [
   'video/mp4',
   'video/webm',
   'video/ogg',
-  'video/m3u8',
+  'application/vnd.apple.mpegurl',
+  'application/x-mpegurl',
 ];
 /**
  * @description 用于视频加载
@@ -30,8 +31,16 @@ export const useLoad = (videoSrc: string) => {
    *  @description 源文件类型
    */
   const sourceFileType = ref<string | null>('');
+  /**
+   * @description 是否是HLS格式
+   * @param url
+   */
+  const isHls = ref<boolean>(false);
 
-  // CheckFile
+  /**
+   * @description 源文件校验，支持h264(.mp4,.webm,.ogg)，hls(m3u8),默认h264格式
+   * @param url 源文件链接
+   */
   const checkFile = async (url: string) => {
     try {
       const response = await fetch(url);
@@ -40,12 +49,26 @@ export const useLoad = (videoSrc: string) => {
         throw new Error('HTTP传输失败');
       }
       // content type
-      const contentType = response.headers.get('content-type');
+      const contentTypes = response.headers
+        .get('content-type')!
+        .toLowerCase()
+        .split(';')
+        .map((item) => item.trim());
+      let type =
+        contentTypes.find((type) => {
+          return supportTypes.includes(type);
+        }) || null;
       // 类型检测
-      if (contentType && supportTypes.includes(contentType)) {
-        sourceFileType.value = contentType;
+      if (type) {
+        isHls.value =
+          type === 'application/vnd.apple.mpegurl' ||
+          type === 'application/x-mpegurl';
+        if (isHls.value)
+          type = type.slice(0, -3) + type.slice(-3).toUpperCase();
+        console.log(type);
+        sourceFileType.value = type;
         usefulCheck.value = true;
-      } else throw new Error('类型不匹配');
+      } else throw new Error('不支持的视频种类！');
     } catch (error: any) {
       failReason.value = error.message;
       usefulCheck.value = false;
@@ -73,5 +96,6 @@ export const useLoad = (videoSrc: string) => {
     httpState,
     failReason,
     sourceFileType,
+    isHls,
   };
 };
