@@ -10,12 +10,13 @@ import Test from './Test.vue';
 const props = defineProps<PlayerProps>();
 const { videoSrc, autoPlay, videoType, height, width } = props.option;
 
+
 // States
 const videoRef = ref<VNodeRef | null>(null);
 provide('videoRef', videoRef);
 
 // hooks
-const { sourceFile, sourceFileType } = useLoad(videoSrc);
+const { usefulCheck, sourceFileType } = useLoad(videoSrc);
 const { videoStates } = useVideo(videoRef);
 
 // HLS Support
@@ -45,7 +46,7 @@ onMounted(() => {
       :autoplay="autoPlay"
       muted
     >
-      <source v-if="sourceFile" :src="sourceFile" :type="sourceFileType!" />
+      <source v-if="usefulCheck" :src="videoSrc" :type="sourceFileType!" />
     </video>
   </div>
   <Test></Test>

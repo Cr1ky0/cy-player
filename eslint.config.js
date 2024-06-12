@@ -18,10 +18,15 @@ export default [
     files: ['**/*.ts?(x)', '**/*.vue'],
     ignores: ['**/dist/**', '**/node_modules/**'],
     // recommended.plugins: ['prettier']
-    plugins: {
-      prettier: pluginPrettier,
-    },
   },
   ...tseslint.configs.recommended,
   ...pluginVue.configs['flat/essential'],
+  {
+    plugins: {
+      prettier: pluginPrettier,
+    },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 ];

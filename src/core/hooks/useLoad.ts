@@ -15,6 +15,10 @@ export const supportTypes = [
  */
 export const useLoad = (videoSrc: string) => {
   /**
+   * @description 可用性标志
+   */
+  const usefulCheck = ref<boolean>(false);
+  /**
    *  @description 视频Http加载状态
    */
   const httpState = ref<number>(404);
@@ -23,16 +27,12 @@ export const useLoad = (videoSrc: string) => {
    */
   const failReason = ref<string>('Load Error');
   /**
-   *  @description 下载的视频源文件
-   */
-  const sourceFile = ref<string | null>('');
-  /**
-   *  @description 下载的源文件类型
+   *  @description 源文件类型
    */
   const sourceFileType = ref<string | null>('');
 
-  // download
-  const downloadFile = async (url: string) => {
+  // CheckFile
+  const checkFile = async (url: string) => {
     try {
       const response = await fetch(url);
       httpState.value = response.status;
@@ -44,25 +44,23 @@ export const useLoad = (videoSrc: string) => {
       // 类型检测
       if (contentType && supportTypes.includes(contentType)) {
         sourceFileType.value = contentType;
-        // file source
-        const blob = await response.blob();
-        sourceFile.value = URL.createObjectURL(blob);
+        usefulCheck.value = true;
       } else throw new Error('类型不匹配');
     } catch (error: any) {
       failReason.value = error.message;
-      sourceFile.value = null;
+      usefulCheck.value = false;
       sourceFileType.value = null;
     }
   };
 
   // videoSrc监听
   watchEffect(() => {
-    downloadFile(videoSrc);
+    checkFile(videoSrc);
   });
 
   // sourceFile监听
-  watch(sourceFile, () => {
-    if (!sourceFile.value) {
+  watch(usefulCheck, () => {
+    if (!usefulCheck.value) {
       console.log(
         `视频加载失败:${failReason.value} HTTP STATUS: ${httpState.value}`,
       );
@@ -71,9 +69,9 @@ export const useLoad = (videoSrc: string) => {
   });
 
   return {
+    usefulCheck,
     httpState,
     failReason,
-    sourceFile,
     sourceFileType,
   };
 };

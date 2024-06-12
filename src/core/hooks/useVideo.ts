@@ -1,4 +1,4 @@
-import { reactive, Ref, watch } from 'vue';
+import { onBeforeUnmount, reactive, Ref, watch } from 'vue';
 import { VideoState } from '@/types';
 
 export const useVideo = (videoRef: Ref) => {
@@ -18,6 +18,19 @@ export const useVideo = (videoRef: Ref) => {
   // })
   // 相关监听事件
   /**
+   * @description 视频暂停
+   */
+  const setIsPlay = ()=>{
+    videoStates.isPlay = !videoRef.value?.paused;
+  }
+  /**
+   * @description 视频结束
+   */
+  const setIsPlayEnd = ()=>{
+    videoStates.isPlayEnd = videoRef.value?.ended;
+  }
+  /**
+   *
    * @description 总时长
    */
   const setDuration = () => {
@@ -39,11 +52,26 @@ export const useVideo = (videoRef: Ref) => {
 
   // 监听VideoRef
   watch(videoRef, () => {
-    if(videoRef) {
+    if (videoRef) {
       const videoElement = <HTMLVideoElement>videoRef.value;
       videoElement.addEventListener('canplay', setDuration);
       videoElement.addEventListener('progress', setBufferedTime);
       videoElement.addEventListener('timeupdate', setCurrentPlayTime);
+      videoElement.addEventListener('pause', setIsPlay);
+      videoElement.addEventListener('ended', setIsPlayEnd);
+    }
+  });
+
+  // remove events
+  onBeforeUnmount(() => {
+    if(videoRef){
+      const videoElement = <HTMLVideoElement>videoRef.value;
+      videoElement.removeEventListener('canplay', setDuration);
+      videoElement.removeEventListener('progress', setBufferedTime);
+      videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
+      videoElement.removeEventListener('pause', setIsPlay);
+      videoElement.removeEventListener('ended', setIsPlayEnd);
+
     }
   });
 
