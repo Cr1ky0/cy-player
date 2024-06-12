@@ -58,3 +58,12 @@ export interface VideoState<T = number, U = boolean> {
    */
   isPlayEnd: K;
 }
+
+// Video操作
+export interface VideoController{
+  load:()=>void;
+  play:()=>void;
+  pause:()=>void;
+  setVolume:(volume:number)=>void;
+  setCurTime:(curTime:number)=>void;
+}

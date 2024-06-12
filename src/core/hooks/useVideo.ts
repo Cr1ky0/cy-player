@@ -1,16 +1,28 @@
 import { onBeforeUnmount, reactive, Ref, watch } from 'vue';
-import { VideoState } from '@/types';
+import { VideoController, VideoController, VideoState } from '@/types';
 
 export const useVideo = (videoRef: Ref) => {
-
   // States
   const videoStates = reactive<VideoState>({
     isPlay: false, // 是否播放
+    isPlayEnd: false, // 是否播放结束
     currentPlayTime: 0, // 当前时间/s
     duration: 0, // 总时长
     bufferedTime: 0, // 缓存时长/s
     volume: 0, // 音量
-    isPlayEnd: false, // 是否结束
+  });
+
+  const videoController = reactive<VideoController>({
+    load: () => videoRef.value?.load(),
+    play: () => videoRef.value?.play(),
+    pause: () => videoRef.value?.pause(),
+    setVolume: (volume) => {
+      if (videoRef.value)
+        videoRef.value.volume = volume < 1 ? volume : volume / 100;
+    },
+    setCurTime: (curTime) => {
+      if (videoRef.value) videoRef.value.currentTime = curTime;
+    },
   });
 
   // watch(()=>videoStates.currentPlayTime,()=>{
@@ -20,15 +32,15 @@ export const useVideo = (videoRef: Ref) => {
   /**
    * @description 视频暂停
    */
-  const setIsPlay = ()=>{
+  const setIsPlay = () => {
     videoStates.isPlay = !videoRef.value?.paused;
-  }
+  };
   /**
    * @description 视频结束
    */
-  const setIsPlayEnd = ()=>{
+  const setIsPlayEnd = () => {
     videoStates.isPlayEnd = videoRef.value?.ended;
-  }
+  };
   /**
    *
    * @description 总时长
@@ -64,19 +76,18 @@ export const useVideo = (videoRef: Ref) => {
 
   // remove events
   onBeforeUnmount(() => {
-    if(videoRef){
+    if (videoRef) {
       const videoElement = <HTMLVideoElement>videoRef.value;
       videoElement.removeEventListener('canplay', setDuration);
       videoElement.removeEventListener('progress', setBufferedTime);
       videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
       videoElement.removeEventListener('pause', setIsPlay);
       videoElement.removeEventListener('ended', setIsPlayEnd);
-
     }
   });
 
   return {
-    // videoRef,
     videoStates,
+    videoController
   };
 };
