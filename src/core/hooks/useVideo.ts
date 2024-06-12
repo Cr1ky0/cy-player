@@ -2,8 +2,9 @@ import { onBeforeUnmount, reactive, ref, Ref, VNodeRef, watch } from 'vue';
 import { VideoController, VideoState } from '@/types';
 
 export const useVideo = (videoRef: Ref) => {
-  // 内部额外定义一个Ref的意义在于，全局事件监听或卸载只在该对象上进行，不用依赖传入的Ref
-  // 传入的Ref的作用在于初始化vRef
+  /**
+   * @description 内部ref，全局事件监听或卸载只在该对象上进行，避免组件卸载后无法进行事件移除
+   */
   const vRef = ref<VNodeRef | null>(null);
   // States
   const videoStates = reactive<VideoState>({
@@ -16,15 +17,15 @@ export const useVideo = (videoRef: Ref) => {
   });
 
   const videoController = reactive<VideoController>({
-    load: () => videoRef.value?.load(),
-    play: () => videoRef.value?.play(),
-    pause: () => videoRef.value?.pause(),
+    load: () => vRef.value?.load(),
+    play: () => vRef.value?.play(),
+    pause: () => vRef.value?.pause(),
     setVolume: (volume) => {
-      if (videoRef.value)
-        videoRef.value.volume = volume < 1 ? volume : volume / 100;
+      if (vRef.value)
+        vRef.value.volume = volume < 1 ? volume : volume / 100;
     },
     setCurTime: (curTime) => {
-      if (videoRef.value) videoRef.value.currentTime = curTime;
+      if (vRef.value) vRef.value.currentTime = curTime;
     },
   });
 
@@ -33,39 +34,39 @@ export const useVideo = (videoRef: Ref) => {
    * @description 视频暂停
    */
   const setIsPlay = () => {
-    videoStates.isPlay = !videoRef.value?.paused;
+    videoStates.isPlay = !vRef.value?.paused;
   };
   /**
    * @description 视频结束
    */
   const setIsPlayEnd = () => {
-    videoStates.isPlayEnd = videoRef.value?.ended;
+    videoStates.isPlayEnd = vRef.value?.ended;
   };
   /**
    *
    * @description 总时长
    */
   const setDuration = () => {
-    videoStates.duration = videoRef.value?.duration;
+    videoStates.duration = vRef.value?.duration;
   };
 
   /**
    * @description 缓冲时间
    */
   const setBufferedTime = () => {
-    videoStates.bufferedTime = videoRef.value?.buffered.end(0); // 浏览器已经缓冲的媒体数据的最远时间点
+    videoStates.bufferedTime = vRef.value?.buffered.end(0); // 浏览器已经缓冲的媒体数据的最远时间点
   };
   /**
    * @description 播放时间
    */
   const setCurrentPlayTime = () => {
-    videoStates.currentPlayTime = videoRef.value?.currentTime;
+    videoStates.currentPlayTime = vRef.value?.currentTime;
   };
 
   // 监听VideoRef
   watch(videoRef, () => {
     if (videoRef.value) {
-      console.log('mount');
+      // console.log('mount');
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.addEventListener('canplay', setDuration);
@@ -79,7 +80,7 @@ export const useVideo = (videoRef: Ref) => {
   // remove events
   onBeforeUnmount(() => {
     if (vRef.value) {
-      console.log('unmount');
+      // console.log('unmount');
       const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.removeEventListener('canplay', setDuration);
       videoElement.removeEventListener('progress', setBufferedTime);

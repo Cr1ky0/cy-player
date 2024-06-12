@@ -16,6 +16,7 @@ provide('videoRef', videoRef);
 
 // hooks
 const { usefulCheck, sourceFileType } = useLoad(videoSrc);
+useVideo(videoRef)
 
 // HLS Support
 const setHls = (videoElem: HTMLVideoElement) => {
