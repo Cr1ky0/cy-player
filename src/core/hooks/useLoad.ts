@@ -1,5 +1,6 @@
-import { reactive, ref, watch } from 'vue';
+import { reactive, Ref, ref, watch } from 'vue';
 import { HttpLoadState, PlayerOption } from '@/types';
+import Hls from 'hls.js';
 
 /**
  *  @description 支持的HTTP传输对象类别(Content-Type)
@@ -13,23 +14,37 @@ export const supportTypes = [
 ];
 /**
  * @description 用于视频加载
+ * @param videoRef vref
  * @param option 播放器选项
  */
-export const useLoad = (option: Partial<PlayerOption>) => {
+export const useLoad = (
+  videoRef: Ref<HTMLVideoElement>,
+  option: PlayerOption,
+) => {
   const httpStates: HttpLoadState = reactive({
     httpStateCode: 404,
     failReason: '',
-    usefulCheck: true,
+    usefulCheck: false,
   });
   /**
    *  @description 源文件类型
    */
   const sourceFileType = ref<string | null>('');
+
   /**
-   * @description 是否是HLS格式
-   * @param url
+   * @description HLS导入
    */
-  const isHls = ref<boolean>(false);
+  const setHls = (videoElem: HTMLVideoElement) => {
+    // 检查浏览器是否支持hls格式
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(option.videoSrc!); // 将视频源加载到 HLS 对象中
+      hls.attachMedia(videoElem); // 将 HLS 对象附加到 videoElem 上
+    } else {
+      //TODO:浏览器不支持操作
+      console.log('当前浏览器不支持HLS');
+    }
+  };
 
   /**
    * @description 源文件校验，支持h264(.mp4,.webm,.ogg)，hls(m3u8),默认h264格式
@@ -54,11 +69,17 @@ export const useLoad = (option: Partial<PlayerOption>) => {
         }) || null;
       // 类型检测
       if (type) {
-        isHls.value =
+        // 导入src
+        // 注意必须在setHls之前执行，因为如果src为空那么attach会失败
+        videoRef.value!.src = option.videoSrc;
+        const isHls =
           type === 'application/vnd.apple.mpegurl' ||
           type === 'application/x-mpegurl';
-        if (isHls.value)
+        if (isHls) {
           type = type.slice(0, -3) + type.slice(-3).toUpperCase();
+          // HLS支持
+          setHls(videoRef.value);
+        }
         sourceFileType.value = type;
         httpStates.usefulCheck = true;
         httpStates.failReason = '';
@@ -74,8 +95,9 @@ export const useLoad = (option: Partial<PlayerOption>) => {
   watch(
     () => option.videoSrc,
     () => {
-      checkFile(option.videoSrc);
+      checkFile(option.videoSrc || '');
     },
+    { immediate: true },
   );
 
   // sourceFile监听
@@ -92,6 +114,5 @@ export const useLoad = (option: Partial<PlayerOption>) => {
   return {
     httpStates,
     sourceFileType,
-    isHls,
   };
 };

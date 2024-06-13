@@ -1,8 +1,3 @@
-// VideoType
-import { Ref } from 'vue';
-
-export type VideoType = 'h264' | 'hls';
-
 // Player选项
 export interface PlayerOption<T = string, U = boolean> {
   /**

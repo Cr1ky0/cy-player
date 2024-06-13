@@ -1,7 +1,10 @@
-import { onBeforeUnmount, reactive, ref, Ref, watch, watchEffect } from 'vue';
+import { onBeforeUnmount, reactive, ref, Ref, watch } from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
 
-export const useVideo = (videoRef: Ref, options: Partial<PlayerOption>) => {
+export const useVideo = (
+  videoRef: Ref<HTMLVideoElement>,
+  option: Partial<PlayerOption>,
+) => {
   /**
    * @description 内部ref，全局事件监听或卸载只在该对象上进行，避免组件卸载后无法进行事件移除
    */
@@ -63,16 +66,18 @@ export const useVideo = (videoRef: Ref, options: Partial<PlayerOption>) => {
   };
 
   // 监听相关的options
-  watchEffect(() => {
-    if (options && options.autoPlay) {
-      videoStates.isPlay = options.autoPlay;
-    }
-  });
+  watch(
+    () => option.autoPlay,
+    () => {
+      if (option.autoPlay) {
+        videoStates.isPlay = option.autoPlay;
+      }
+    },
+  );
 
   // 监听VideoRef
-  watch(videoRef, () => {
+  watch(videoRef, (newVal, oldValue) => {
     if (videoRef.value) {
-      // console.log('mount');
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.addEventListener('canplay', setDuration);
@@ -81,12 +86,20 @@ export const useVideo = (videoRef: Ref, options: Partial<PlayerOption>) => {
       videoElement.addEventListener('pause', setIsPlay);
       videoElement.addEventListener('ended', setIsPlayEnd);
     }
+    // remove events
+    if (!newVal) {
+      const videoElement = <HTMLVideoElement>oldValue;
+      videoElement.removeEventListener('canplay', setDuration);
+      videoElement.removeEventListener('progress', setBufferedTime);
+      videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
+      videoElement.removeEventListener('pause', setIsPlay);
+      videoElement.removeEventListener('ended', setIsPlayEnd);
+    }
   });
 
   // remove events
   onBeforeUnmount(() => {
     if (vRef.value) {
-      // console.log('unmount');
       const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.removeEventListener('canplay', setDuration);
       videoElement.removeEventListener('progress', setBufferedTime);
