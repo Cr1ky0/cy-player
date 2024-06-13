@@ -26,10 +26,19 @@ export interface PlayerOption<T = string, U = boolean> {
 // Video回调
 export type CallbackType<T = VideoState> = (e: T) => void;
 export type HttpLoadState = {
-  httpState:Ref<number>,
-  failReason:Ref<string>,
-  usefulCheck:Ref<boolean>,
-}
+  /**
+   *  @description 视频Http加载状态
+   */
+  httpStateCode: number;
+  /**
+   *  @description 视频加载失败原因
+   */
+  failReason: string;
+  /**
+   * @description 可用性标志
+   */
+  usefulCheck: boolean;
+};
 
 export interface VideoCallback<T = CallbackType> {
   /**
@@ -55,7 +64,7 @@ export interface VideoCallback<T = CallbackType> {
   /**
    * @description 视频加载错误回调
    */
-  onError?: (e:HttpLoadState) => void;
+  onError?: (e: HttpLoadState) => void;
 }
 
 // Video状态

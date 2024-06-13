@@ -1,4 +1,5 @@
-import { ref, watch, watchEffect } from 'vue';
+import { reactive, ref, watch } from 'vue';
+import { HttpLoadState, PlayerOption } from '@/types';
 
 /**
  *  @description 支持的HTTP传输对象类别(Content-Type)
@@ -12,21 +13,14 @@ export const supportTypes = [
 ];
 /**
  * @description 用于视频加载
- * @param videoSrc 视频源链接
+ * @param option 播放器选项
  */
-export const useLoad = (videoSrc: string) => {
-  /**
-   * @description 可用性标志
-   */
-  const usefulCheck = ref<boolean>(true);
-  /**
-   *  @description 视频Http加载状态
-   */
-  const httpState = ref<number>(404);
-  /**
-   *  @description 视频加载失败原因
-   */
-  const failReason = ref<string>('');
+export const useLoad = (option: Partial<PlayerOption>) => {
+  const httpStates: HttpLoadState = reactive({
+    httpStateCode: 404,
+    failReason: '',
+    usefulCheck: true,
+  });
   /**
    *  @description 源文件类型
    */
@@ -44,7 +38,7 @@ export const useLoad = (videoSrc: string) => {
   const checkFile = async (url: string) => {
     try {
       const response = await fetch(url);
-      httpState.value = response.status;
+      httpStates.httpStateCode = response.status;
       if (!response.ok) {
         throw new Error('HTTP传输失败');
       }
@@ -66,32 +60,37 @@ export const useLoad = (videoSrc: string) => {
         if (isHls.value)
           type = type.slice(0, -3) + type.slice(-3).toUpperCase();
         sourceFileType.value = type;
-        usefulCheck.value = true;
-        failReason.value = ''
+        httpStates.usefulCheck = true;
+        httpStates.failReason = '';
       } else throw new Error('不支持的视频种类！');
     } catch (error: any) {
-      failReason.value = error.message;
-      usefulCheck.value = false;
+      httpStates.failReason = error.message;
+      httpStates.usefulCheck = false;
       sourceFileType.value = null;
     }
   };
 
   // videoSrc监听
-  watchEffect(() => {
-    checkFile(videoSrc);
-  });
+  watch(
+    () => option.videoSrc,
+    () => {
+      checkFile(option.videoSrc);
+    },
+  );
 
   // sourceFile监听
-  watch(usefulCheck, () => {
-    // if (!usefulCheck.value) {
-      // TODO: 错误弹窗
-    // }
-  });
+  watch(
+    () => httpStates.usefulCheck,
+    () => {
+      if (!httpStates.usefulCheck) {
+        console.log(httpStates.failReason, httpStates.httpStateCode);
+        // TODO: 错误弹窗
+      }
+    },
+  );
 
   return {
-    usefulCheck,
-    httpState,
-    failReason,
+    httpStates,
     sourceFileType,
     isHls,
   };

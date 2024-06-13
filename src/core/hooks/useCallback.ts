@@ -1,5 +1,5 @@
 import { HttpLoadState, VideoCallback, VideoState } from '@/types';
-import { watch, watchEffect } from 'vue';
+import { watch } from 'vue';
 
 export const useCallback = (
   videoStates: VideoState,
@@ -47,7 +47,10 @@ export const useCallback = (
   );
 
   // 视频加载错误回调
-  watchEffect(() => {
-    if (!loadStates.usefulCheck.value) onError && onError(loadStates);
-  });
+  watch(
+    () => loadStates.usefulCheck,
+    () => {
+      if (!loadStates.usefulCheck) onError && onError(loadStates);
+    },
+  );
 };
