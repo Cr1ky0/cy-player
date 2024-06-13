@@ -1,5 +1,5 @@
 // Player选项
-export interface PlayerOption<T = string, U = boolean> {
+export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 视频地址
    */
@@ -11,11 +11,19 @@ export interface PlayerOption<T = string, U = boolean> {
   /**
    * @description 播放器高度
    */
-  height?: number;
+  height?: T | K;
   /**
    * @description 播放器宽度
    */
-  width?: number;
+  width?: T | K;
+  /**
+   * @description 视频封面
+   */
+  poster?: T;
+  /**
+   * @description 视频缩放模式
+   */
+  scaleMode?: ScaleMode;
 }
 
 // Video回调

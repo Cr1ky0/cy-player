@@ -50,6 +50,27 @@ export const useLoad = (
   };
 
   /**
+   * @description 将属性导入video
+   */
+  const loadOption = () => {
+    const vDOM = videoRef.value!;
+    // 导入src
+    // 注意必须在setHls之前执行，因为如果src为空那么attach会失败
+    vDOM.src = option.videoSrc;
+    // 导入poster
+    vDOM.poster = option.poster ? option.poster : '';
+  };
+
+  /**
+   * @description 将属性从video卸载
+   */
+  const unloadOption = () => {
+    const vDOM = videoRef.value!;
+    vDOM.src = '';
+    vDOM.poster = '';
+  };
+
+  /**
    * @description 源视频文件校验以及加载，支持h264(.mp4,.webm,.ogg)，hls(m3u8),默认h264格式
    * @param url 源视频文件链接
    */
@@ -72,9 +93,8 @@ export const useLoad = (
         }) || null;
       // 类型检测
       if (type) {
-        // 导入src
-        // 注意必须在setHls之前执行，因为如果src为空那么attach会失败
-        videoRef.value!.src = option.videoSrc;
+        // LOAD OPTIONS
+        loadOption();
         const isHls =
           type === 'application/vnd.apple.mpegurl' ||
           type === 'application/x-mpegurl';
@@ -89,9 +109,10 @@ export const useLoad = (
       } else throw new Error('不支持的视频种类！');
     } catch (error: any) {
       httpStates.failReason = error.message;
-      videoRef.value!.src = '';
       useful.value = false;
       sourceFileType.value = null;
+      // UNLOAD OPTIONS
+      unloadOption();
     }
   };
 
@@ -103,6 +124,11 @@ export const useLoad = (
     },
     { immediate: true },
   );
+
+  // 监听其他选项
+  watch([() => option.poster], () => {
+    loadOption();
+  });
 
   return {
     httpStates,

@@ -9,9 +9,12 @@ export const useVideo = (
    * @description 内部ref，全局事件监听或卸载只在该对象上进行，避免组件卸载后无法进行事件移除
    */
   const vRef = ref<HTMLVideoElement>();
-  // States
+
+  /**
+   * @description video本身的相关状态
+   */
   const videoStates = reactive<VideoState>({
-    isPlay: false, // 是否播放
+    isPlay: option.autoPlay || false, // 是否播放
     isPlayEnd: false, // 是否播放结束
     currentPlayTime: 0, // 当前时间/s
     duration: 0, // 总时长
@@ -19,24 +22,34 @@ export const useVideo = (
     volume: 0, // 音量
   });
 
+  /**
+   * @description video本身的控制方法
+   */
   const videoController = reactive<VideoController>({
     load: () => vRef.value?.load(),
     play: () => vRef.value?.play(),
     pause: () => vRef.value?.pause(),
     setVolume: (volume) => {
-      if (vRef.value) vRef.value.volume = volume < 1 ? volume : volume / 100;
+      if (vRef.value) {
+        // muted状态下始终为0
+        const realVolume = volume < 1 ? volume : volume / 100
+        vRef.value.volume = realVolume;
+        videoStates.volume = realVolume;
+      }
     },
     setCurTime: (curTime) => {
       if (vRef.value) vRef.value.currentTime = curTime;
     },
   });
 
-  // 相关监听事件
   /**
-   * @description 视频暂停
+   * @description 视频是否播放
    */
   const setIsPlay = () => {
-    if (vRef.value) videoStates.isPlay = vRef.value.paused;
+    if (vRef.value) {
+      videoStates.isPlay = !vRef.value.paused;
+      if (videoStates.isPlay) videoStates.isPlayEnd = false; // 播放时重置
+    }
   };
   /**
    * @description 视频结束
@@ -56,8 +69,7 @@ export const useVideo = (
    * @description 缓冲时间
    */
   const setBufferedTime = () => {
-    if (vRef.value)
-      videoStates.bufferedTime = vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
+    if (vRef.value) videoStates.bufferedTime = vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
   };
   /**
    * @description 播放时间
@@ -66,19 +78,11 @@ export const useVideo = (
     if (vRef.value) videoStates.currentPlayTime = vRef.value.currentTime;
   };
 
-  // 监听相关的options
-  watch(
-    () => option.autoPlay,
-    () => {
-      if (option.autoPlay) {
-        videoStates.isPlay = option.autoPlay;
-      }
-    },
-  );
+  // 监听src重置状态
   watch(
     () => option.videoSrc,
     () => {
-      videoStates.isPlay = false;
+      videoStates.isPlay = option.autoPlay || false;
       videoStates.isPlayEnd = false;
       videoStates.duration = 0;
       videoStates.currentPlayTime = 0;
@@ -96,6 +100,7 @@ export const useVideo = (
       videoElement.addEventListener('progress', setBufferedTime);
       videoElement.addEventListener('timeupdate', setCurrentPlayTime);
       videoElement.addEventListener('pause', setIsPlay);
+      videoElement.addEventListener('play', setIsPlay);
       videoElement.addEventListener('ended', setIsPlayEnd);
     }
     // remove events
@@ -105,6 +110,7 @@ export const useVideo = (
       videoElement.removeEventListener('progress', setBufferedTime);
       videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
       videoElement.removeEventListener('pause', setIsPlay);
+      videoElement.addEventListener('play', setIsPlay);
       videoElement.removeEventListener('ended', setIsPlayEnd);
     }
   });
@@ -117,6 +123,7 @@ export const useVideo = (
       videoElement.removeEventListener('progress', setBufferedTime);
       videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
       videoElement.removeEventListener('pause', setIsPlay);
+      videoElement.addEventListener('play', setIsPlay);
       videoElement.removeEventListener('ended', setIsPlayEnd);
     }
   });
