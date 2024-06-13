@@ -1,18 +1,13 @@
-import { VideoCallback, VideoState } from '@/types';
-import { watch } from 'vue';
+import { HttpLoadState, VideoCallback, VideoState } from '@/types';
+import { watch, watchEffect } from 'vue';
 
 export const useCallback = (
   videoStates: VideoState,
+  loadStates: HttpLoadState,
   callbacks: VideoCallback,
 ) => {
-  const {
-    onPlay,
-    onPlayEnd,
-    onVolumeChange,
-    onPause,
-    onTimeChange,
-  } = callbacks;
-
+  const { onPlay, onPlayEnd, onVolumeChange, onPause, onTimeChange, onError } =
+    callbacks;
   // 播放和暂停的回调（含自动播放）
   watch(
     () => videoStates.isPlay,
@@ -50,4 +45,9 @@ export const useCallback = (
       onTimeChange && onTimeChange(videoStates);
     },
   );
+
+  // 视频加载错误回调
+  watchEffect(() => {
+    if (!loadStates.usefulCheck.value) onError && onError(loadStates);
+  });
 };

@@ -18,7 +18,7 @@ export const useLoad = (videoSrc: string) => {
   /**
    * @description 可用性标志
    */
-  const usefulCheck = ref<boolean>(false);
+  const usefulCheck = ref<boolean>(true);
   /**
    *  @description 视频Http加载状态
    */
@@ -26,7 +26,7 @@ export const useLoad = (videoSrc: string) => {
   /**
    *  @description 视频加载失败原因
    */
-  const failReason = ref<string>('Load Error');
+  const failReason = ref<string>('');
   /**
    *  @description 源文件类型
    */
@@ -65,9 +65,9 @@ export const useLoad = (videoSrc: string) => {
           type === 'application/x-mpegurl';
         if (isHls.value)
           type = type.slice(0, -3) + type.slice(-3).toUpperCase();
-        console.log(type);
         sourceFileType.value = type;
         usefulCheck.value = true;
+        failReason.value = ''
       } else throw new Error('不支持的视频种类！');
     } catch (error: any) {
       failReason.value = error.message;
@@ -83,12 +83,9 @@ export const useLoad = (videoSrc: string) => {
 
   // sourceFile监听
   watch(usefulCheck, () => {
-    if (!usefulCheck.value) {
-      console.log(
-        `视频加载失败:${failReason.value} HTTP STATUS: ${httpState.value}`,
-      );
-      // TODO: 源文件不存在弹出提示错误
-    }
+    // if (!usefulCheck.value) {
+      // TODO: 错误弹窗
+    // }
   });
 
   return {

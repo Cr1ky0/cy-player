@@ -14,7 +14,7 @@ export interface PlayerProps {
 
 // Props
 const props = defineProps<PlayerProps>();
-const { videoSrc, autoPlay, videoType, height, width } = props.option;
+const { videoSrc, autoPlay, height, width } = props.option;
 
 // States
 const videoRef = ref<HTMLVideoElement>();
@@ -28,21 +28,31 @@ provide('videoRef', videoRef);
 provide('playerOption', props.option);
 
 // Hooks
-const { usefulCheck, sourceFileType, isHls } = useLoad(videoSrc);
+const { usefulCheck, httpState, failReason, sourceFileType, isHls } =
+  useLoad(videoSrc);
 const { videoStates } = useVideo(videoRef, { autoPlay });
-useCallback(videoStates, {
-  onTimeChange: props.callback?.onTimeChange,
-  onPause: props.callback?.onPause,
-  onPlay: props.callback?.onPlay,
-  onPlayEnd: props.callback?.onPlayEnd,
-  onVolumeChange: props.callback?.onVolumeChange,
-});
+useCallback(
+  videoStates,
+  {
+    usefulCheck,
+    httpState,
+    failReason,
+  },
+  {
+    onTimeChange: props.callback?.onTimeChange,
+    onPause: props.callback?.onPause,
+    onPlay: props.callback?.onPlay,
+    onPlayEnd: props.callback?.onPlayEnd,
+    onVolumeChange: props.callback?.onVolumeChange,
+    onError: props.callback?.onError,
+  },
+);
 
 // LifeCircle
 onMounted(() => {
   // 如果直接在标签上加src，初始化时为空
   // 注意必须在setHls之前执行，因为如果src为空那么attach会失败
-  videoRef.value!.src = videoSrc;
+  if (videoRef.value) videoRef.value.src = videoSrc;
 });
 
 // HLS Support
@@ -67,16 +77,20 @@ watch(isHls, () => {
 <template>
   <div class="cy-player-container" :style="styles">
     <video
+      v-if="usefulCheck"
       class="cy-player"
       id="cy-player"
       ref="videoRef"
       :autoplay="autoPlay"
       muted
     >
-      <source v-if="usefulCheck" :src="videoSrc" :type="sourceFileType!" />
+      <source :src="videoSrc" :type="sourceFileType!" />
     </video>
   </div>
+  <!--  TEST PART  -->
   <Test></Test>
+  <button @click="usefulCheck = false">useful change false</button>
+  <button @click="usefulCheck = true">useful change true</button>
 </template>
 
 <style scoped>

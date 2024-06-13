@@ -1,4 +1,6 @@
 // VideoType
+import { Ref } from 'vue';
+
 export type VideoType = 'h264' | 'hls';
 
 // Player选项
@@ -23,6 +25,11 @@ export interface PlayerOption<T = string, U = boolean> {
 
 // Video回调
 export type CallbackType<T = VideoState> = (e: T) => void;
+export type HttpLoadState = {
+  httpState:Ref<number>,
+  failReason:Ref<string>,
+  usefulCheck:Ref<boolean>,
+}
 
 export interface VideoCallback<T = CallbackType> {
   /**
@@ -45,6 +52,10 @@ export interface VideoCallback<T = CallbackType> {
    * @description 音量改变时的回调
    */
   onVolumeChange?: T;
+  /**
+   * @description 视频加载错误回调
+   */
+  onError?: (e:HttpLoadState) => void;
 }
 
 // Video状态
