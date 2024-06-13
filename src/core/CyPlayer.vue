@@ -5,7 +5,6 @@ import { useLoad } from '@/core/hooks/useLoad.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
-import { useMandatoryUpdate } from '@/utils/useMandatoryUpdate.ts';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -31,37 +30,28 @@ provide('playerOption', props.option);
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
 const { videoStates } = useVideo(videoRef, option);
-const { key, forceUpdate } = useMandatoryUpdate();
-useCallback(videoStates, httpStates, {
+useCallback(useful, videoStates, httpStates, {
   onTimeChange: callback?.onTimeChange,
   onPause: callback?.onPause,
   onPlay: callback?.onPlay,
   onPlayEnd: callback?.onPlayEnd,
   onVolumeChange: callback?.onVolumeChange,
+  onLoaded:callback?.onLoaded,
   onError: callback?.onError,
 });
 
-// 监听option更改，强制刷新组件
-watch(
-  () => props.option,
-  () => {
-    forceUpdate();
-  },
-  { deep: true },
-);
 
-// 可用性监听
+// useful监听:错误弹窗
 watch(useful, () => {
   if (!useful.value) {
     console.log(httpStates.failReason, httpStates.httpStateCode);
     // TODO: 错误弹窗
   }
 });
-
 </script>
 
 <template>
-  <div class="cy-player-container" :style="styles" :key="key">
+  <div class="cy-player-container" :style="styles">
     <video
       class="cy-player"
       id="cy-player"

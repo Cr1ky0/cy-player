@@ -7,6 +7,7 @@ const test = ref(true);
 
 const option = ref<PlayerOption>({
   videoSrc:
+    // '123',
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
   // 'http://localhost:3000/test.mp4',
@@ -21,13 +22,17 @@ const callbacks = <VideoCallback>{
     // console.log(e);
   },
   onError(e) {
-    console.log(e);
+    // console.log(123);
+  },
+  onLoaded(e) {
+    // console.log(e);
   },
 };
 
 const change = () => {
-  option.value.videoSrc = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
-  // option.value.videoSrc = '';
+  option.value.videoSrc =
+    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
+  // option.value.videoSrc = '112312';
   // console.log(1);
 };
 </script>

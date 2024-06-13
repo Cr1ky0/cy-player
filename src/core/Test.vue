@@ -8,6 +8,7 @@ const videoRef = <Ref>inject('videoRef');
 const playerOption = <PlayerOption>inject('playerOption');
 
 const { videoStates } = useVideo(videoRef, playerOption);
+
 // watch(()=>props.useful, () => {
 //   if (!props.useful.value) {
 //     console.log(123);

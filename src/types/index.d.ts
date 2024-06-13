@@ -53,6 +53,10 @@ export interface VideoCallback<T = CallbackType> {
    */
   onVolumeChange?: T;
   /**
+   * @description 视频加载成功以后回调
+   */
+  onLoaded?: T;
+  /**
    * @description 视频加载错误回调
    */
   onError?: (e: HttpLoadState) => void;

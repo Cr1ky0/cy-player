@@ -28,7 +28,7 @@ export const useLoad = (
   /**
    * @description useful标志
    */
-  const useful = ref<boolean>(true);
+  const useful = ref<boolean | null>(null);
   /**
    *  @description 源文件类型
    */
@@ -89,6 +89,7 @@ export const useLoad = (
       } else throw new Error('不支持的视频种类！');
     } catch (error: any) {
       httpStates.failReason = error.message;
+      videoRef.value!.src = '';
       useful.value = false;
       sourceFileType.value = null;
     }

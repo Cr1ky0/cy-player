@@ -56,7 +56,8 @@ export const useVideo = (
    * @description 缓冲时间
    */
   const setBufferedTime = () => {
-    if (vRef.value) videoStates.bufferedTime = vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
+    if (vRef.value)
+      videoStates.bufferedTime = vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
   };
   /**
    * @description 播放时间
@@ -72,6 +73,17 @@ export const useVideo = (
       if (option.autoPlay) {
         videoStates.isPlay = option.autoPlay;
       }
+    },
+  );
+  watch(
+    () => option.videoSrc,
+    () => {
+      videoStates.isPlay = false;
+      videoStates.isPlayEnd = false;
+      videoStates.duration = 0;
+      videoStates.currentPlayTime = 0;
+      videoStates.bufferedTime = 0;
+      videoStates.volume = 0;
     },
   );
 
