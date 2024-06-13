@@ -29,10 +29,6 @@ export type HttpLoadState = {
    *  @description 视频加载失败原因
    */
   failReason: string;
-  /**
-   * @description 可用性标志
-   */
-  usefulCheck: boolean;
 };
 
 export interface VideoCallback<T = CallbackType> {

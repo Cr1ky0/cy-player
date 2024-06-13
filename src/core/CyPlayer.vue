@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, provide, ref, watch } from 'vue';
+import { computed, provide, ref, watch } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useLoad } from '@/core/hooks/useLoad.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
@@ -29,7 +29,7 @@ provide('videoRef', videoRef);
 provide('playerOption', props.option);
 
 // Hooks
-const { httpStates, sourceFileType } = useLoad(videoRef, option);
+const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
 const { videoStates } = useVideo(videoRef, option);
 const { key, forceUpdate } = useMandatoryUpdate();
 useCallback(videoStates, httpStates, {
@@ -50,6 +50,13 @@ watch(
   { deep: true },
 );
 
+// 可用性监听
+watch(useful, () => {
+  if (!useful.value) {
+    console.log(httpStates.failReason, httpStates.httpStateCode);
+    // TODO: 错误弹窗
+  }
+});
 
 </script>
 
@@ -65,9 +72,7 @@ watch(
       <source :src="option.videoSrc" :type="sourceFileType!" />
     </video>
     <!--  TEST PART  -->
-    <Test></Test>
-    <button @click="httpStates.usefulCheck = false">useful change false</button>
-    <button @click="httpStates.usefulCheck = true">useful change true</button>
+    <Test :useful="useful"></Test>
   </div>
 </template>
 

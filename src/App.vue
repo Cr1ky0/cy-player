@@ -27,6 +27,7 @@ const callbacks = <VideoCallback>{
 
 const change = () => {
   option.value.videoSrc = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
+  // option.value.videoSrc = '';
   // console.log(1);
 };
 </script>

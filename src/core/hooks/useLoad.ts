@@ -18,14 +18,17 @@ export const supportTypes = [
  * @param option 播放器选项
  */
 export const useLoad = (
-  videoRef: Ref<HTMLVideoElement>,
+  videoRef: Ref<HTMLVideoElement | undefined>,
   option: PlayerOption,
 ) => {
   const httpStates: HttpLoadState = reactive({
     httpStateCode: 404,
     failReason: '',
-    usefulCheck: false,
   });
+  /**
+   * @description useful标志
+   */
+  const useful = ref<boolean>(true);
   /**
    *  @description 源文件类型
    */
@@ -47,10 +50,10 @@ export const useLoad = (
   };
 
   /**
-   * @description 源文件校验，支持h264(.mp4,.webm,.ogg)，hls(m3u8),默认h264格式
-   * @param url 源文件链接
+   * @description 源视频文件校验以及加载，支持h264(.mp4,.webm,.ogg)，hls(m3u8),默认h264格式
+   * @param url 源视频文件链接
    */
-  const checkFile = async (url: string) => {
+  const loadVideo = async (url: string) => {
     try {
       const response = await fetch(url);
       httpStates.httpStateCode = response.status;
@@ -78,15 +81,15 @@ export const useLoad = (
         if (isHls) {
           type = type.slice(0, -3) + type.slice(-3).toUpperCase();
           // HLS支持
-          setHls(videoRef.value);
+          setHls(videoRef.value!);
         }
         sourceFileType.value = type;
-        httpStates.usefulCheck = true;
+        useful.value = true;
         httpStates.failReason = '';
       } else throw new Error('不支持的视频种类！');
     } catch (error: any) {
       httpStates.failReason = error.message;
-      httpStates.usefulCheck = false;
+      useful.value = false;
       sourceFileType.value = null;
     }
   };
@@ -95,24 +98,14 @@ export const useLoad = (
   watch(
     () => option.videoSrc,
     () => {
-      checkFile(option.videoSrc || '');
+      loadVideo(option.videoSrc || '');
     },
     { immediate: true },
-  );
-
-  // sourceFile监听
-  watch(
-    () => httpStates.usefulCheck,
-    () => {
-      if (!httpStates.usefulCheck) {
-        console.log(httpStates.failReason, httpStates.httpStateCode);
-        // TODO: 错误弹窗
-      }
-    },
   );
 
   return {
     httpStates,
     sourceFileType,
+    useful,
   };
 };

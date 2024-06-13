@@ -2,7 +2,7 @@ import { onBeforeUnmount, reactive, ref, Ref, watch } from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
 
 export const useVideo = (
-  videoRef: Ref<HTMLVideoElement>,
+  videoRef: Ref<HTMLVideoElement | undefined>,
   option: Partial<PlayerOption>,
 ) => {
   /**
@@ -76,7 +76,7 @@ export const useVideo = (
   );
 
   // 监听VideoRef
-  watch(videoRef, (newVal, oldValue) => {
+  watch(videoRef, (newVal, oldVal) => {
     if (videoRef.value) {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
@@ -88,7 +88,7 @@ export const useVideo = (
     }
     // remove events
     if (!newVal) {
-      const videoElement = <HTMLVideoElement>oldValue;
+      const videoElement = <HTMLVideoElement>oldVal;
       videoElement.removeEventListener('canplay', setDuration);
       videoElement.removeEventListener('progress', setBufferedTime);
       videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
