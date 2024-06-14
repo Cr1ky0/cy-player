@@ -10,11 +10,11 @@ const test = ref(true);
  */
 const option = ref<PlayerOption>({
   videoSrc:
-    // '123',
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
   // 'http://localhost:3000/test.mp4',
   // 'http://localhost:3000/input.m3u8',
+  // '1231313231212333333333333333333333333333333333333333333333',
   // autoPlay: true,
   width: 800,
   height: 500,

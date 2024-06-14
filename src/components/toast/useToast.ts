@@ -1,9 +1,9 @@
 import { createApp } from 'vue';
 import Toast, { ToastProps } from '@/components/toast/Toast.vue';
 
-export const useToast = (toastOption: ToastProps) => {
-  const showToast = () => {
-    if (toastOption.option.showToast) {
+export const useToast = (toastOption: Partial<ToastProps>) => {
+  const showToast = (message: string) => {
+    if (toastOption.option!.showToast) {
       const container = <HTMLDivElement>(
         document.getElementById('cy-player-container')
       );
@@ -13,7 +13,7 @@ export const useToast = (toastOption: ToastProps) => {
         toastContainer.id = 'toast-container';
         container.appendChild(toastContainer);
         const toast = createApp(Toast, {
-          message: toastOption.message,
+          message,
           duration: toastOption.duration,
           position: toastOption.position,
           option: toastOption.option,

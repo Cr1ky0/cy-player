@@ -54,7 +54,7 @@ $y-dist: 3%;
   color: #fff;
   text-align: center;
   animation: show 0.5s ease;
-  border-radius: 10%;
+  border-radius: 5px;
 }
 
 .toast-pos-default {

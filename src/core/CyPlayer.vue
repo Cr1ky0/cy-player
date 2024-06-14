@@ -45,7 +45,6 @@ provide('playerOption', option);
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
 const { videoStates, videoController } = useVideo(videoRef, option);
 const { showToast, closeToast } = useToast({
-  message: 'TEST',
   position: 'center',
   option,
 });
@@ -63,6 +62,7 @@ useCallback(useful, videoStates, httpStates, {
 watch(useful, () => {
   if (!useful.value) {
     console.log(httpStates.failReason, httpStates.httpStateCode);
+    showToast(httpStates.failReason + '状态码：' + httpStates.httpStateCode);
     // TODO: 错误弹窗
   }
 });
@@ -94,7 +94,7 @@ watch(
     </video>
     <!--  TEST PART  -->
     <Test></Test>
-    <button @click="showToast">showToast</button>
+    <button @click="showToast('Test')">showToast</button>
     <button @click="closeToast">closeToast</button>
     <button @click="videoController.play">开始</button>
     <button @click="videoController.pause">暂停</button>
