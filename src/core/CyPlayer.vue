@@ -38,7 +38,10 @@ provide('playerOption', props.option);
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
 const { videoStates, videoController } = useVideo(videoRef, option);
-const { showToast,closeToast } = useToast({ message: 'TEST' });
+const { showToast, closeToast } = useToast({
+  message: 'TEST',
+  position: 'center',
+});
 useCallback(useful, videoStates, httpStates, {
   onTimeChange: callback?.onTimeChange,
   onPause: callback?.onPause,
@@ -83,6 +86,9 @@ watch(useful, () => {
 </template>
 
 <style scoped>
+.cy-player-container{
+  position: relative;
+}
 .cy-player {
   width: 100%;
   height: 100%;
