@@ -103,8 +103,10 @@ watch(
     <button @click="videoController.setVolume(50)">设置音量为50</button>
     <button @click="videoController.setVolume(100)">设置音量为100</button>
     <SvgIcon
-      icon-name="player"
+      icon-name="webFullScreen"
       :style="{ backgroundColor: 'yellow' }"
+      font-size="50px"
+      fill="#FFF"
     ></SvgIcon>
   </div>
 </template>
@@ -112,7 +114,6 @@ watch(
 <style scoped>
 .cy-player-container {
   position: relative;
-  //overflow: hidden;
 }
 
 .cy-player {
