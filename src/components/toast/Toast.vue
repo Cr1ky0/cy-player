@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useToast } from '@/utils/useToast.ts';
+import { useToast } from '@/components/toast/useToast.ts';
 import { PlayerOption } from '@/types';
 
 export type ToastPosition =
@@ -54,6 +54,7 @@ $y-dist: 3%;
   color: #fff;
   text-align: center;
   animation: show 0.5s ease;
+  border-radius: 10%;
 }
 
 .toast-pos-default {

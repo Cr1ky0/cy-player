@@ -18,7 +18,7 @@ const option = ref<PlayerOption>({
   // autoPlay: true,
   width: 800,
   height: 500,
-  showToast:true, // 默认false
+  showToast: true, // 默认false
   poster:
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
 });

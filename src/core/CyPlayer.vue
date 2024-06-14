@@ -5,7 +5,9 @@ import { useLoad } from '@/core/hooks/useLoad.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
-import { useToast } from '@/utils/useToast.ts';
+import { useToast } from '@/components/toast/useToast.ts';
+import SvgIcon from '@/components/SvgIcon.vue';
+import 'virtual:svg-icons-register';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -100,12 +102,17 @@ watch(
     <button @click="videoController.setVolume(0)">设置音量为0</button>
     <button @click="videoController.setVolume(50)">设置音量为50</button>
     <button @click="videoController.setVolume(100)">设置音量为100</button>
+    <SvgIcon
+      icon-name="player"
+      :style="{ backgroundColor: 'yellow' }"
+    ></SvgIcon>
   </div>
 </template>
 
 <style scoped>
 .cy-player-container {
   position: relative;
+  //overflow: hidden;
 }
 
 .cy-player {

@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import Toast, { ToastProps } from '@/components/Toast.vue';
+import Toast, { ToastProps } from '@/components/toast/Toast.vue';
 
 export const useToast = (toastOption: ToastProps) => {
   const showToast = () => {
@@ -16,7 +16,7 @@ export const useToast = (toastOption: ToastProps) => {
           message: toastOption.message,
           duration: toastOption.duration,
           position: toastOption.position,
-          option:toastOption.option
+          option: toastOption.option,
         });
         toast.mount(toastContainer);
       }
