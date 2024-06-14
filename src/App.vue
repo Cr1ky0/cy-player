@@ -5,6 +5,9 @@ import { PlayerOption, VideoCallback } from '@/types';
 
 const test = ref(true);
 
+/**
+ * @description 提供响应式option
+ */
 const option = ref<PlayerOption>({
   videoSrc:
     // '123',

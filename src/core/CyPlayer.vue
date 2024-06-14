@@ -5,6 +5,7 @@ import { useLoad } from '@/core/hooks/useLoad.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
+import { useToast } from '@/utils/useToast.ts';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -37,6 +38,7 @@ provide('playerOption', props.option);
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
 const { videoStates, videoController } = useVideo(videoRef, option);
+const { showToast,closeToast } = useToast({ message: 'TEST' });
 useCallback(useful, videoStates, httpStates, {
   onTimeChange: callback?.onTimeChange,
   onPause: callback?.onPause,
@@ -57,7 +59,7 @@ watch(useful, () => {
 </script>
 
 <template>
-  <div class="cy-player-container" :style="styles">
+  <div id="cy-player-container" class="cy-player-container" :style="styles">
     <video
       class="cy-player"
       id="cy-player"
@@ -69,6 +71,8 @@ watch(useful, () => {
     </video>
     <!--  TEST PART  -->
     <Test></Test>
+    <button @click="showToast">showToast</button>
+    <button @click="closeToast">closeToast</button>
     <button @click="videoController.play">开始</button>
     <button @click="videoController.pause">暂停</button>
     <button @click="videoController.setCurTime(0)">时间调0</button>
