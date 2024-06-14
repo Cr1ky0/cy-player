@@ -1,22 +1,27 @@
 import { createApp } from 'vue';
-import Toast, { ToastProps } from '@/components/toast/Toast.vue';
+import Toast, { ToastPosition } from '@/components/toast/Toast.vue';
+import { PlayerOption } from '@/types';
 
-export const useToast = (toastOption: Partial<ToastProps>) => {
-  const showToast = (message: string) => {
-    if (toastOption.option!.showToast) {
-      const container = <HTMLDivElement>(
-        document.getElementById('cy-player-container')
-      );
+export const useToast = (option: PlayerOption) => {
+  const showToast = (
+    message: string,
+    position?: ToastPosition,
+    duration?: number,
+  ) => {
+    if (option.showToast) {
       if (!document.getElementById('toast-container')) {
+        const container = <HTMLDivElement>(
+          document.getElementById('cy-player-container')
+        );
         // 挂载会清除所有该挂载对象下的dom，这里建一个container
         const toastContainer = document.createElement('div');
         toastContainer.id = 'toast-container';
         container.appendChild(toastContainer);
         const toast = createApp(Toast, {
+          option,
           message,
-          duration: toastOption.duration,
-          position: toastOption.position,
-          option: toastOption.option,
+          position,
+          duration,
         });
         toast.mount(toastContainer);
       }

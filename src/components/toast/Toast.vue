@@ -14,11 +14,11 @@ export interface ToastProps {
   message: string;
   duration?: number;
   position?: ToastPosition;
-  option: Partial<PlayerOption>;
+  option: PlayerOption;
 }
 
 const props = defineProps<ToastProps>();
-const { closeToast } = useToast(props);
+const { closeToast } = useToast(props.option);
 const timer = ref<NodeJS.Timeout | null>(null);
 onMounted(() => {
   if (timer.value) clearTimeout(timer.value);
