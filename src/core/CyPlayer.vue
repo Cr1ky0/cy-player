@@ -48,7 +48,12 @@ provide('playerOption', option);
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
 const { videoStates, videoController } = useVideo(videoRef, option);
-const { showToast, closeToast } = useToast(option);
+const { showToast, closeToast } = useToast({
+  message: 'Test',
+  position: 'center',
+  duration: 1000,
+  option,
+});
 useCallback(useful, videoStates, httpStates, {
   onTimeChange: callback?.onTimeChange,
   onPause: callback?.onPause,
@@ -64,10 +69,7 @@ watch(useful, () => {
   if (!useful.value) {
     console.log(httpStates.failReason, httpStates.httpStateCode);
     // TODO: 错误弹窗及封面
-    showToast(
-      httpStates.failReason + '状态码：' + httpStates.httpStateCode,
-      'center',
-    );
+    showToast();
   }
 });
 

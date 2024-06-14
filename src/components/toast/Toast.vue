@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useToast } from '@/components/toast/useToast.ts';
 import { PlayerOption } from '@/types';
 
 export type ToastPosition =
@@ -12,20 +10,10 @@ export type ToastPosition =
 
 export interface ToastProps {
   message: string;
-  duration?: number;
   position?: ToastPosition;
-  option: PlayerOption;
 }
 
-const props = defineProps<ToastProps>();
-const { closeToast } = useToast(props.option);
-const timer = ref<NodeJS.Timeout | null>(null);
-onMounted(() => {
-  if (timer.value) clearTimeout(timer.value);
-  timer.value = setTimeout(() => {
-    closeToast();
-  }, props.duration || 2000);
-});
+defineProps<ToastProps>();
 </script>
 
 <template>

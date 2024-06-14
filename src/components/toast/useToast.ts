@@ -1,15 +1,36 @@
-import { createApp } from 'vue';
+import { App, createApp, ref } from 'vue';
 import Toast, { ToastPosition } from '@/components/toast/Toast.vue';
 import { PlayerOption } from '@/types';
 
-export const useToast = (option: PlayerOption) => {
-  const showToast = (
-    message: string,
-    position?: ToastPosition,
-    duration?: number,
-  ) => {
-    if (option.showToast) {
+export interface ToastOption {
+  option: PlayerOption;
+  message: string;
+  position?: ToastPosition;
+  duration?: number;
+}
+
+export const useToast = (toastOption: ToastOption) => {
+  const toastRef = ref<App | null>(null);
+  const timer = ref<NodeJS.Timeout | null>(null);
+  /**
+   * @description 创建toast APP对象
+   */
+  const createToast = () => {
+    toastRef.value = createApp(Toast, {
+      option: toastOption.option,
+      message: toastOption.message,
+      position: toastOption.position,
+    });
+  };
+
+  const showToast = () => {
+    if (toastOption.option.showToast) {
       if (!document.getElementById('toast-container')) {
+        // 先前有Toast则先清除
+        if (timer.value) {
+          clearTimeout(timer.value);
+          closeToast();
+        }
         const container = <HTMLDivElement>(
           document.getElementById('cy-player-container')
         );
@@ -17,22 +38,25 @@ export const useToast = (option: PlayerOption) => {
         const toastContainer = document.createElement('div');
         toastContainer.id = 'toast-container';
         container.appendChild(toastContainer);
-        const toast = createApp(Toast, {
-          option,
-          message,
-          position,
-          duration,
-        });
-        toast.mount(toastContainer);
+        createToast(); // 创建新的组件，因为一个toast只能mount一次
+        toastRef.value!.mount(toastContainer); // 加载组件
+        // 挂载后一段时间卸载
+        timer.value = setTimeout(() => {
+          closeToast();
+        }, toastOption.duration || 2000);
       }
     }
   };
 
   const closeToast = () => {
-    const toast = document.getElementById('toast-container');
+    if (toastRef.value) {
+      toastRef.value.unmount();
+      console.log(1);
+    } // 卸载组件
+    const toastContainer = document.getElementById('toast-container');
     const container = document.getElementById('cy-player-container');
-    if (toast && container) {
-      container.removeChild(toast);
+    if (toastContainer && container) {
+      container.removeChild(toastContainer);
     }
   };
 
