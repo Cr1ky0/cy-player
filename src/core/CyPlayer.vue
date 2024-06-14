@@ -21,7 +21,9 @@ const callback = props.callback || null; // reactive
 
 // Refs
 const videoRef = ref<HTMLVideoElement>();
-// 播放器Size设置
+/**
+ * @description 播放器的size以及其他styles
+ */
 const styles = computed(() => {
   let width, height;
   if (option.width) {
@@ -36,8 +38,10 @@ const styles = computed(() => {
     width = 'auto';
     height = 'auto';
   }
-  return { width, height };
+  return { width, height, ...option.styles };
 });
+
+// Provide
 provide('videoRef', videoRef);
 provide('playerOption', option);
 
@@ -59,11 +63,11 @@ useCallback(useful, videoStates, httpStates, {
 watch(useful, () => {
   if (!useful.value) {
     console.log(httpStates.failReason, httpStates.httpStateCode);
+    // TODO: 错误弹窗及封面
     showToast(
       httpStates.failReason + '状态码：' + httpStates.httpStateCode,
       'center',
     );
-    // TODO: 错误弹窗
   }
 });
 

@@ -1,4 +1,6 @@
 // Player选项
+import { CSSProperties } from 'vue';
+
 export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 视频地址
@@ -23,8 +25,11 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 是否显示Toast
    */
-  showToast?:U;
-
+  showToast?: U;
+  /**
+   * @description container css样式
+   */
+  styles?: CSSProperties;
 }
 
 // Video回调
