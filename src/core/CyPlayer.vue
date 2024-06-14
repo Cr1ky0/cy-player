@@ -6,7 +6,7 @@ import { useVideo } from '@/core/hooks/useVideo.ts';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useToast } from '@/components/toast/useToast.ts';
-import SvgIcon from '@/components/SvgIcon.vue';
+import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import 'virtual:svg-icons-register';
 
 export interface PlayerProps {

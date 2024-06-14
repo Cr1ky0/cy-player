@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CSSProperties } from 'vue';
+import { computed, CSSProperties } from 'vue';
 
 export interface SvgIconProps {
   iconName: string;
@@ -7,9 +7,15 @@ export interface SvgIconProps {
   fontSize?: string;
   className?: string;
   styles?: CSSProperties;
+  onClick?: (e: MouseEvent) => void;
 }
 
-defineProps<SvgIconProps>();
+const props = defineProps<SvgIconProps>();
+const click = computed(() => {
+  return (e: MouseEvent) => {
+    props.onClick && props.onClick(e);
+  };
+});
 </script>
 
 <template>
@@ -17,6 +23,7 @@ defineProps<SvgIconProps>();
     :class="className"
     :font-size="fontSize || '18px'"
     :style="styles"
+    @click="click"
     aria-hidden="true"
   >
     <use :href="`#icon-${iconName}`" :fill="fill"></use>
@@ -27,5 +34,6 @@ defineProps<SvgIconProps>();
 svg {
   width: 1em;
   height: 1em;
+  overflow: hidden;
 }
 </style>
