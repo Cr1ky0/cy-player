@@ -20,6 +20,7 @@ export const useVideo = (
     duration: 0, // 总时长
     bufferedTime: 0, // 缓存时长/s
     volume: 0, // 音量
+    isWaiting:false // 视频播放过程中的暂停
   });
 
   /**
@@ -32,7 +33,7 @@ export const useVideo = (
     setVolume: (volume) => {
       if (vRef.value) {
         // muted状态下始终为0
-        const realVolume = volume < 1 ? volume : volume / 100
+        const realVolume = volume < 1 ? volume : volume / 100;
         vRef.value.volume = realVolume;
         videoStates.volume = realVolume;
       }
@@ -62,20 +63,60 @@ export const useVideo = (
    * @description 总时长
    */
   const setDuration = () => {
-    if (vRef.value) videoStates.duration = vRef.value.duration || 0;
+    if (vRef.value) {
+      videoStates.duration = vRef.value.duration || 0;
+    }
   };
 
   /**
    * @description 缓冲时间
    */
   const setBufferedTime = () => {
-    if (vRef.value) videoStates.bufferedTime = vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
+    if (vRef.value && vRef.value.buffered.length >= 1)
+      videoStates.bufferedTime = vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
   };
   /**
    * @description 播放时间
    */
   const setCurrentPlayTime = () => {
     if (vRef.value) videoStates.currentPlayTime = vRef.value.currentTime;
+  };
+
+  /**
+   * @description 视频播放中的waiting
+   */
+  const onWaiting = () => {
+    videoStates.isWaiting = true;
+  };
+  /**
+   * @description 从waiting恢复播放
+   */
+  const onIsPlaying = ()=>{
+    if(vRef.value){
+      videoStates.isWaiting = false; // waiting结束
+    }
+  }
+
+  const addEvents = (videoElement: HTMLVideoElement) => {
+    videoElement.addEventListener('canplay', setDuration);
+    videoElement.addEventListener('progress', setBufferedTime);
+    videoElement.addEventListener('timeupdate', setCurrentPlayTime);
+    videoElement.addEventListener('pause', setIsPlay);
+    videoElement.addEventListener('play', setIsPlay);
+    videoElement.addEventListener('ended', setIsPlayEnd);
+    videoElement.addEventListener('waiting', onWaiting);
+    videoElement.addEventListener('playing', onIsPlaying);
+  };
+
+  const removeEvents = (videoElement: HTMLVideoElement) => {
+    videoElement.removeEventListener('canplay', setDuration);
+    videoElement.removeEventListener('progress', setBufferedTime);
+    videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
+    videoElement.removeEventListener('pause', setIsPlay);
+    videoElement.removeEventListener('play', setIsPlay);
+    videoElement.removeEventListener('ended', setIsPlayEnd);
+    videoElement.removeEventListener('waiting', onWaiting);
+    videoElement.removeEventListener('playing', onIsPlaying);
   };
 
   // 监听src重置状态
@@ -96,22 +137,11 @@ export const useVideo = (
     if (videoRef.value) {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
-      videoElement.addEventListener('canplay', setDuration);
-      videoElement.addEventListener('progress', setBufferedTime);
-      videoElement.addEventListener('timeupdate', setCurrentPlayTime);
-      videoElement.addEventListener('pause', setIsPlay);
-      videoElement.addEventListener('play', setIsPlay);
-      videoElement.addEventListener('ended', setIsPlayEnd);
+      addEvents(videoElement);
     }
     // remove events
-    if (!newVal) {
-      const videoElement = <HTMLVideoElement>oldVal;
-      videoElement.removeEventListener('canplay', setDuration);
-      videoElement.removeEventListener('progress', setBufferedTime);
-      videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
-      videoElement.removeEventListener('pause', setIsPlay);
-      videoElement.addEventListener('play', setIsPlay);
-      videoElement.removeEventListener('ended', setIsPlayEnd);
+    if (!newVal && oldVal) {
+      removeEvents(<HTMLVideoElement>oldVal);
     }
   });
 
@@ -119,12 +149,7 @@ export const useVideo = (
   onBeforeUnmount(() => {
     if (vRef.value) {
       const videoElement = <HTMLVideoElement>vRef.value;
-      videoElement.removeEventListener('canplay', setDuration);
-      videoElement.removeEventListener('progress', setBufferedTime);
-      videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
-      videoElement.removeEventListener('pause', setIsPlay);
-      videoElement.addEventListener('play', setIsPlay);
-      videoElement.removeEventListener('ended', setIsPlayEnd);
+      removeEvents(videoElement);
     }
   });
 

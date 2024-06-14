@@ -11,7 +11,7 @@ const { videoStates } = useVideo(videoRef, playerOption);
 </script>
 
 <template>
-  <div style="padding-top: 20px">
+  <div style="margin-top: 20px">
     <div>{{ videoStates.currentPlayTime }}</div>
     <div>{{ videoStates.duration }}</div>
     <div>{{ videoStates.bufferedTime }}</div>

@@ -59,6 +59,20 @@ watch(useful, () => {
     // TODO: 错误弹窗
   }
 });
+
+// waiting监听
+watch(
+  () => videoStates.isWaiting,
+  () => {
+    if (videoStates.isWaiting) {
+      // TODO: waiting触发
+      console.log('waiting');
+    } else {
+      // TODO:waiting结束
+      console.log('结束waiting');
+    }
+  },
+);
 </script>
 
 <template>
@@ -68,7 +82,6 @@ watch(useful, () => {
       id="cy-player"
       ref="videoRef"
       :autoplay="option.autoPlay"
-      muted
     >
       <source :src="option.videoSrc" :type="sourceFileType!" />
     </video>
@@ -86,9 +99,10 @@ watch(useful, () => {
 </template>
 
 <style scoped>
-.cy-player-container{
+.cy-player-container {
   position: relative;
 }
+
 .cy-player {
   width: 100%;
   height: 100%;

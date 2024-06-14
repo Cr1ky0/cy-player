@@ -20,12 +20,14 @@ const { closeToast } = useToast(props);
 onMounted(() => {
   setTimeout(() => {
     closeToast();
-  }, props.duration || 200000);
+  }, props.duration || 2000);
 });
 </script>
 
 <template>
-  <div id="player-toast" :class="`toast-${position}`">{{ message }}</div>
+  <div id="player-toast" :class="`toast-pos-default toast-${position}`">
+    {{ message }}
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -41,11 +43,17 @@ $x-dist: 1.5%;
 $y-dist: 3%;
 
 #player-toast {
-  width: 120px;
+  padding: 0 10px;
   height: 40px;
   line-height: 40px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
   text-align: center;
+  animation: show 0.5s ease;
+}
+
+.toast-pos-default {
+  @include position(absolute, $y-dist, auto, auto, $x-dist);
 }
 
 .toast-left-top {
@@ -65,6 +73,16 @@ $y-dist: 3%;
 }
 
 .toast-center {
-  @include position(absolute, 45%, auto, auto, 45%);
+  @include position(absolute, 50%, auto, auto, 50%);
+  transform: translate(-50%, -50%);
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>

@@ -54,7 +54,7 @@ export const useCallback = (
     },
   );
 
-  // 视频加载错误和成功以后回调
+  // 视频初始化时加载错误和成功以后回调
   watch(useful, () => {
     if (!useful.value) onError && onError(loadStates);
     else onLoaded && onLoaded(videoStates);

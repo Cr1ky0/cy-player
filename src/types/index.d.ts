@@ -96,7 +96,11 @@ export interface VideoState<T = number, U = boolean> {
   /**
    * @description 是否结束
    */
-  isPlayEnd: K;
+  isPlayEnd: U;
+  /**
+   * @description 视频播放过程中的waiting
+   */
+  isWaiting: U;
 }
 
 // Video操作
