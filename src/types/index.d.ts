@@ -21,9 +21,10 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    */
   poster?: T;
   /**
-   * @description 视频缩放模式
+   * @description 是否显示Toast
    */
-  scaleMode?: ScaleMode;
+  showToast?:U;
+
 }
 
 // Video回调

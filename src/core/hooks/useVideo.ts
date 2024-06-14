@@ -81,7 +81,6 @@ export const useVideo = (
   const setCurrentPlayTime = () => {
     if (vRef.value) videoStates.currentPlayTime = vRef.value.currentTime;
   };
-
   /**
    * @description 视频播放中的waiting
    */

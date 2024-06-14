@@ -30,10 +30,14 @@ const styles = computed(() => {
     if (typeof option.height === 'string') height = option.height;
     else height = `${option.height}px`;
   }
+  if (!option.width && !option.height) {
+    width = 'auto';
+    height = 'auto';
+  }
   return { width, height };
 });
 provide('videoRef', videoRef);
-provide('playerOption', props.option);
+provide('playerOption', option);
 
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
@@ -41,6 +45,7 @@ const { videoStates, videoController } = useVideo(videoRef, option);
 const { showToast, closeToast } = useToast({
   message: 'TEST',
   position: 'center',
+  option,
 });
 useCallback(useful, videoStates, httpStates, {
   onTimeChange: callback?.onTimeChange,
