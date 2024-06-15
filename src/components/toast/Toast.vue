@@ -24,13 +24,7 @@ defineProps<ToastProps>();
 </template>
 
 <style scoped lang="scss">
-@mixin position($type, $top, $bottom, $right, $left) {
-  position: $type;
-  left: $left;
-  top: $top;
-  right: $right;
-  bottom: $bottom;
-}
+@import '@/assets/css/mixin';
 
 $x-dist: 1.5%;
 $y-dist: 3%;

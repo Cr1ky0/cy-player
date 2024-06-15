@@ -9,7 +9,11 @@ export const useVideo = (
    * @description 内部ref，全局事件监听或卸载只在该对象上进行，避免组件卸载后无法进行事件移除
    */
   const vRef = ref<HTMLVideoElement>();
-
+  /**
+   * @description 轮询状态刷新计时器，类似curTime这类属性需要监控到连续的变化，不用原生实现
+   *
+   */
+  const interval = ref<NodeJS.Timeout | null>(null);
   /**
    * @description video本身的相关状态
    */
@@ -20,7 +24,7 @@ export const useVideo = (
     duration: 0, // 总时长
     bufferedTime: 0, // 缓存时长/s
     volume: 0, // 音量
-    isWaiting:false // 视频播放过程中的暂停
+    isWaiting: false, // 视频播放过程中的暂停
   });
 
   /**
@@ -76,12 +80,6 @@ export const useVideo = (
       videoStates.bufferedTime = vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
   };
   /**
-   * @description 播放时间
-   */
-  const setCurrentPlayTime = () => {
-    if (vRef.value) videoStates.currentPlayTime = vRef.value.currentTime;
-  };
-  /**
    * @description 视频播放中的waiting
    */
   const onWaiting = () => {
@@ -90,16 +88,24 @@ export const useVideo = (
   /**
    * @description 从waiting恢复播放
    */
-  const onIsPlaying = ()=>{
-    if(vRef.value){
+  const onIsPlaying = () => {
+    if (vRef.value) {
       videoStates.isWaiting = false; // waiting结束
     }
-  }
+  };
+
+  const setVideoStates = (vS: Partial<VideoState>) => {
+    if (vS.isPlay) videoStates.isPlay = vS.isPlay;
+    if (vS.isPlayEnd) videoStates.isPlayEnd = vS.isPlayEnd;
+    if (vS.duration) videoStates.duration = vS.duration;
+    if (vS.currentPlayTime) videoStates.currentPlayTime = vS.currentPlayTime;
+    if (vS.bufferedTime) videoStates.bufferedTime = vS.bufferedTime;
+    if (vS.volume) videoStates.volume = vS.volume;
+  };
 
   const addEvents = (videoElement: HTMLVideoElement) => {
     videoElement.addEventListener('canplay', setDuration);
     videoElement.addEventListener('progress', setBufferedTime);
-    videoElement.addEventListener('timeupdate', setCurrentPlayTime);
     videoElement.addEventListener('pause', setIsPlay);
     videoElement.addEventListener('play', setIsPlay);
     videoElement.addEventListener('ended', setIsPlayEnd);
@@ -110,7 +116,6 @@ export const useVideo = (
   const removeEvents = (videoElement: HTMLVideoElement) => {
     videoElement.removeEventListener('canplay', setDuration);
     videoElement.removeEventListener('progress', setBufferedTime);
-    videoElement.removeEventListener('timeupdate', setCurrentPlayTime);
     videoElement.removeEventListener('pause', setIsPlay);
     videoElement.removeEventListener('play', setIsPlay);
     videoElement.removeEventListener('ended', setIsPlayEnd);
@@ -122,12 +127,14 @@ export const useVideo = (
   watch(
     () => option.videoSrc,
     () => {
-      videoStates.isPlay = option.autoPlay || false;
-      videoStates.isPlayEnd = false;
-      videoStates.duration = 0;
-      videoStates.currentPlayTime = 0;
-      videoStates.bufferedTime = 0;
-      videoStates.volume = 0;
+      setVideoStates({
+        isPlay: option.autoPlay || false,
+        isPlayEnd: false,
+        duration: 0,
+        currentPlayTime: 0,
+        bufferedTime: 0,
+        volume: 0,
+      });
     },
   );
 
@@ -137,6 +144,14 @@ export const useVideo = (
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
       addEvents(videoElement);
+      // interval
+      if (interval.value) clearTimeout(interval.value);
+      interval.value = setInterval(() => {
+        setVideoStates({
+          currentPlayTime: vRef.value!.currentTime,
+          volume: vRef.value!.volume,
+        });
+      }, 10);
     }
     // remove events
     if (!newVal && oldVal) {
@@ -149,6 +164,7 @@ export const useVideo = (
     if (vRef.value) {
       const videoElement = <HTMLVideoElement>vRef.value;
       removeEvents(videoElement);
+      clearInterval(interval.value!);
     }
   });
 

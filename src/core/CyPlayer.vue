@@ -8,6 +8,7 @@ import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useToast } from '@/core/hooks/useToast.ts';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import 'virtual:svg-icons-register';
+import Controller from '@/core/controller/Controller.vue';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -51,7 +52,7 @@ const { videoStates, videoController } = useVideo(videoRef, option);
 const { showToast, closeToast } = useToast({
   message: 'Test',
   position: 'center',
-  duration: 1000,
+  duration: 2000,
   option,
 });
 useCallback(useful, videoStates, httpStates, {
@@ -98,6 +99,7 @@ watch(
     >
       <source :src="option.videoSrc" :type="sourceFileType!" />
     </video>
+    <Controller></Controller>
     <!--  TEST PART  -->
     <Test></Test>
     <button @click="showToast">showToast</button>
