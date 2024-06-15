@@ -9,7 +9,6 @@ import { useToast } from '@/core/hooks/useToast.ts';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import 'virtual:svg-icons-register';
 import Controller from '@/core/controller/Controller.vue';
-import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -22,7 +21,6 @@ const option = props.option; // reactive
 const callback = props.callback || null; // reactive
 
 // Refs
-const playerContainerRef = ref<HTMLDivElement>();
 const videoRef = ref<HTMLVideoElement>();
 /**
  * @description 播放器的size以及其他styles
@@ -47,7 +45,6 @@ const styles = computed(() => {
 // Provide
 provide('videoRef', videoRef);
 provide('playerOption', option);
-provide('playerContainerRef', playerContainerRef);
 
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
@@ -96,7 +93,6 @@ watch(
   <div
     id="cy-player-container"
     class="cy-player-container"
-    ref="playerContainerRef"
     :style="styles"
   >
     <video
@@ -104,6 +100,7 @@ watch(
       id="cy-player"
       ref="videoRef"
       :autoplay="option.autoPlay"
+      muted
     >
       <source :src="option.videoSrc" :type="sourceFileType!" />
     </video>

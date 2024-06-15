@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useVideo } from '@/core/hooks/useVideo.ts';
-import { computed, h, inject, ref, Ref } from 'vue';
+import { computed, inject, onBeforeUnmount, onMounted, ref, Ref } from 'vue';
 import { PlayerOption } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
@@ -9,9 +9,10 @@ const videoRef = <Ref>inject('videoRef');
 const option = <PlayerOption>inject('playerOption');
 const progressRef = ref<HTMLDivElement>();
 const { videoStates, videoController } = useVideo(videoRef, option);
-const { xProp } = useMouseHandler(progressRef);
+const { mouseX, xProp } = useMouseHandler(progressRef);
 
 const mouseEnter = ref<boolean>(false);
+const isDrag = ref<boolean>(false);
 /**
  * @description 已播放百分比
  */
@@ -33,7 +34,7 @@ const moveVideoTime = computed(() => {
 /**
  * @description 鼠标点击快进进度
  */
-const clickTime = computed(() => {
+const moveTime = computed(() => {
   return (xProp.value / 100) * videoStates.duration;
 });
 
@@ -45,13 +46,46 @@ const onMouseLeave = () => {
   mouseEnter.value = false;
 };
 
-const handleMouseDown = () => {
-  videoController.setCurTime(clickTime.value);
+const handleMouseDown = (e: MouseEvent) => {
+  e.preventDefault(); // 防止出现禁止图标
+  isDrag.value = true;
+  videoController.pause();
+  videoController.setCurTime(moveTime.value);
 };
 
-const handleMouseUp = ()=>{
+const handleMouseMove = (e: MouseEvent) => {
+  if (isDrag.value) {
+    const rect = progressRef.value!.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    // 拖拽过左边界
+    if (x >= 0) {
+      mouseX.value = x;
+      xProp.value = (x / width) * 100;
+    }
+    // 拖拽过右边界
+    if (x >= rect.width) {
+      mouseX.value = width;
+      xProp.value = 100;
+    }
+    videoController.setCurTime(moveTime.value);
+  }
+};
+
+const handleMouseUp = () => {
+  isDrag.value = false;
   videoController.play();
-}
+};
+
+onMounted(() => {
+  window.addEventListener('mousemove', handleMouseMove); // move全局挂载，全局可拖动
+  window.addEventListener('mouseup', handleMouseUp); // 其他地方抬起需要取消
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('mousemove', handleMouseMove);
+  window.removeEventListener('mouseup', handleMouseUp);
+});
 </script>
 
 <template>
@@ -64,11 +98,13 @@ const handleMouseUp = ()=>{
     @mouseup="handleMouseUp"
   >
     <div
-      v-if="mouseEnter"
+      v-if="mouseEnter || isDrag"
       class="cy-player-progress-indicator"
       :style="{ left: `${xProp}%` }"
     >
-      <div class="cy-player-progress-indicator-time">{{ moveVideoTime }}</div>
+      <div class="cy-player-progress-indicator-time">
+        {{ moveVideoTime }}
+      </div>
       <div class="cy-player-progress-indicator-down"></div>
       <div class="cy-player-progress-indicator-up"></div>
     </div>
@@ -96,7 +132,7 @@ $progress-buffered-color: rgba(255, 255, 255, 0.5);
 $progress-indicator-time-color: rgba(0, 0, 0, 0.5);
 $progress-bar-width: 5px;
 $progress-slider-diameter: 10px;
-$progress-radius:1.5px;
+$progress-radius: 1.5px;
 
 .cy-player-progress-bar {
   width: 96%;
@@ -105,14 +141,16 @@ $progress-radius:1.5px;
   position: relative;
   background-color: $progress-base-color;
   z-index: $top-layer;
-  cursor: pointer;
   border-radius: $progress-radius;
+  cursor: pointer;
 
   .cy-player-progress-indicator {
     @include selectable(none);
     height: 100%;
-    width: 1px;
+    width: 0;
     position: relative;
+    z-index: $second-top-layer;
+    cursor: default;
 
     .cy-player-progress-indicator-time {
       @include position(absolute, 0, auto, auto, 0);
