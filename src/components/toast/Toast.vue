@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { PlayerOption } from '@/types';
 
 export type ToastPosition =
   | 'left-top'
