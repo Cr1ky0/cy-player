@@ -94,11 +94,13 @@ $progress-slider-diameter: 10px;
     position: relative;
 
     .cy-player-progress-indicator-time {
+      @include position(absolute, 0, auto, auto, 0);
       width: 50px;
       height: 20px;
+      line-height: 20px;
+      text-align: center;
       background-color: $progress-indicator-time-color;
       color: #fff;
-      @include position(absolute, 0, auto, auto, 0);
       transform: translate(-50%, -150%);
     }
 

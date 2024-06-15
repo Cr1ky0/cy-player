@@ -25,8 +25,10 @@ export const useMouseHandler = (
     const rect = cRef.value!.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+    x = x >= 0 ? x : 0;
+    y = y >= 0 ? y : 0;
     mouseX.value = x;
     mouseY.value = y;
     xProp.value = (x / width) * 100;
