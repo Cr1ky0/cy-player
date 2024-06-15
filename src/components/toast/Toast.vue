@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 export type ToastPosition =
   | 'left-top'
   | 'right-top'
@@ -16,7 +15,10 @@ defineProps<ToastProps>();
 </script>
 
 <template>
-  <div id="player-toast" :class="`toast-pos-default toast-${position}`">
+  <div
+    id="cy-player-toast"
+    :class="`cy-toast-pos-default cy-toast-${position}`"
+  >
     {{ message }}
   </div>
 </template>
@@ -33,7 +35,7 @@ defineProps<ToastProps>();
 $x-dist: 1.5%;
 $y-dist: 3%;
 
-#player-toast {
+#cy-player-toast {
   padding: 0 10px;
   height: 40px;
   line-height: 40px;
@@ -44,27 +46,27 @@ $y-dist: 3%;
   border-radius: 5px;
 }
 
-.toast-pos-default {
+.cy-toast-pos-default {
   @include position(absolute, $y-dist, auto, auto, $x-dist);
 }
 
-.toast-left-top {
+.cy-toast-left-top {
   @include position(absolute, $y-dist, auto, auto, $x-dist);
 }
 
-.toast-left-bottom {
+.cy-toast-left-bottom {
   @include position(absolute, auto, $y-dist, auto, $x-dist);
 }
 
-.toast-right-top {
+.cy-toast-right-top {
   @include position(absolute, $y-dist, auto, $x-dist, auto);
 }
 
-.toast-right-bottom {
+.cy-toast-right-bottom {
   @include position(absolute, auto, $y-dist, $x-dist, auto);
 }
 
-.toast-center {
+.cy-toast-center {
   @include position(absolute, 50%, auto, auto, 50%);
   transform: translate(-50%, -50%);
 }

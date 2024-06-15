@@ -100,7 +100,7 @@ watch(
     </video>
     <!--  TEST PART  -->
     <Test></Test>
-    <button @click="showToast('Test', 'center')">showToast</button>
+    <button @click="showToast">showToast</button>
     <button @click="closeToast">closeToast</button>
     <button @click="videoController.play">开始</button>
     <button @click="videoController.pause">暂停</button>
