@@ -51,7 +51,6 @@ export const useToast = (toastOption: ToastOption) => {
   const closeToast = () => {
     if (toastRef.value) {
       toastRef.value.unmount();
-      console.log(1);
     } // 卸载组件
     const toastContainer = document.getElementById('toast-container');
     const container = document.getElementById('cy-player-container');
