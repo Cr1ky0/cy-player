@@ -30,8 +30,11 @@ const click = computed(() => {
   </svg>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/assets/css/mixin';
 svg {
+  @include selectable(none);
+  cursor: pointer;
   width: 1em;
   height: 1em;
   overflow: hidden;

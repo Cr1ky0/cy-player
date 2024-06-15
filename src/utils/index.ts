@@ -1,3 +1,7 @@
+/**
+ * 将秒转换为00:00格式
+ * @param seconds 秒数
+ */
 export const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60); // 计算分钟数
   const remainingSeconds = seconds % 60; // 计算剩余的秒数

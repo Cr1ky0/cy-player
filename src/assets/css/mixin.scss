@@ -5,3 +5,10 @@
   right: $right;
   bottom: $bottom;
 }
+
+@mixin selectable($type){
+  -webkit-user-select: $type; /* Safari */
+  -moz-user-select: $type; /* Firefox */
+  -ms-user-select: $type; /* IE 10+ */
+  user-select: $type;
+}

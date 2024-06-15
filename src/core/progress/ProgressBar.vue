@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useVideo } from '@/core/hooks/useVideo.ts';
-import { computed, inject, ref, Ref } from 'vue';
+import { computed, h, inject, ref, Ref } from 'vue';
 import { PlayerOption } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
@@ -30,6 +30,12 @@ const bufferedProportion = computed(() => {
 const moveVideoTime = computed(() => {
   return formatTime(Math.floor((xProp.value / 100) * videoStates.duration));
 });
+/**
+ * @description 鼠标点击快进进度
+ */
+const clickTime = computed(() => {
+  return (xProp.value / 100) * videoStates.duration;
+});
 
 const onMouseEnter = () => {
   mouseEnter.value = true;
@@ -38,6 +44,14 @@ const onMouseEnter = () => {
 const onMouseLeave = () => {
   mouseEnter.value = false;
 };
+
+const handleMouseDown = () => {
+  videoController.setCurTime(clickTime.value);
+};
+
+const handleMouseUp = ()=>{
+  videoController.play();
+}
 </script>
 
 <template>
@@ -46,6 +60,8 @@ const onMouseLeave = () => {
     ref="progressRef"
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
+    @mousedown="handleMouseDown"
+    @mouseup="handleMouseUp"
   >
     <div
       v-if="mouseEnter"
@@ -57,11 +73,13 @@ const onMouseLeave = () => {
       <div class="cy-player-progress-indicator-up"></div>
     </div>
     <div
+      class="cy-player-progress-slider"
+      :style="{ left: `${completedProportion}%` }"
+    ></div>
+    <div
       class="cy-player-progress-completed"
       :style="{ width: `${completedProportion}%` }"
-    >
-      <div class="cy-player-progress-slider"></div>
-    </div>
+    ></div>
     <div
       class="cy-player-progress-buffered"
       :style="{ width: `${bufferedProportion}%` }"
@@ -78,6 +96,7 @@ $progress-buffered-color: rgba(255, 255, 255, 0.5);
 $progress-indicator-time-color: rgba(0, 0, 0, 0.5);
 $progress-bar-width: 5px;
 $progress-slider-diameter: 10px;
+$progress-radius:1.5px;
 
 .cy-player-progress-bar {
   width: 96%;
@@ -87,8 +106,10 @@ $progress-slider-diameter: 10px;
   background-color: $progress-base-color;
   z-index: $top-layer;
   cursor: pointer;
+  border-radius: $progress-radius;
 
   .cy-player-progress-indicator {
+    @include selectable(none);
     height: 100%;
     width: 1px;
     position: relative;
@@ -130,16 +151,18 @@ $progress-slider-diameter: 10px;
     width: 0;
     height: 100%;
     background-color: red;
-    z-index: $top-layer;
+    z-index: $second-top-layer;
+    border-radius: $progress-radius;
+  }
 
-    .cy-player-progress-slider {
-      @include position(absolute, auto, auto, 0, auto);
-      transform: translate(50%, -25%);
-      height: $progress-slider-diameter;
-      width: $progress-slider-diameter;
-      background-color: rgba(255, 255, 255, 0.5);
-      border-radius: 100%;
-    }
+  .cy-player-progress-slider {
+    @include position(absolute, 0, auto, 0, auto);
+    height: $progress-slider-diameter;
+    width: $progress-slider-diameter;
+    transform: translate(-50%, -25%);
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 100%;
+    z-index: $top-layer;
   }
 
   .cy-player-progress-buffered {
@@ -147,7 +170,8 @@ $progress-slider-diameter: 10px;
     width: 0;
     height: 100%;
     background-color: $progress-buffered-color;
-    z-index: $second-top-layer;
+    z-index: $middle-layer;
+    border-radius: $progress-radius;
   }
 }
 </style>
