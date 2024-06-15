@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ProgressBar from '@/core/controller/ProgressBar.vue';
+import ProgressBar from '@/core/progress/ProgressBar.vue';
 </script>
 
 <template>
@@ -8,10 +8,11 @@ import ProgressBar from '@/core/controller/ProgressBar.vue';
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+$controller-height: 50px;
 .cy-player-controller-container {
   width: 100%;
-  height: 7.5%;
+  height: $controller-height;
   background-color: transparent;
   position: absolute;
   bottom: 0;

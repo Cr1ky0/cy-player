@@ -139,23 +139,18 @@ export const useVideo = (
   );
 
   // 监听VideoRef
-  watch(videoRef, (newVal, oldVal) => {
+  watch(videoRef, () => {
     if (videoRef.value) {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
       addEvents(videoElement);
       // interval
-      if (interval.value) clearTimeout(interval.value);
       interval.value = setInterval(() => {
         setVideoStates({
           currentPlayTime: vRef.value!.currentTime,
           volume: vRef.value!.volume,
         });
       }, 10);
-    }
-    // remove events
-    if (!newVal && oldVal) {
-      removeEvents(<HTMLVideoElement>oldVal);
     }
   });
 
