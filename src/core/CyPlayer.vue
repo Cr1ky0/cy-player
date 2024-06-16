@@ -48,16 +48,7 @@ provide('playerOption', option);
 
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
-const {
-  videoStates,
-  videoController,
-  setIsPlay,
-  setIsPlayEnd,
-  setBufferedTime,
-  setDuration,
-  onIsPlaying,
-  onWaiting,
-} = useVideo(videoRef, option);
+const { videoStates, videoController } = useVideo(videoRef, option);
 const { showToast, closeToast } = useToast({
   message: 'Test',
   position: 'center',

@@ -1,14 +1,9 @@
 <script setup lang="ts">
-export type ToastPosition =
-  | 'left-top'
-  | 'right-top'
-  | 'left-bottom'
-  | 'right-bottom'
-  | 'center';
+import { Position } from '@/types';
 
 export interface ToastProps {
   message: string;
-  position?: ToastPosition;
+  position?: Position;
 }
 
 defineProps<ToastProps>();

@@ -1,11 +1,11 @@
 import { App, createApp, ref } from 'vue';
-import Toast, { ToastPosition } from '@/components/toast/Toast.vue';
+import Toast, { Position } from '@/components/toast/Toast.vue';
 import { PlayerOption } from '@/types';
 
 export interface ToastOption {
   option: PlayerOption;
   message: string;
-  position?: ToastPosition;
+  position?: Position;
   duration?: number;
 }
 

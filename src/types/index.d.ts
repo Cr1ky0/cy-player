@@ -1,3 +1,11 @@
+// 位置选项
+export type Position =
+  | 'left-top'
+  | 'right-top'
+  | 'left-bottom'
+  | 'right-bottom'
+  | 'center';
+
 // Player选项
 import { CSSProperties } from 'vue';
 
@@ -30,6 +38,10 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description container css样式
    */
   styles?: CSSProperties;
+  /**
+   * @description 遮罩图标位置
+   */
+  maskIconPlacement?:
 }
 
 // Video回调
