@@ -6,9 +6,8 @@ import { useVideo } from '@/core/hooks/useVideo.ts';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useToast } from '@/core/hooks/useToast.ts';
-import SvgIcon from '@/components/svgicon/SvgIcon.vue';
-import 'virtual:svg-icons-register';
 import Controller from '@/core/controller/Controller.vue';
+import 'virtual:svg-icons-register';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -111,12 +110,6 @@ watch(
     <button @click="videoController.setVolume(0)">设置音量为0</button>
     <button @click="videoController.setVolume(50)">设置音量为50</button>
     <button @click="videoController.setVolume(100)">设置音量为100</button>
-    <SvgIcon
-      :style="{ backgroundColor: 'yellow' }"
-      icon-name="webFullScreen"
-      font-size="50px"
-      fill="#FFF"
-    ></SvgIcon>
   </div>
 </template>
 

@@ -52,6 +52,7 @@ const handleClick = () => {
 @import '@/assets/css/var';
 
 .cy-player-playback-controls-container {
+  @include selectable(none);
   width: 15%;
   display: flex;
   justify-content: space-around;
