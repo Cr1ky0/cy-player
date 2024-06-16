@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { useVideo } from '@/core/hooks/useVideo.ts';
-import {
-  computed,
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  Ref,
-} from 'vue';
+import { computed, inject, onBeforeUnmount, onMounted, ref, Ref } from 'vue';
 import { PlayerOption } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
@@ -136,7 +129,7 @@ onBeforeUnmount(() => {
 
 $progress-base-color: rgba(255, 255, 255, 0.2);
 $progress-buffered-color: rgba(255, 255, 255, 0.5);
-$progress-indicator-time-color: rgba(0, 0, 0, 0.5);
+$progress-indicator-time-color: rgba(0, 0, 0, 0.7);
 $progress-bar-width: 5px;
 $progress-slider-diameter: 10px;
 $progress-radius: 1.5px;
@@ -161,13 +154,14 @@ $progress-radius: 1.5px;
 
     .cy-player-progress-indicator-time {
       @include position(absolute, 0, auto, auto, 0);
-      width: 50px;
-      height: 20px;
-      line-height: 20px;
+      height: 14px;
+      line-height: 14px;
+      padding: 0 2px;
+      font-size: 12px;
       text-align: center;
       background-color: $progress-indicator-time-color;
       color: #fff;
-      transform: translate(-50%, -150%);
+      transform: translate(-50%, -175%);
     }
 
     .cy-player-progress-indicator-down {
