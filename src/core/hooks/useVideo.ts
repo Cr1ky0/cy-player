@@ -15,6 +15,10 @@ export const useVideo = (
    */
   const interval = ref<NodeJS.Timeout | null>(null);
   /**
+   * @description waiting计时器，playing后一段时间再置为false
+   */
+  const timer = ref<NodeJS.Timeout | null>(null);
+  /**
    * @description video本身的相关状态
    */
   const videoStates = reactive<VideoState>({
@@ -89,7 +93,10 @@ export const useVideo = (
    * @description 从waiting恢复播放
    */
   const onIsPlaying = () => {
-    videoStates.isWaiting = false; // waiting结束
+    if (timer.value) clearTimeout(timer.value);
+    timer.value = setTimeout(() => {
+      videoStates.isWaiting = false; // waiting结束
+    }, 100);
   };
 
   const setVideoStates = (vS: Partial<VideoState>) => {
