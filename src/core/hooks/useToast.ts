@@ -1,6 +1,6 @@
 import { App, createApp, ref } from 'vue';
-import Toast, { Position } from '@/components/toast/Toast.vue';
-import { PlayerOption } from '@/types';
+import Toast from '@/components/toast/Toast.vue';
+import { PlayerOption, Position } from '@/types';
 
 export interface ToastOption {
   option: PlayerOption;

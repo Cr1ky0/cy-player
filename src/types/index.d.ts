@@ -39,9 +39,9 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    */
   styles?: CSSProperties;
   /**
-   * @description 遮罩图标位置
+   * @description 遮罩图标位置，默认center
    */
-  maskIconPlacement?:
+  maskIconPlacement?: Position
 }
 
 // Video回调

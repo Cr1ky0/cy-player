@@ -171,6 +171,6 @@ export const useVideo = (
     setDuration,
     setBufferedTime,
     onWaiting,
-    onIsPlaying
+    onIsPlaying,
   };
 };

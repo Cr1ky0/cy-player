@@ -18,7 +18,7 @@ const option = ref<PlayerOption>({
   // autoPlay: true,
   width: 900,
   height: 500,
-  maskIconPlace:'center',
+  maskIconPlacement:'center',
   // styles: {
   //   background: 'red',
   // },

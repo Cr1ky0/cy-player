@@ -12,6 +12,11 @@ const styles = computed(() => {
     ? { backgroundColor: 'rgba(0,0,0,.3)' }
     : undefined;
 });
+const pos = computed(() => {
+  return playerOption.maskIconPlacement
+    ? playerOption.maskIconPlacement
+    : 'center';
+});
 const handleClick = () => {
   if (videoStates.isPlay) videoController.pause();
   else videoController.play();
@@ -19,7 +24,11 @@ const handleClick = () => {
 </script>
 
 <template>
-  <div class="cy-player-controller-mask" @click="handleClick" :style="styles">
+  <div
+    :class="`cy-player-controller-mask cy-player-controller-mask-${pos}`"
+    @click="handleClick"
+    :style="styles"
+  >
     <div
       v-if="!videoStates.isPlay && !videoStates.isPlayEnd"
       class="cy-player-pause-icon"
@@ -50,7 +59,6 @@ const handleClick = () => {
 
 .cy-player-controller-mask {
   @include position(absolute, 0, auto, auto, 0);
-  @include childCenter;
   width: 100%;
   height: 100%;
 
@@ -69,5 +77,13 @@ const handleClick = () => {
     font-size: 16px;
     color: #fff;
   }
+}
+
+.cy-player-controller-mask-center {
+  @include childCenter;
+}
+
+.cy-player-controller-mask-left-top{
+
 }
 </style>

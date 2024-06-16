@@ -73,8 +73,8 @@ const handleMouseMove = (e: MouseEvent) => {
 };
 
 const handleMouseUp = () => {
+  if (isDrag.value) videoController.play(); // 要加判断，不然其他地方点击也会play
   isDrag.value = false;
-  videoController.play();
 };
 
 onMounted(() => {
