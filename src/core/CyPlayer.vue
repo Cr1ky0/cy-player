@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useLoad } from '@/core/hooks/useLoad.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
@@ -48,7 +48,16 @@ provide('playerOption', option);
 
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
-const { videoStates, videoController } = useVideo(videoRef, option);
+const {
+  videoStates,
+  videoController,
+  setIsPlay,
+  setIsPlayEnd,
+  setBufferedTime,
+  setDuration,
+  onIsPlaying,
+  onWaiting,
+} = useVideo(videoRef, option);
 const { showToast, closeToast } = useToast({
   message: 'Test',
   position: 'center',
@@ -90,11 +99,7 @@ watch(
 </script>
 
 <template>
-  <div
-    id="cy-player-container"
-    class="cy-player-container"
-    :style="styles"
-  >
+  <div id="cy-player-container" class="cy-player-container" :style="styles">
     <video
       class="cy-player"
       id="cy-player"

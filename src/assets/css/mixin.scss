@@ -12,3 +12,9 @@
   -ms-user-select: $type; /* IE 10+ */
   user-select: $type;
 }
+
+@mixin childCenter(){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

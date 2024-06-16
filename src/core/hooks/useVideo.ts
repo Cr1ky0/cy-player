@@ -166,5 +166,11 @@ export const useVideo = (
   return {
     videoStates,
     videoController,
+    setIsPlay,
+    setIsPlayEnd,
+    setDuration,
+    setBufferedTime,
+    onWaiting,
+    onIsPlaying
   };
 };
