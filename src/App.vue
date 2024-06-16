@@ -16,7 +16,7 @@ const option = ref<PlayerOption>({
   // 'http://localhost:3000/input.m3u8',
   // '1231313231212333333333333333333333333333333333333333333333',
   // autoPlay: true,
-  width: 900,
+  width: 1000,
   height: 500,
   maskIconPlacement: 'right-bottom',
   toastPlacement:'right-bottom',

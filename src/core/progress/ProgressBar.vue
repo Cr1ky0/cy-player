@@ -130,14 +130,12 @@ onBeforeUnmount(() => {
 $progress-base-color: rgba(255, 255, 255, 0.2);
 $progress-buffered-color: rgba(255, 255, 255, 0.5);
 $progress-indicator-time-color: rgba(0, 0, 0, 0.7);
-$progress-bar-width: 5px;
 $progress-slider-diameter: 10px;
 $progress-radius: 1.5px;
 
 .cy-player-progress-bar {
-  width: 96%;
-  margin: auto;
-  height: $progress-bar-width;
+  width: 100%;
+  height: $progress-bar-height;
   position: relative;
   background-color: $progress-base-color;
   z-index: $top-layer;

@@ -2,30 +2,44 @@
 import ProgressBar from '@/core/progress/ProgressBar.vue';
 import Mask from '@/core/controller/Mask.vue';
 import { provide, ref } from 'vue';
+import PlaybackControls from '@/core/controls/PlaybackControls.vue';
 
 /**
  * 进度条拖拽标志
  */
 const isDrag = ref<boolean>(false);
-provide('isDrag',isDrag)
+provide('isDrag', isDrag);
 </script>
 
 <template>
   <Mask></Mask>
   <div class="cy-player-controller-container">
     <ProgressBar></ProgressBar>
+    <div class="cy-player-controller-controls-container">
+      <PlaybackControls></PlaybackControls>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/css/var";
+@import '@/assets/css/var';
+
 .cy-player-controller-container {
-  width: 100%;
+  width: 96%;
   height: $controller-container-height;
   background-color: transparent;
   position: absolute;
   bottom: 0;
   left: 0;
+  right: 0;
+  margin: auto;
   z-index: $top-layer;
+}
+
+.cy-player-controller-controls-container {
+  width: 100%;
+  height: $controls-height;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
