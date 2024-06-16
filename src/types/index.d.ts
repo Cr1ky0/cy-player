@@ -41,7 +41,11 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 遮罩图标位置，默认center
    */
-  maskIconPlacement?: Position
+  maskIconPlacement?: Position;
+  /**
+   * @description Toast位置
+   */
+  toastPlacement?: Position;
 }
 
 // Video回调

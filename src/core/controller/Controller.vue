@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import ProgressBar from '@/core/progress/ProgressBar.vue';
 import Mask from '@/core/controller/Mask.vue';
+import { provide, ref } from 'vue';
+
+/**
+ * 进度条拖拽标志
+ */
+const isDrag = ref<boolean>(false);
+provide('isDrag',isDrag)
 </script>
 
 <template>
@@ -12,10 +19,9 @@ import Mask from '@/core/controller/Mask.vue';
 
 <style scoped lang="scss">
 @import "@/assets/css/var";
-$controller-height: 45px;
 .cy-player-controller-container {
   width: 100%;
-  height: $controller-height;
+  height: $controller-container-height;
   background-color: transparent;
   position: absolute;
   bottom: 0;

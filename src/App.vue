@@ -18,7 +18,8 @@ const option = ref<PlayerOption>({
   // autoPlay: true,
   width: 900,
   height: 500,
-  maskIconPlacement:'center',
+  maskIconPlacement: 'right-bottom',
+  toastPlacement:'right-bottom',
   // styles: {
   //   background: 'red',
   // },
@@ -45,7 +46,8 @@ const change = () => {
   // option.value.videoSrc = '112312';
   // option.value.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
   // option.value.width = '50vw'
-  option.value.showToast = false;
+  // option.value.showToast = false;
+  option.value.maskIconPlacement = 'left-bottom';
 };
 </script>
 

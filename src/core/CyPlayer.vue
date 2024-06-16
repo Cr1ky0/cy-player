@@ -51,7 +51,7 @@ const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
 const { videoStates, videoController } = useVideo(videoRef, option);
 const { showToast, closeToast } = useToast({
   message: 'Test',
-  position: 'center',
+  position: option.toastPlacement,
   duration: 2000,
   option,
 });

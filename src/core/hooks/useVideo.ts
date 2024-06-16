@@ -89,9 +89,7 @@ export const useVideo = (
    * @description 从waiting恢复播放
    */
   const onIsPlaying = () => {
-    if (vRef.value) {
-      videoStates.isWaiting = false; // waiting结束
-    }
+    videoStates.isWaiting = false; // waiting结束
   };
 
   const setVideoStates = (vS: Partial<VideoState>) => {

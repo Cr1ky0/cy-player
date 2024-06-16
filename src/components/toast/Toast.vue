@@ -20,9 +20,7 @@ defineProps<ToastProps>();
 
 <style scoped lang="scss">
 @import '@/assets/css/mixin';
-
-$x-dist: 1.5%;
-$y-dist: 3%;
+@import '@/assets/css/var';
 
 #cy-player-toast {
   padding: 0 10px;
@@ -36,23 +34,23 @@ $y-dist: 3%;
 }
 
 .cy-toast-pos-default {
-  @include position(absolute, $y-dist, auto, auto, $x-dist);
+  @include position(absolute, $y-dist-top, auto, auto, $x-dist);
 }
 
 .cy-toast-left-top {
-  @include position(absolute, $y-dist, auto, auto, $x-dist);
+  @include position(absolute, $y-dist-top, auto, auto, $x-dist);
 }
 
 .cy-toast-left-bottom {
-  @include position(absolute, auto, $y-dist, auto, $x-dist);
+  @include position(absolute, auto, $y-dist-bottom, auto, $x-dist);
 }
 
 .cy-toast-right-top {
-  @include position(absolute, $y-dist, auto, $x-dist, auto);
+  @include position(absolute, $y-dist-top, auto, $x-dist, auto);
 }
 
 .cy-toast-right-bottom {
-  @include position(absolute, auto, $y-dist, $x-dist, auto);
+  @include position(absolute, auto, $y-dist-bottom, $x-dist, auto);
 }
 
 .cy-toast-center {
