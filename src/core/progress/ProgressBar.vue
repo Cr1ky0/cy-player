@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { useVideo } from '@/core/hooks/useVideo.ts';
 import { computed, inject, onBeforeUnmount, onMounted, ref, Ref } from 'vue';
-import { PlayerOption } from '@/types';
+import { VideoController, VideoState } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
 
-const videoRef = <Ref>inject('videoRef');
-const option = <PlayerOption>inject('playerOption');
+// const videoRef = <Ref>inject('videoRef');
+// const option = <PlayerOption>inject('playerOption');
+const videoStates = <VideoState>inject('videoStates');
+const videoController = <VideoController>inject('videoController');
 const isDrag = <Ref>inject('isDrag');
 const progressRef = ref<HTMLDivElement>();
 const mouseEnter = ref<boolean>(false);
 
-const { videoStates, videoController } = useVideo(videoRef, option);
+// const { videoStates, videoController } = useVideo(videoRef, option);
 const { mouseX, xProp } = useMouseHandler(progressRef);
 /**
  * @description 已播放百分比

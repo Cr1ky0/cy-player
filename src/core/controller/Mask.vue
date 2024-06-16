@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useVideo } from '@/core/hooks/useVideo.ts';
-import { PlayerOption } from '@/types';
+import { PlayerOption, VideoController, VideoState } from '@/types';
 import { computed, inject, Ref } from 'vue';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 
-const videoRef = <Ref>inject('videoRef');
+// const videoRef = <Ref>inject('videoRef');
+const videoStates = <VideoState>inject('videoStates');
+const videoController = <VideoController>inject('videoController');
 const playerOption = <PlayerOption>inject('playerOption');
 const isDrag = <Ref>inject('isDrag');
 const styles = computed(() => {
@@ -18,7 +19,7 @@ const pos = computed(() => {
     : 'center';
 });
 
-const { videoStates, videoController } = useVideo(videoRef, playerOption);
+// const { videoStates, videoController } = useVideo(videoRef, playerOption);
 
 const handleClick = () => {
   if (videoStates.isPlay) videoController.pause();

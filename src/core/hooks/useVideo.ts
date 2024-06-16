@@ -1,6 +1,11 @@
 import { onBeforeUnmount, reactive, ref, Ref, watch } from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
 
+/**
+ * @description hook管理的方式会让video上绑定一堆重复事件，已经将逻辑移入主文件以优化性能
+ * @param videoRef VideoDOM Ref
+ * @param option Player Options
+ */
 export const useVideo = (
   videoRef: Ref<HTMLVideoElement | undefined>,
   option: Partial<PlayerOption>,
@@ -100,8 +105,9 @@ export const useVideo = (
   };
 
   const setVideoStates = (vS: Partial<VideoState>) => {
-    if (vS.isPlay) videoStates.isPlay = vS.isPlay;
-    if (vS.isPlayEnd) videoStates.isPlayEnd = vS.isPlayEnd;
+    if (typeof vS.isPlay === 'boolean') videoStates.isPlay = vS.isPlay;
+    if (typeof vS.isPlayEnd === 'boolean') videoStates.isPlayEnd = vS.isPlayEnd;
+    if (typeof vS.isWaiting === 'boolean') videoStates.isWaiting = vS.isWaiting;
     if (vS.duration) videoStates.duration = vS.duration;
     if (vS.currentPlayTime) videoStates.currentPlayTime = vS.currentPlayTime;
     if (vS.bufferedTime) videoStates.bufferedTime = vS.bufferedTime;

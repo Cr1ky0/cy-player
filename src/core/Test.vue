@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { inject, Ref } from 'vue';
+import { PlayerOption, VideoState } from '@/types';
 import { useVideo } from '@/core/hooks/useVideo.ts';
-import { PlayerOption } from '@/types';
 
-const videoRef = <Ref>inject('videoRef');
-const playerOption = <PlayerOption>inject('playerOption');
-
-const { videoStates } = useVideo(videoRef, playerOption);
-
+// const videoRef = <Ref>inject('videoRef');
+// const playerOption = <PlayerOption>inject('playerOption');
+// const { videoStates } = useVideo(videoRef, playerOption);
+const videoStates = <VideoState>inject('videoStates');
 </script>
 
 <template>

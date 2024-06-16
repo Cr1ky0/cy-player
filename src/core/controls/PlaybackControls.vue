@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
-import { computed, inject, Ref } from 'vue';
+import { computed, inject } from 'vue';
 import { formatTime } from '@/utils';
-import { PlayerOption } from '@/types';
-import { useVideo } from '@/core/hooks/useVideo.ts';
+import { VideoController, VideoState } from '@/types';
 
-const videoRef = <Ref>inject('videoRef');
-const playerOption = <PlayerOption>inject('playerOption');
-const { videoStates, videoController } = useVideo(videoRef, playerOption);
+// const videoRef = <Ref>inject('videoRef');
+// const playerOption = <PlayerOption>inject('playerOption');
+const videoStates = <VideoState>inject('videoStates');
+const videoController = <VideoController>inject('videoController');
+// const { videoStates, videoController } = useVideo(videoRef, playerOption);
 const curTime = computed(() => {
   return formatTime(Math.floor(videoStates.currentPlayTime));
 });
@@ -48,7 +49,7 @@ const handleClick = () => {
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/css/mixin";
+@import '@/assets/css/mixin';
 @import '@/assets/css/var';
 
 .cy-player-playback-controls-container {
@@ -58,7 +59,7 @@ const handleClick = () => {
   justify-content: space-around;
   align-items: center;
 
-  .cy-player-playback-controls-btn{
+  .cy-player-playback-controls-btn {
     height: 100%;
     @include childCenter;
   }
