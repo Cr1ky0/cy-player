@@ -3,7 +3,7 @@ import ProgressBar from '@/core/progress/ProgressBar.vue';
 import Mask from '@/core/controller/Mask.vue';
 import { provide, ref } from 'vue';
 import Playback from '@/core/controls/Playback.vue';
-import Volume from '@/core/controls/Volume.vue';
+import Volume from '@/core/controls/volume/Volume.vue';
 
 /**
  * 进度条拖拽标志
