@@ -1,8 +1,8 @@
-import { onBeforeUnmount, reactive, ref, Ref, watch } from 'vue';
+import { onBeforeUnmount, onMounted, reactive, ref, Ref, watch } from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
 
 /**
- * @description hook管理的方式会让video上绑定一堆重复事件，已经将逻辑移入主文件以优化性能
+ * @description video状态管理和控制
  * @param videoRef VideoDOM Ref
  * @param option Player Options
  */
@@ -149,18 +149,15 @@ export const useVideo = (
     },
   );
 
-  // 监听VideoRef
-  watch(videoRef, () => {
+  onMounted(() => {
     if (videoRef.value) {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
       addEvents(videoElement);
       // interval
       interval.value = setInterval(() => {
-        setVideoStates({
-          currentPlayTime: vRef.value!.currentTime,
-          volume: vRef.value!.volume,
-        });
+        videoStates.currentPlayTime = videoRef.value!.currentTime;
+        videoStates.volume = videoRef.value!.volume;
       }, 10);
     }
   });

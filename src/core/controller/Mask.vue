@@ -3,10 +3,10 @@ import { PlayerOption, VideoController, VideoState } from '@/types';
 import { computed, inject, Ref } from 'vue';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 
-// const videoRef = <Ref>inject('videoRef');
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
 const playerOption = <PlayerOption>inject('playerOption');
+const useful = <Ref>inject('useful');
 const isDrag = <Ref>inject('isDrag');
 const styles = computed(() => {
   return videoStates.isPlayEnd
@@ -18,6 +18,7 @@ const pos = computed(() => {
     ? playerOption.maskIconPlacement
     : 'center';
 });
+
 
 // const { videoStates, videoController } = useVideo(videoRef, playerOption);
 
@@ -33,7 +34,10 @@ const handleClick = () => {
     @click="handleClick"
     :style="styles"
   >
-    <div v-if="videoStates.isWaiting" class="cy-player-loading-icon">
+    <div v-if="useful !== null && !useful">
+      视频加载错误！
+    </div>
+    <div v-else-if="videoStates.isWaiting" class="cy-player-loading-icon">
       <SvgIcon
         icon-name="loading"
         fill="rgba(255,255,255,.8)"
