@@ -48,6 +48,7 @@ const change = () => {
   // option.value.width = '50vw'
   // option.value.showToast = false;
   option.value.toastPlacement = 'center';
+  option.value.maskIconPlacement = 'center'
 };
 </script>
 

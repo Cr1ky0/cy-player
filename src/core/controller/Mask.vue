@@ -32,7 +32,7 @@ const pos = computed(() => {
 const toast = computed(() => {
   return useToast({
     message: `ErrorOccurred! ErrorReason:${httpStates.failReason} HttpCode:${httpStates.httpStateCode}`,
-    duration: 200000,
+    duration: 2000,
     option: playerOption,
   });
 });
