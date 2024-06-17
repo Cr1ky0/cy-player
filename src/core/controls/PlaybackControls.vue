@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
-import { computed, inject } from 'vue';
+import { computed, inject, Ref } from 'vue';
 import { formatTime } from '@/utils';
 import { VideoController, VideoState } from '@/types';
 
-
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
+const useful = <Ref>inject('useful');
 const curTime = computed(() => {
   return formatTime(Math.floor(videoStates.currentPlayTime));
 });
 const duration = computed(() => {
-  return formatTime(Math.floor(videoStates.duration));
+  return useful.value
+    ? formatTime(Math.floor(videoStates.duration))
+    : formatTime(0);
 });
 
 const handleClick = () => {

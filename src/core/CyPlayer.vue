@@ -91,7 +91,6 @@ watch(
       id="cy-player"
       ref="videoRef"
       :autoplay="option.autoPlay"
-      muted
     >
       <source :src="option.videoSrc" :type="sourceFileType!" />
     </video>

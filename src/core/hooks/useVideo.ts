@@ -29,11 +29,13 @@ export const useVideo = (
   const videoStates = reactive<VideoState>({
     isPlay: option.autoPlay || false, // 是否播放
     isPlayEnd: false, // 是否播放结束
+    isWaiting: false, // 视频播放过程中的暂停
     currentPlayTime: 0, // 当前时间/s
     duration: 0, // 总时长
     bufferedTime: 0, // 缓存时长/s
-    volume: 0, // 音量
-    isWaiting: false, // 视频播放过程中的暂停
+    volume: localStorage.getItem('volume')
+      ? parseInt(localStorage.getItem('volume')!)
+      : 50, // 音量
   });
 
   /**
@@ -46,9 +48,13 @@ export const useVideo = (
     setVolume: (volume) => {
       if (vRef.value) {
         // muted状态下始终为0
-        const realVolume = volume < 1 ? volume : volume / 100;
-        vRef.value.volume = realVolume;
-        videoStates.volume = realVolume;
+        const v = volume <= 0 ? 0 : volume >= 100 ? 100 : volume;
+        vRef.value.volume = volume <= 0 ? 0 : volume >= 100 ? 1 : volume / 100;
+        videoStates.volume = v;
+        localStorage.setItem(
+          'volume',
+          String(v),
+        );
       }
     },
     setCurTime: (curTime) => {
@@ -104,16 +110,6 @@ export const useVideo = (
     }, 100);
   };
 
-  const setVideoStates = (vS: Partial<VideoState>) => {
-    if (typeof vS.isPlay === 'boolean') videoStates.isPlay = vS.isPlay;
-    if (typeof vS.isPlayEnd === 'boolean') videoStates.isPlayEnd = vS.isPlayEnd;
-    if (typeof vS.isWaiting === 'boolean') videoStates.isWaiting = vS.isWaiting;
-    if (vS.duration) videoStates.duration = vS.duration;
-    if (vS.currentPlayTime) videoStates.currentPlayTime = vS.currentPlayTime;
-    if (vS.bufferedTime) videoStates.bufferedTime = vS.bufferedTime;
-    if (vS.volume) videoStates.volume = vS.volume;
-  };
-
   const addEvents = (videoElement: HTMLVideoElement) => {
     videoElement.addEventListener('canplay', setDuration);
     videoElement.addEventListener('progress', setBufferedTime);
@@ -138,14 +134,12 @@ export const useVideo = (
   watch(
     () => option.videoSrc,
     () => {
-      setVideoStates({
-        isPlay: option.autoPlay || false,
-        isPlayEnd: false,
-        duration: 0,
-        currentPlayTime: 0,
-        bufferedTime: 0,
-        volume: 0,
-      });
+      videoStates.isPlay = option.autoPlay || false;
+      videoStates.isPlayEnd = false;
+      videoStates.isWaiting = false;
+      videoStates.duration = 0;
+      videoStates.currentPlayTime = 0;
+      videoStates.bufferedTime = 0;
     },
   );
 
@@ -153,11 +147,13 @@ export const useVideo = (
     if (videoRef.value) {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
+      videoElement.volume = videoStates.volume / 100;
       addEvents(videoElement);
+      console.log(videoStates);
       // interval
       interval.value = setInterval(() => {
         videoStates.currentPlayTime = videoRef.value!.currentTime;
-        videoStates.volume = videoRef.value!.volume;
+        videoStates.volume = videoRef.value!.volume * 100;
       }, 10);
     }
   });
