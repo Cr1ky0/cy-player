@@ -58,12 +58,4 @@ defineProps<ToastProps>();
   transform: translate(-50%, -50%);
 }
 
-@keyframes show {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 </style>
