@@ -1,26 +1,13 @@
 <script setup lang="ts">
-import {
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from 'vue';
-import {
-  PlayerOption,
-  VideoCallback,
-  VideoController,
-  VideoState,
-} from '@/types';
+import { computed, provide, ref, watch } from 'vue';
+import { PlayerOption, VideoCallback } from '@/types';
 import { useLoad } from '@/core/hooks/useLoad.ts';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useToast } from '@/core/hooks/useToast.ts';
+import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
 import 'virtual:svg-icons-register';
-import { useVideo } from '@/core/hooks/useVideo.ts';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -76,19 +63,11 @@ useCallback(useful, videoStates, httpStates, {
 });
 
 // Provide
-provide('videoRef', videoRef);
 provide('playerOption', option);
 provide('useful', useful);
-provide('videoStates',videoStates);
-provide('videoController',videoController);
-
-// useful监听:错误弹窗
-watch(useful, () => {
-  if (!useful.value) {
-    // TODO: 错误弹窗及封面
-    showToast();
-  }
-});
+provide('httpStates', httpStates);
+provide('videoStates', videoStates);
+provide('videoController', videoController);
 
 // waiting监听
 watch(
@@ -103,7 +82,6 @@ watch(
     }
   },
 );
-
 </script>
 
 <template>

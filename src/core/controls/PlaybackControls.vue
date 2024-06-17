@@ -4,11 +4,9 @@ import { computed, inject } from 'vue';
 import { formatTime } from '@/utils';
 import { VideoController, VideoState } from '@/types';
 
-// const videoRef = <Ref>inject('videoRef');
-// const playerOption = <PlayerOption>inject('playerOption');
+
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
-// const { videoStates, videoController } = useVideo(videoRef, playerOption);
 const curTime = computed(() => {
   return formatTime(Math.floor(videoStates.currentPlayTime));
 });

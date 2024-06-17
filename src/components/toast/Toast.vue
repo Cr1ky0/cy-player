@@ -23,10 +23,10 @@ defineProps<ToastProps>();
 @import '@/assets/css/var';
 
 #cy-player-toast {
-  padding: 0 10px;
-  height: 40px;
-  line-height: 40px;
+  padding:10px;
   background-color: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+  line-height: 16px;
   color: #fff;
   text-align: center;
   animation: show 0.5s ease;

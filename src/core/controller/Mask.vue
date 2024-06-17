@@ -1,15 +1,25 @@
 <script setup lang="ts">
-import { PlayerOption, VideoController, VideoState } from '@/types';
-import { computed, inject, Ref } from 'vue';
+import {
+  HttpLoadState,
+  PlayerOption,
+  VideoController,
+  VideoState,
+} from '@/types';
+import { computed, inject, Ref, watch } from 'vue';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
+import { useToast } from '@/core/hooks/useToast.ts';
 
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
 const playerOption = <PlayerOption>inject('playerOption');
 const useful = <Ref>inject('useful');
+const httpStates = <HttpLoadState>inject('httpStates');
 const isDrag = <Ref>inject('isDrag');
+const isError = computed(() => {
+  return useful.value !== null && !useful.value;
+});
 const styles = computed(() => {
-  return videoStates.isPlayEnd
+  return videoStates.isPlayEnd || isError.value
     ? { backgroundColor: 'rgba(0,0,0,.3)' }
     : undefined;
 });
@@ -19,8 +29,19 @@ const pos = computed(() => {
     : 'center';
 });
 
+const toast = computed(() => {
+  return useToast({
+    message: `ErrorOccurred! ErrorReason:${httpStates.failReason} HttpCode:${httpStates.httpStateCode}`,
+    duration: 200000,
+    option: playerOption,
+  });
+});
 
-// const { videoStates, videoController } = useVideo(videoRef, playerOption);
+watch(isError, () => {
+  if (isError.value) {
+    toast.value.showToast();
+  }
+});
 
 const handleClick = () => {
   if (videoStates.isPlay) videoController.pause();
@@ -34,8 +55,16 @@ const handleClick = () => {
     @click="handleClick"
     :style="styles"
   >
-    <div v-if="useful !== null && !useful">
-      视频加载错误！
+    <div v-if="isError" class="cy-player-error">
+      <div class="cy-player-error-icon">
+        <SvgIcon
+          icon-name="close"
+          fill="rgba(255,255,255,.8)"
+          font-size="50px"
+          :style="{ cursor: 'default' }"
+        ></SvgIcon>
+      </div>
+      <div class="cy-player-error-tip">视频出错了</div>
     </div>
     <div v-else-if="videoStates.isWaiting" class="cy-player-loading-icon">
       <SvgIcon
@@ -83,6 +112,7 @@ const handleClick = () => {
   .cy-player-replay-icon {
     width: 50px;
     height: 50px;
+    margin: auto;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 100%;
     display: flex;
@@ -94,6 +124,17 @@ const handleClick = () => {
     text-align: center;
     font-size: 16px;
     color: #fff;
+  }
+
+  .cy-player-error {
+    .cy-player-error-icon {
+      @extend .cy-player-replay-icon;
+    }
+
+    .cy-player-error-tip {
+      @extend .cy-player-replay-tip;
+      color: #fff;
+    }
   }
 }
 

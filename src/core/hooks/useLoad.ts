@@ -106,7 +106,7 @@ export const useLoad = (
         sourceFileType.value = type;
         useful.value = true;
         httpStates.failReason = '';
-      } else throw new Error('不支持的视频种类！');
+      } else throw new Error('视频源不存在或不支持的视频种类');
     } catch (error: any) {
       httpStates.failReason = error.message;
       useful.value = false;
