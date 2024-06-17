@@ -1,19 +1,27 @@
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, onMounted, ref, Ref } from 'vue';
+import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
 import { VideoController, VideoState } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
 
-// const videoRef = <Ref>inject('videoRef');
-// const option = <PlayerOption>inject('playerOption');
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
-const isDrag = <Ref>inject('isDrag');
 const progressRef = ref<HTMLDivElement>();
-const mouseEnter = ref<boolean>(false);
 
-// const { videoStates, videoController } = useVideo(videoRef, option);
-const { mouseX, xProp } = useMouseHandler(progressRef);
+const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
+  onMouseDown() {
+    videoController.pause();
+    videoController.setCurTime(moveTime.value);
+  },
+  onMouseMove() {
+    if (isDrag.value) {
+      videoController.setCurTime(moveTime.value);
+    }
+  },
+  onMouseUp() {
+    if (isDrag.value) videoController.play(); // 要加判断，不然其他地方点击也会play，且要在重置isDrag之前
+  },
+});
 /**
  * @description 已播放百分比
  */
@@ -38,68 +46,12 @@ const moveVideoTime = computed(() => {
 const moveTime = computed(() => {
   return (xProp.value / 100) * videoStates.duration;
 });
-
-const onMouseEnter = () => {
-  mouseEnter.value = true;
-};
-
-const onMouseLeave = () => {
-  mouseEnter.value = false;
-};
-
-const handleMouseDown = (e: MouseEvent) => {
-  e.preventDefault(); // 防止出现禁止图标
-  isDrag.value = true;
-  videoController.pause();
-  videoController.setCurTime(moveTime.value);
-};
-
-const handleMouseMove = (e: MouseEvent) => {
-  if (isDrag.value) {
-    const rect = progressRef.value!.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const width = rect.width;
-    // 拖拽过左边界
-    if (x >= 0) {
-      mouseX.value = x;
-      xProp.value = (x / width) * 100;
-    }
-    // 拖拽过右边界
-    if (x >= rect.width) {
-      mouseX.value = width;
-      xProp.value = 100;
-    }
-    videoController.setCurTime(moveTime.value);
-  }
-};
-
-const handleMouseUp = () => {
-  if (isDrag.value) videoController.play(); // 要加判断，不然其他地方点击也会play
-  isDrag.value = false;
-};
-
-onMounted(() => {
-  window.addEventListener('mousemove', handleMouseMove); // move全局挂载，全局可拖动
-  window.addEventListener('mouseup', handleMouseUp); // 其他地方抬起需要取消
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('mousemove', handleMouseMove);
-  window.removeEventListener('mouseup', handleMouseUp);
-});
 </script>
 
 <template>
-  <div
-    class="cy-player-progress-bar"
-    ref="progressRef"
-    @mouseenter="onMouseEnter"
-    @mouseleave="onMouseLeave"
-    @mousedown="handleMouseDown"
-    @mouseup="handleMouseUp"
-  >
+  <div class="cy-player-progress-bar" ref="progressRef">
     <div
-      v-if="mouseEnter || isDrag"
+      v-if="mouseEnter"
       class="cy-player-progress-indicator"
       :style="{ left: `${xProp}%` }"
     >

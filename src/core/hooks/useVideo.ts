@@ -47,14 +47,15 @@ export const useVideo = (
     pause: () => vRef.value?.pause(),
     setVolume: (volume) => {
       if (vRef.value) {
+        // 记录上一次音量值
+        if (volume > 0)
+          localStorage.setItem('lastVolume', String(volume));
         // muted状态下始终为0
         const v = volume <= 0 ? 0 : volume >= 100 ? 100 : volume;
         vRef.value.volume = volume <= 0 ? 0 : volume >= 100 ? 1 : volume / 100;
         videoStates.volume = v;
-        localStorage.setItem(
-          'volume',
-          String(v),
-        );
+        // 存储音量值
+        localStorage.setItem('volume', String(v));
       }
     },
     setCurTime: (curTime) => {
@@ -147,9 +148,9 @@ export const useVideo = (
     if (videoRef.value) {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
+      // 设置音量为记录音量
       videoElement.volume = videoStates.volume / 100;
       addEvents(videoElement);
-      console.log(videoStates);
       // interval
       interval.value = setInterval(() => {
         videoStates.currentPlayTime = videoRef.value!.currentTime;

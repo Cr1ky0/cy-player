@@ -12,8 +12,8 @@ import { useToast } from '@/core/hooks/useToast.ts';
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
 const playerOption = <PlayerOption>inject('playerOption');
-const useful = <Ref>inject('useful');
 const httpStates = <HttpLoadState>inject('httpStates');
+const useful = <Ref>inject('useful');
 const isDrag = <Ref>inject('isDrag');
 const isError = computed(() => {
   return useful.value !== null && !useful.value;

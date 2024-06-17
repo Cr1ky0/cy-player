@@ -2,7 +2,8 @@
 import ProgressBar from '@/core/progress/ProgressBar.vue';
 import Mask from '@/core/controller/Mask.vue';
 import { provide, ref } from 'vue';
-import PlaybackControls from '@/core/controls/PlaybackControls.vue';
+import Playback from '@/core/controls/Playback.vue';
+import Volume from '@/core/controls/Volume.vue';
 
 /**
  * 进度条拖拽标志
@@ -16,7 +17,10 @@ provide('isDrag', isDrag);
   <div class="cy-player-controller-container">
     <ProgressBar></ProgressBar>
     <div class="cy-player-controller-controls-container">
-      <PlaybackControls></PlaybackControls>
+      <Playback></Playback>
+      <div class="cy-player-controller-controls-function">
+        <Volume></Volume>
+      </div>
     </div>
   </div>
 </template>
@@ -41,5 +45,12 @@ provide('isDrag', isDrag);
   height: $controls-height;
   display: flex;
   justify-content: space-between;
+
+  .cy-player-controller-controls-function{
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding:0 10px;
+  }
 }
 </style>
