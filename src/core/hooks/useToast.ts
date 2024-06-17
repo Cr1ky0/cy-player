@@ -1,11 +1,10 @@
 import { App, createApp, ref } from 'vue';
 import Toast from '@/components/toast/Toast.vue';
-import { PlayerOption, Position } from '@/types';
+import { PlayerOption} from '@/types';
 
 export interface ToastOption {
   option: PlayerOption;
   message: string;
-  position?: Position;
   duration?: number;
 }
 
@@ -19,7 +18,7 @@ export const useToast = (toastOption: ToastOption) => {
     toastRef.value = createApp(Toast, {
       option: toastOption.option,
       message: toastOption.message,
-      position: toastOption.position,
+      position: toastOption.option.toastPlacement,
     });
   };
 

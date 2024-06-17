@@ -2,7 +2,6 @@
 import CyPlayer from '@/core/CyPlayer.vue';
 import { ref } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
-import { useMandatoryUpdate } from '@/utils/useMandatoryUpdate.ts';
 
 const test = ref(true);
 
@@ -41,21 +40,19 @@ const callbacks = <VideoCallback>{
   },
 };
 
-const { key, forceUpdate } = useMandatoryUpdate();
-
 const change = () => {
   // option.value.videoSrc =
-  //   'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
+    // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
   option.value.videoSrc = '112312';
   // option.value.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
   // option.value.width = '50vw'
   // option.value.showToast = false;
-  // option.value.maskIconPlacement = 'left-bottom';
+  option.value.toastPlacement = 'center';
 };
 </script>
 
 <template>
-  <CyPlayer :key="key" v-if="test" :option="option" :callback="callbacks"></CyPlayer>
+  <CyPlayer v-if="test" :option="option" :callback="callbacks"></CyPlayer>
   <button @click="test = false">卸载</button>
   <button @click="change">change</button>
 </template>

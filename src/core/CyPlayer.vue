@@ -20,7 +20,6 @@ import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useToast } from '@/core/hooks/useToast.ts';
 import Controller from '@/core/controller/Controller.vue';
 import 'virtual:svg-icons-register';
-import { useMandatoryUpdate } from '@/utils/useMandatoryUpdate.ts';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -105,11 +104,9 @@ provide('videoStates', videoStates);
 // Hooks
 const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
 // const { videoStates, videoController } = useVideo(videoRef, option);
-const { key, forceUpdate } = useMandatoryUpdate();
 const { showToast, closeToast } = useToast({
   message: 'Test',
-  position: option.toastPlacement,
-  duration: 2000,
+  duration: 2000000,
   option,
 });
 useCallback(useful, videoStates, httpStates, {
@@ -206,11 +203,11 @@ const removeEvents = (videoElement: HTMLVideoElement) => {
 watch(
   () => option.videoSrc,
   () => {
-    videoRef.value!.re
+    // TODO:动态换源
     setVideoStates({
       isPlay: false,
       isPlayEnd: false,
-      isWaiting:false,
+      isWaiting: false,
       duration: 0,
       currentPlayTime: 0,
       bufferedTime: 0,
@@ -222,7 +219,6 @@ watch(
 // useful监听:错误弹窗
 watch(useful, () => {
   if (!useful.value) {
-    console.log(httpStates.failReason, httpStates.httpStateCode);
     // TODO: 错误弹窗及封面
     showToast();
   }
@@ -247,10 +243,8 @@ onMounted(() => {
   addEvents(videoElement);
   // interval
   interval.value = setInterval(() => {
-    setVideoStates({
-      currentPlayTime: videoRef.value!.currentTime,
-      volume: videoRef.value!.volume,
-    });
+    videoStates.currentPlayTime = videoRef.value!.currentTime;
+    videoStates.volume = videoRef.value!.volume;
   }, 10);
 });
 
@@ -262,12 +256,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div
-    id="cy-player-container"
-    class="cy-player-container"
-    :style="styles"
-    :key="key"
-  >
+  <div id="cy-player-container" class="cy-player-container" :style="styles">
     <video
       class="cy-player"
       id="cy-player"
