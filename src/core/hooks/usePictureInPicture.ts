@@ -31,18 +31,25 @@ export const usePictureInPicture = (elementRef: Ref, option: PlayerOption) => {
 
   const changeIsPictureInPicture = () => {
     isPictureInPicture.value = !isPictureInPicture.value;
-  }
+  };
+  
   onMounted(() => {
     const element = <HTMLVideoElement>elementRef.value!;
     element.addEventListener('enterpictureinpicture', changeIsPictureInPicture);
     element.addEventListener('leavepictureinpicture', changeIsPictureInPicture);
   });
 
-  onBeforeUnmount(()=>{
+  onBeforeUnmount(() => {
     const element = <HTMLVideoElement>elementRef.value!;
-    element.removeEventListener('enterpictureinpicture', changeIsPictureInPicture);
-    element.removeEventListener('leavepictureinpicture', changeIsPictureInPicture);
-  })
+    element.removeEventListener(
+      'enterpictureinpicture',
+      changeIsPictureInPicture,
+    );
+    element.removeEventListener(
+      'leavepictureinpicture',
+      changeIsPictureInPicture,
+    );
+  });
 
   return { isPictureInPicture, togglePictureInPicture };
 };

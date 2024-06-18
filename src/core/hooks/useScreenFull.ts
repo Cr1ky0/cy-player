@@ -8,7 +8,6 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
    */
   const isScreenFull = ref(false);
   const message = ref('');
-
   const toast = computed(() => {
     return useToast({
       message: message.value,
