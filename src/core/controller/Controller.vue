@@ -3,7 +3,6 @@ import ProgressBar from '@/core/progress/ProgressBar.vue';
 import Mask from '@/core/controller/Mask.vue';
 import { provide, ref } from 'vue';
 import Playback from '@/core/controls/Playback.vue';
-import Volume from '@/core/controls/volume/Volume.vue';
 import Controls from '@/core/controls/Controls.vue';
 
 /**

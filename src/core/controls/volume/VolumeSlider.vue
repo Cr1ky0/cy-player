@@ -59,9 +59,8 @@ const handleProgressClick = () => {
 @import '@/assets/css/var';
 
 .cy-player-volume-slider-container {
-  @include position(absolute, 0, auto, auto, 0);
+  @include xCenterAlign(-100%);
   z-index: $top-layer;
-  transform: translateY(-100%);
   background-color: rgba(0, 0, 0, 0.8);
   height: 120px;
   width: 40px;

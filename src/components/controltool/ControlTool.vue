@@ -2,17 +2,18 @@
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 
 export interface ControlToolProps {
-  iconName: string;
+  activeIconName: string;
+  inactiveIconName?: string;
+  flag?: boolean;
   fill?: string;
   fontSize?: string;
   tip?: string; // hover的提示
-  onClick?: (e: MouseEvent) => void;
+  onClick?: () => void;
 }
 
 const props = defineProps<ControlToolProps>();
-
-const handleClick = (e: MouseEvent) => {
-  props.onClick && props.onClick(e);
+const handleClick = () => {
+  props.onClick && props.onClick();
 };
 </script>
 
@@ -20,8 +21,16 @@ const handleClick = (e: MouseEvent) => {
   <div class="cy-player-control-tool">
     <div v-if="tip" class="cy-player-control-tool-hover-tip">{{ tip }}</div>
     <SvgIcon
-      :icon-name="iconName"
-      :fill="fill ? fill : 'rgba(255,255,255,.8)'"
+      v-if="typeof flag !== 'boolean' || flag"
+      :icon-name="activeIconName"
+      :fill="fill ? fill : 'rgba(255,255,255,.9)'"
+      :font-size="fontSize ? fontSize : '20px'"
+      :on-click="handleClick"
+    />
+    <SvgIcon
+      v-else-if="inactiveIconName && !flag"
+      :icon-name="inactiveIconName"
+      :fill="fill ? fill : 'rgba(255,255,255,.9)'"
       :font-size="fontSize ? fontSize : '20px'"
       :on-click="handleClick"
     />
@@ -40,8 +49,7 @@ const handleClick = (e: MouseEvent) => {
   padding: 0 10px;
 
   .cy-player-control-tool-hover-tip {
-    @include position(absolute, 0, auto, auto, -25%);
-    transform: translateY(-130%);
+    @include xCenterAlign(-130%);
     display: none;
     white-space: nowrap;
     padding: 1px 6px;

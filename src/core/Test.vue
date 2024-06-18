@@ -28,7 +28,7 @@ const handleclick = () => {
 </script>
 
 <template>
-  <div style="margin-top: 20px; background-color: #000">
+  <div style="margin-top: 20px;">
     <div>{{ videoStates.currentPlayTime }}</div>
     <div>{{ videoStates.duration }}</div>
     <div>{{ videoStates.bufferedTime }}</div>

@@ -45,13 +45,13 @@ const handleMouseLeave = () => {
       <SvgIcon
         v-if="!isMuted"
         icon-name="volume"
-        fill="rgba(255,255,255,.8)"
+        fill="rgba(255,255,255,.9)"
         font-size="20px"
       ></SvgIcon>
       <SvgIcon
         v-else
         icon-name="mute"
-        fill="rgba(255,255,255,.8)"
+        fill="rgba(255,255,255,.9)"
         font-size="20px"
       ></SvgIcon>
     </div>
