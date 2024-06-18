@@ -24,6 +24,7 @@ const callback = props.callback || null; // reactive
  * @description video对象
  */
 const videoRef = ref<HTMLVideoElement>();
+const containerRef = ref<HTMLDivElement>();
 /**
  * @description 播放器的size以及其他styles
  */
@@ -63,6 +64,8 @@ useCallback(useful, videoStates, httpStates, {
 });
 
 // Provide
+provide('containerRef', containerRef);
+provide('videoRef', videoRef);
 provide('playerOption', option);
 provide('useful', useful);
 provide('httpStates', httpStates);
@@ -85,7 +88,12 @@ watch(
 </script>
 
 <template>
-  <div id="cy-player-container" class="cy-player-container" :style="styles">
+  <div
+    id="cy-player-container"
+    class="cy-player-container"
+    ref="containerRef"
+    :style="styles"
+  >
     <video
       class="cy-player"
       id="cy-player"

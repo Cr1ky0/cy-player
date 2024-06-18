@@ -4,6 +4,7 @@ import Mask from '@/core/controller/Mask.vue';
 import { provide, ref } from 'vue';
 import Playback from '@/core/controls/Playback.vue';
 import Volume from '@/core/controls/volume/Volume.vue';
+import Controls from '@/core/controls/Controls.vue';
 
 /**
  * 进度条拖拽标志
@@ -13,14 +14,12 @@ provide('isDrag', isDrag);
 </script>
 
 <template>
-  <Mask></Mask>
+  <Mask />
   <div class="cy-player-controller-container">
-    <ProgressBar></ProgressBar>
+    <ProgressBar />
     <div class="cy-player-controller-controls-container">
-      <Playback></Playback>
-      <div class="cy-player-controller-controls-function">
-        <Volume></Volume>
-      </div>
+      <Playback />
+      <Controls />
     </div>
   </div>
 </template>
@@ -45,12 +44,5 @@ provide('isDrag', isDrag);
   height: $controls-height;
   display: flex;
   justify-content: space-between;
-
-  .cy-player-controller-controls-function{
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    padding:0 10px;
-  }
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, inject, ref } from 'vue';
 import { VideoController, VideoState } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
@@ -26,13 +26,17 @@ const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
  * @description 已播放百分比
  */
 const completedProportion = computed(() => {
-  return (videoStates.currentPlayTime / videoStates.duration) * 100;
+  if (videoStates.duration !== 0)
+    return (videoStates.currentPlayTime / videoStates.duration) * 100;
+  else return 0;
 });
 /**
  * @description 缓存百分比
  */
 const bufferedProportion = computed(() => {
-  return (videoStates.bufferedTime / videoStates.duration) * 100;
+  if (videoStates.duration !== 0)
+    return (videoStates.bufferedTime / videoStates.duration) * 100;
+  else return 0;
 });
 /**
  * @description 鼠标移动视频进度

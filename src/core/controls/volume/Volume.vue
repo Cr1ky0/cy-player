@@ -46,13 +46,13 @@ const handleMouseLeave = () => {
         v-if="!isMuted"
         icon-name="volume"
         fill="rgba(255,255,255,.8)"
-        font-size="24px"
+        font-size="20px"
       ></SvgIcon>
       <SvgIcon
         v-else
         icon-name="mute"
         fill="rgba(255,255,255,.8)"
-        font-size="24px"
+        font-size="20px"
       ></SvgIcon>
     </div>
     <VolumeSlider
@@ -68,9 +68,15 @@ const handleMouseLeave = () => {
 
 .cy-player-volume-controller-container {
   @include selectable(none);
-  @include childCenter();
   height: 100%;
   position: relative;
   cursor: pointer;
+  padding: 0 10px;
+
+  .cy-player-volume-icon{
+    @include childCenter();
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
