@@ -117,6 +117,14 @@ watch(
 </template>
 
 <style scoped>
+.cy-player-container-web-fullscreen-active {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
 .cy-player-container {
   position: relative;
 }
