@@ -27,7 +27,7 @@ provide('isDrag', isDrag);
 @import '@/assets/css/var';
 
 .cy-player-controller-container {
-  width: 96%;
+  padding: 0 10px;
   height: $controller-container-height;
   background-color: transparent;
   position: absolute;

@@ -18,21 +18,19 @@ const handleClick = () => {
 </script>
 
 <template>
-  <div class="cy-player-control-tool">
+  <div class="cy-player-control-tool" @click="handleClick">
     <div v-if="tip" class="cy-player-control-tool-hover-tip">{{ tip }}</div>
     <SvgIcon
       v-if="typeof flag !== 'boolean' || flag"
       :icon-name="activeIconName"
       :fill="fill ? fill : 'rgba(255,255,255,.9)'"
       :font-size="fontSize ? fontSize : '20px'"
-      :on-click="handleClick"
     />
     <SvgIcon
       v-else-if="inactiveIconName && !flag"
       :icon-name="inactiveIconName"
       :fill="fill ? fill : 'rgba(255,255,255,.9)'"
       :font-size="fontSize ? fontSize : '20px'"
-      :on-click="handleClick"
     />
   </div>
 </template>

@@ -29,14 +29,14 @@ const handleClick = () => {
         v-if="!videoStates.isPlay"
         icon-name="player"
         fill="#FFF"
-        font-size="24px"
+        font-size="20px"
         :on-click="handleClick"
       ></SvgIcon>
       <SvgIcon
         v-else
         icon-name="pause"
         fill="#FFF"
-        font-size="24px"
+        font-size="20px"
         :on-click="handleClick"
       ></SvgIcon>
     </div>
@@ -54,14 +54,14 @@ const handleClick = () => {
 
 .cy-player-playback-controls-container {
   @include selectable(none);
-  width: 15%;
   display: flex;
   justify-content: space-around;
   align-items: center;
 
   .cy-player-playback-controls-btn {
-    height: 100%;
     @include childCenter;
+    padding:0 10px;
+    height: 100%;
   }
 
   .cy-player-playback-controls-time {
@@ -69,6 +69,7 @@ const handleClick = () => {
     justify-content: center;
     color: #fff;
     line-height: $controls-height;
+    padding:0 10px;
 
     & > div {
       font-size: 13px;
