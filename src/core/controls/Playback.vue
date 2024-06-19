@@ -24,20 +24,18 @@ const handleClick = () => {
 
 <template>
   <div class="cy-player-playback-controls-container">
-    <div class="cy-player-playback-controls-btn">
+    <div class="cy-player-playback-controls-btn" @click="handleClick">
       <SvgIcon
         v-if="!videoStates.isPlay"
         icon-name="player"
         fill="#FFF"
         font-size="20px"
-        :on-click="handleClick"
       ></SvgIcon>
       <SvgIcon
         v-else
         icon-name="pause"
         fill="#FFF"
         font-size="20px"
-        :on-click="handleClick"
       ></SvgIcon>
     </div>
     <div class="cy-player-playback-controls-time">
@@ -62,6 +60,7 @@ const handleClick = () => {
     @include childCenter;
     padding:0 10px;
     height: 100%;
+    cursor: pointer;
   }
 
   .cy-player-playback-controls-time {

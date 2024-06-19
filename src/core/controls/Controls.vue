@@ -6,6 +6,7 @@ import { useScreenFull } from '@/core/hooks/useScreenFull.ts';
 import { useWebScreenFull } from '@/core/hooks/useWebScreenFull.ts';
 import { PlayerOption } from '@/types';
 import { usePictureInPicture } from '@/core/hooks/usePictureInPicture.ts';
+import Setting from '@/core/controls/setting/Setting.vue';
 
 const containerRef = <Ref>inject('containerRef');
 const videoRef = <Ref>inject('videoRef');
@@ -24,6 +25,7 @@ const { togglePictureInPicture } = usePictureInPicture(
 <template>
   <div class="cy-player-controller-controls">
     <Volume></Volume>
+    <Setting></Setting>
     <ControlTool
       active-icon-name="inPicture"
       :flag="true"

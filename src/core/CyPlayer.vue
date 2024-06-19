@@ -116,13 +116,16 @@ watch(
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/assets/css/var';
+
 .cy-player-container-web-fullscreen-active {
   position: fixed !important;
   left: 0 !important;
   top: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
+  z-index: $top-layer !important;
 }
 
 .cy-player-container {
