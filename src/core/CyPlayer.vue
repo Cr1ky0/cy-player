@@ -130,6 +130,7 @@ watch(
 
 .cy-player-container {
   position: relative;
+  z-index: $top-layer;
 }
 
 .cy-player {

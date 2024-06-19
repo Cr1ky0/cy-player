@@ -2,13 +2,10 @@
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import Switch from '@/components/switch/Switch.vue';
 import { ref } from 'vue';
+import { useLightOff } from '@/core/hooks/useLightOff.ts';
 
-const flag = ref(false);
 const mouseEnter = ref(false);
-const handleClick = () => {
-  flag.value = !flag.value;
-};
-
+const { lightOn, handleLightOffModel } = useLightOff();
 const handleMouseEnter = () => {
   mouseEnter.value = true;
 };
@@ -30,13 +27,16 @@ const handleMouseLeave = () => {
       font-size="20px"
     ></SvgIcon>
     <div v-if="mouseEnter" class="cy-player-controls-setting-function">
-      <div class="cy-player-controls-setting-light-off" @click="handleClick">
+      <div
+        class="cy-player-controls-setting-light-off"
+        @click="handleLightOffModel"
+      >
         <div>关灯</div>
-        <Switch :flag="flag"></Switch>
+        <Switch :flag="lightOn"></Switch>
       </div>
       <div class="cy-player-controls-setting-loop">
         <div>循环播放</div>
-        <Switch :flag="flag"></Switch>
+        <Switch :flag="lightOn"></Switch>
       </div>
     </div>
     <div v-if="mouseEnter" class="cy-player-controls-setting-bottom"></div>
@@ -76,7 +76,7 @@ const handleMouseLeave = () => {
     flex-direction: column;
     z-index: $top-layer;
     cursor: default;
-    animation: show .3s ease;
+    animation: show 0.3s ease;
 
     > div {
       margin: 5px 0;
