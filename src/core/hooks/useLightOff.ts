@@ -37,7 +37,7 @@ export const useLightOff = () => {
 
   onMounted(() => {
     const localLightOn = localStorage.getItem('lightOn');
-    lightOn.value = localLightOn ? Boolean(localLightOn) : false;
+    lightOn.value = localLightOn ? JSON.parse(localLightOn) : false; // 直接用Boolean()会把任意非空串转为true
     if (lightOn.value) {
       handleLightOn();
     }

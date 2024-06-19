@@ -30,6 +30,9 @@ export const useVideo = (
     isPlay: option.autoPlay || false, // 是否播放
     isPlayEnd: false, // 是否播放结束
     isWaiting: false, // 视频播放过程中的暂停
+    isLoop: localStorage.getItem('isLoop')
+      ? Boolean(localStorage.getItem('isLoop'))
+      : false, // 视频是否循环播放
     currentPlayTime: 0, // 当前时间/s
     duration: 0, // 总时长
     bufferedTime: 0, // 缓存时长/s
@@ -48,8 +51,7 @@ export const useVideo = (
     setVolume: (volume) => {
       if (vRef.value) {
         // 记录上一次音量值
-        if (volume > 0)
-          localStorage.setItem('lastVolume', String(volume));
+        if (volume > 0) localStorage.setItem('lastVolume', String(volume));
         // muted状态下始终为0
         const v = volume <= 0 ? 0 : volume >= 100 ? 100 : volume;
         vRef.value.volume = volume <= 0 ? 0 : volume >= 100 ? 1 : volume / 100;
@@ -76,7 +78,10 @@ export const useVideo = (
    * @description 视频结束
    */
   const setIsPlayEnd = () => {
-    if (vRef.value) videoStates.isPlayEnd = vRef.value.ended;
+    if (vRef.value) {
+      if (videoStates.isLoop) videoController.play(); // 播放结束循环播放
+      videoStates.isPlayEnd = vRef.value.ended;
+    }
   };
   /**
    *

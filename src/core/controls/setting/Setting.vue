@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import Switch from '@/components/switch/Switch.vue';
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 import { useLightOff } from '@/core/hooks/useLightOff.ts';
+import { VideoState } from '@/types';
 
+const videoStates = <VideoState>inject('videoStates');
 const mouseEnter = ref(false);
 const { lightOn, handleLightOffModel } = useLightOff();
 const handleMouseEnter = () => {
@@ -12,6 +14,11 @@ const handleMouseEnter = () => {
 
 const handleMouseLeave = () => {
   mouseEnter.value = false;
+};
+
+const handleLoop = () => {
+  videoStates.isLoop = !videoStates.isLoop;
+  localStorage.setItem('isLoop', String(videoStates.isLoop));
 };
 </script>
 
@@ -34,9 +41,9 @@ const handleMouseLeave = () => {
         <div>关灯</div>
         <Switch :flag="lightOn"></Switch>
       </div>
-      <div class="cy-player-controls-setting-loop">
+      <div class="cy-player-controls-setting-loop" @click="handleLoop">
         <div>循环播放</div>
-        <Switch :flag="lightOn"></Switch>
+        <Switch :flag="videoStates.isLoop"></Switch>
       </div>
     </div>
     <div v-if="mouseEnter" class="cy-player-controls-setting-bottom"></div>

@@ -123,6 +123,10 @@ export interface VideoState<T = number, U = boolean> {
    * @description 视频播放过程中的waiting
    */
   isWaiting: U;
+  /**
+   * @description 视频是否循环播放
+   */
+  isLoop: U;
 }
 
 // Video操作
