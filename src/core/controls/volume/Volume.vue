@@ -59,6 +59,7 @@ const handleMouseLeave = () => {
       v-if="mouseEnter || isDrag"
       :changeIsDrag="changeIsDrag"
     ></VolumeSlider>
+    <div v-if="mouseEnter || isDrag" class="cy-player-volume-bottom"></div>
   </div>
 </template>
 
@@ -73,10 +74,18 @@ const handleMouseLeave = () => {
   cursor: pointer;
   padding: 0 10px;
 
-  .cy-player-volume-icon{
+  .cy-player-volume-icon {
     @include childCenter();
     width: 100%;
     height: 100%;
+  }
+
+  .cy-player-volume-bottom {
+    @include xCenterAlign(-100%);
+    width: 40px;
+    height: 15px;
+    background-color: transparent;
+    z-index: $top-layer;
   }
 }
 </style>
