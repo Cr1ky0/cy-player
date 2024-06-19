@@ -1,16 +1,19 @@
 <script setup lang="ts">
 export interface SwitchProps {
   flag: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
-defineProps<SwitchProps>();
+const props = defineProps<SwitchProps>();
+const handleClick = () => {
+  props.onClick && props.onClick();
+};
 </script>
 
 <template>
   <div
     :class="`cy-player-switch-component ${flag ? 'cy-player-switch-component-active' : ''}`"
-    @click="onClick"
+    @click="handleClick"
   >
     <div
       :class="`cy-player-switch-slider ${flag ? 'cy-player-switch-slider-active' : ''} `"
