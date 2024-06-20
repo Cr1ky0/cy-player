@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, provide, ref, watch } from 'vue';
+import { computed, provide, ref } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useLoad } from '@/core/hooks/useLoad.ts';
 import Test from './Test.vue';
@@ -8,6 +8,9 @@ import { useToast } from '@/core/hooks/useToast.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
 import 'virtual:svg-icons-register';
+import { useMouseCheck } from '@/utils/useMouseCheck.ts';
+import ProgressBar from '@/core/progress/ProgressBar.vue';
+import BottomProgress from '@/core/progress/BottomProgress.vue';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -48,6 +51,7 @@ const styles = computed(() => {
 // Hooks
 const { httpStates, useful, loadVideo } = useLoad(videoRef, option);
 const { videoStates, videoController } = useVideo(videoRef, option, loadVideo);
+const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 const { showToast, closeToast } = useToast({
   message: 'Test',
   duration: 2000,
@@ -79,6 +83,8 @@ provide('videoController', videoController);
     class="cy-player-container"
     ref="containerRef"
     :style="styles"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
   >
     <video
       class="cy-player"
@@ -88,7 +94,8 @@ provide('videoController', videoController);
     >
       <source src="" type="" />
     </video>
-    <Controller></Controller>
+    <Controller :mouseEnter="mouseEnter"/>
+    <BottomProgress :mouseEnter="mouseEnter"/>
     <!--  TEST PART  -->
     <Test></Test>
     <button @click="showToast">showToast</button>

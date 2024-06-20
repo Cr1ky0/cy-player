@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, inject, Ref, ref, watchEffect } from 'vue';
 import { VideoController, VideoState } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
 
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
+const progressDrag = <Ref>inject('isDrag');
 const progressRef = ref<HTMLDivElement>();
 
 const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
   onMouseDown() {
-    // videoController.pause();
+    videoController.pause();
     videoController.setCurTime(moveTime.value);
   },
   onMouseMove() {
@@ -50,6 +51,10 @@ const moveVideoTime = computed(() => {
 const moveTime = computed(() => {
   return (xProp.value / 100) * videoStates.duration;
 });
+
+watchEffect(()=>{
+  progressDrag.value = isDrag.value
+})
 </script>
 
 <template>
@@ -154,7 +159,7 @@ $progress-radius: 1.5px;
     height: $progress-slider-diameter;
     width: $progress-slider-diameter;
     transform: translate(-50%, -25%);
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: red;
     border-radius: 100%;
     z-index: $top-layer;
   }
