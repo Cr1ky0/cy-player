@@ -10,7 +10,7 @@ const progressRef = ref<HTMLDivElement>();
 
 const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
   onMouseDown() {
-    videoController.pause();
+    // videoController.pause();
     videoController.setCurTime(moveTime.value);
   },
   onMouseMove() {
