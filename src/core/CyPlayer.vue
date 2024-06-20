@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch } from 'vue';
+import { computed, onMounted, provide, ref, watch } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useLoad } from '@/core/hooks/useLoad.ts';
 import Test from './Test.vue';
@@ -46,8 +46,8 @@ const styles = computed(() => {
 });
 
 // Hooks
-const { httpStates, sourceFileType, useful } = useLoad(videoRef, option);
-const { videoStates, videoController } = useVideo(videoRef, option);
+const { httpStates, useful, loadVideo } = useLoad(videoRef, option);
+const { videoStates, videoController } = useVideo(videoRef, option, loadVideo);
 const { showToast, closeToast } = useToast({
   message: 'Test',
   duration: 2000,
@@ -71,20 +71,6 @@ provide('useful', useful);
 provide('httpStates', httpStates);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
-
-// waiting监听
-watch(
-  () => videoStates.isWaiting,
-  () => {
-    if (videoStates.isWaiting) {
-      // TODO: waiting触发
-      console.log('waiting');
-    } else {
-      // TODO:waiting结束
-      console.log('结束waiting');
-    }
-  },
-);
 </script>
 
 <template>
@@ -100,7 +86,7 @@ watch(
       ref="videoRef"
       :autoplay="option.autoPlay"
     >
-      <source :src="option.videoSrc" :type="sourceFileType!" />
+      <source src="" type="" />
     </video>
     <Controller></Controller>
     <!--  TEST PART  -->

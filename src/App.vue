@@ -26,6 +26,20 @@ const option = ref<PlayerOption>({
   showToast: true, // 默认false
   poster:
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
+  quality: [
+    {
+      vQ: '2K',
+      src: '123',
+    },
+    {
+      vQ: '720p',
+      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+    },
+    {
+      vQ: '480p',
+      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+    },
+  ],
 });
 
 const callbacks = <VideoCallback>{
@@ -41,14 +55,14 @@ const callbacks = <VideoCallback>{
 };
 
 const change = () => {
-  // option.value.videoSrc =
-    // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
-  option.value.videoSrc = '112312';
+  option.value.videoSrc =
+    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
+  // option.value.videoSrc = '112312';
   // option.value.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
   // option.value.width = '50vw'
   // option.value.showToast = false;
   option.value.toastPlacement = 'center';
-  option.value.maskIconPlacement = 'center'
+  option.value.maskIconPlacement = 'center';
 };
 </script>
 

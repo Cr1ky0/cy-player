@@ -5,10 +5,12 @@ import { PlayerOption, VideoController, VideoState } from '@/types';
  * @description video状态管理和控制
  * @param videoRef VideoDOM Ref
  * @param option Player Options
+ * @param loadVideo useLoad hook
  */
 export const useVideo = (
   videoRef: Ref<HTMLVideoElement | undefined>,
-  option: Partial<PlayerOption>,
+  option: PlayerOption,
+  loadVideo: (url: string) => Promise<void>,
 ) => {
   /**
    * @description 内部ref，全局事件监听或卸载只在该对象上进行，避免组件卸载后无法进行事件移除
@@ -27,6 +29,7 @@ export const useVideo = (
    * @description video本身的相关状态
    */
   const videoStates = reactive<VideoState>({
+    curSrc: '', // 当前的src
     isPlay: option.autoPlay || false, // 是否播放
     isPlayEnd: false, // 是否播放结束
     isWaiting: false, // 视频播放过程中的暂停
@@ -134,7 +137,7 @@ export const useVideo = (
 
   // 监听src重置状态
   watch(
-    () => option.videoSrc,
+    () => videoStates.curSrc,
     () => {
       videoStates.isPlay = option.autoPlay || false;
       videoStates.isPlayEnd = false;
@@ -142,15 +145,37 @@ export const useVideo = (
       videoStates.duration = 0;
       videoStates.currentPlayTime = 0;
       videoStates.bufferedTime = 0;
+      // load
+      loadVideo(videoStates.curSrc);
+    },
+  );
+
+  // waiting监听
+  watch(
+    () => videoStates.isWaiting,
+    () => {
+      if (videoStates.isWaiting) {
+        // TODO: waiting触发
+        console.log('waiting');
+      } else {
+        // TODO:waiting结束
+        console.log('结束waiting');
+      }
     },
   );
 
   onMounted(() => {
+    // 如果没有quality不需要切换，把curSrc去除
+    if (!option.quality) localStorage.removeItem('curSrc');
     // 初始化状态
     const isLoop = localStorage.getItem('isLoop');
     const volume = localStorage.getItem('volume');
+    const curSrc = localStorage.getItem('curSrc');
     if (isLoop) videoStates.isLoop = isLoop === 'true';
     if (volume) videoStates.volume = parseFloat(volume);
+    // 初始Src设置
+    if (curSrc) videoStates.curSrc = curSrc;
+    else videoStates.curSrc = option.videoSrc;
     // videoRef
     if (videoRef.value) {
       vRef.value = videoRef.value;

@@ -1,3 +1,19 @@
+// 视频清晰度选项
+export type VideoQuality =
+  | '360p'
+  | '480p'
+  | '720p'
+  | '1080p'
+  | '2K'
+  | '4K'
+  | '8K';
+
+// quality选项
+interface QualityOption {
+  vQ: VideoQuality;
+  src: string;
+}
+
 // 位置选项
 export type Position =
   | 'left-top'
@@ -46,6 +62,10 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description Toast位置
    */
   toastPlacement?: Position;
+  /**
+   * @description 播放器清晰度指定
+   */
+  quality?: QualityOption[];
 }
 
 // Video回调
@@ -93,7 +113,7 @@ export interface VideoCallback<T = CallbackType> {
 }
 
 // Video状态
-export interface VideoState<T = number, U = boolean> {
+export interface VideoState<T = number, U = boolean, K = string> {
   /**
    * @description 是否播放
    */
@@ -127,6 +147,10 @@ export interface VideoState<T = number, U = boolean> {
    * @description 视频是否循环播放
    */
   isLoop: U;
+  /**
+   * @description 当前src
+   */
+  curSrc: K;
 }
 
 // Video操作

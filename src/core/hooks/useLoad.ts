@@ -1,4 +1,4 @@
-import { reactive, Ref, ref, watch } from 'vue';
+import { onMounted, reactive, Ref, ref, watch } from 'vue';
 import { HttpLoadState, PlayerOption } from '@/types';
 import Hls from 'hls.js';
 
@@ -26,6 +26,10 @@ export const useLoad = (
     failReason: '',
   });
   /**
+   * @description 内部ref
+   */
+  const vRef = ref<HTMLVideoElement | null>(null);
+  /**
    * @description useful标志
    */
   const useful = ref<boolean | null>(null);
@@ -37,11 +41,11 @@ export const useLoad = (
   /**
    * @description HLS导入
    */
-  const setHls = (videoElem: HTMLVideoElement) => {
+  const setHls = (videoElem: HTMLVideoElement, src: string) => {
     // 检查浏览器是否支持hls格式
     if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(option.videoSrc!); // 将视频源加载到 HLS 对象中
+      hls.loadSource(src); // 将视频源加载到 HLS 对象中
       hls.attachMedia(videoElem); // 将 HLS 对象附加到 videoElem 上
     } else {
       //TODO:浏览器不支持操作
@@ -50,24 +54,39 @@ export const useLoad = (
   };
 
   /**
-   * @description 将属性导入video
+   * @description 将其他属性导入video
    */
   const loadOption = () => {
-    const vDOM = videoRef.value!;
+    const videoElement = vRef.value!;
+    // 导入poster
+    videoElement.poster = option.poster ? option.poster : '';
+  };
+
+  /**
+   * @description load src
+   */
+  const loadSrc = (type: string, src: string) => {
+    const videoElement = <HTMLVideoElement>vRef.value;
     // 导入src
     // 注意必须在setHls之前执行，因为如果src为空那么attach会失败
-    vDOM.src = option.videoSrc;
-    // 导入poster
-    vDOM.poster = option.poster ? option.poster : '';
+    videoElement.src = src;
+    // Source源修改
+    const child = <HTMLSourceElement>videoElement.firstElementChild;
+    child.src = src;
+    child.type = type;
   };
 
   /**
    * @description 将属性从video卸载
    */
   const unloadOption = () => {
-    const vDOM = videoRef.value!;
-    vDOM.src = '';
-    vDOM.poster = '';
+    const videoElement = <HTMLVideoElement>vRef.value;
+    videoElement.src = '';
+    // Source源修改
+    const child = <HTMLSourceElement>videoElement.firstElementChild;
+    child.src = '';
+    child.type = '';
+    videoElement.poster = '';
   };
 
   /**
@@ -94,14 +113,16 @@ export const useLoad = (
       // 类型检测
       if (type) {
         // LOAD OPTIONS
-        loadOption();
         const isHls =
           type === 'application/vnd.apple.mpegurl' ||
           type === 'application/x-mpegurl';
+        if (isHls) type = type.slice(0, -3) + type.slice(-3).toUpperCase();
+        // 将src和其他属性附加到video上
+        loadSrc(type, url);
+        loadOption();
         if (isHls) {
-          type = type.slice(0, -3) + type.slice(-3).toUpperCase();
           // HLS支持
-          setHls(videoRef.value!);
+          setHls(vRef.value!, url);
         }
         sourceFileType.value = type;
         useful.value = true;
@@ -116,14 +137,9 @@ export const useLoad = (
     }
   };
 
-  // videoSrc监听
-  watch(
-    () => option.videoSrc,
-    () => {
-      loadVideo(option.videoSrc || '');
-    },
-    { immediate: true },
-  );
+  onMounted(() => {
+    if (videoRef.value) vRef.value = videoRef.value;
+  });
 
   // 监听其他选项
   watch([() => option.poster], () => {
@@ -134,5 +150,6 @@ export const useLoad = (
     httpStates,
     sourceFileType,
     useful,
+    loadVideo,
   };
 };

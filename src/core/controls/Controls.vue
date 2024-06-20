@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import Volume from '@/core/controls/volume/Volume.vue';
 import ControlTool from '@/components/controltool/ControlTool.vue';
-import { inject, Ref } from 'vue';
+import { computed, inject, Ref } from 'vue';
 import { useScreenFull } from '@/core/hooks/useScreenFull.ts';
 import { useWebScreenFull } from '@/core/hooks/useWebScreenFull.ts';
 import { PlayerOption } from '@/types';
 import { usePictureInPicture } from '@/core/hooks/usePictureInPicture.ts';
 import Setting from '@/core/controls/setting/Setting.vue';
 import MultiplePlay from '@/core/controls/multiple/MultiplePlay.vue';
+import Quality from '@/core/controls/quality/Quality.vue';
 
 const containerRef = <Ref>inject('containerRef');
 const videoRef = <Ref>inject('videoRef');
 const playerOption = <PlayerOption>inject('playerOption');
+const hasQuality = computed(() => {
+  return playerOption.quality && playerOption.quality.length > 0;
+});
 const { isScreenFull, toggleScreenFull } = useScreenFull(
   containerRef,
   playerOption,
@@ -22,6 +26,7 @@ const { togglePictureInPicture } = usePictureInPicture(videoRef, playerOption);
 
 <template>
   <div class="cy-player-controller-controls">
+    <Quality v-if="hasQuality"/>
     <MultiplePlay />
     <Volume />
     <Setting />
