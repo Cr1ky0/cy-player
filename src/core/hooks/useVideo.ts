@@ -30,15 +30,11 @@ export const useVideo = (
     isPlay: option.autoPlay || false, // 是否播放
     isPlayEnd: false, // 是否播放结束
     isWaiting: false, // 视频播放过程中的暂停
-    isLoop: localStorage.getItem('isLoop')
-      ? Boolean(localStorage.getItem('isLoop'))
-      : false, // 视频是否循环播放
+    isLoop: false, // 视频是否循环播放
     currentPlayTime: 0, // 当前时间/s
     duration: 0, // 总时长
     bufferedTime: 0, // 缓存时长/s
-    volume: localStorage.getItem('volume')
-      ? parseInt(localStorage.getItem('volume')!)
-      : 50, // 音量
+    volume: 50, // 音量
   });
 
   /**
@@ -162,6 +158,11 @@ export const useVideo = (
         videoStates.volume = videoRef.value!.volume * 100;
       }, 10);
     }
+    // 初始化状态
+    const isLoop = localStorage.getItem('isLoop');
+    const volume = localStorage.getItem('volume');
+    if (isLoop) videoStates.isLoop = isLoop === 'true';
+    if (volume) videoStates.volume = parseFloat(volume);
   });
 
   // remove events

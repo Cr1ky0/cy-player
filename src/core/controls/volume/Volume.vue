@@ -3,14 +3,16 @@ import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { computed, inject, ref } from 'vue';
 import { VideoController, VideoState } from '@/types';
 import VolumeSlider from '@/core/controls/volume/VolumeSlider.vue';
+import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
-const mouseEnter = ref<boolean>(false);
 const isDrag = ref<boolean>(false);
 const isMuted = computed(() => {
   return videoStates.volume === 0;
 });
+
+const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 
 const handleIconClick = () => {
   if (!isMuted.value) {
@@ -24,14 +26,6 @@ const handleIconClick = () => {
 
 const changeIsDrag = (value: boolean) => {
   isDrag.value = value;
-};
-
-const handleMouseEnter = () => {
-  mouseEnter.value = true;
-};
-
-const handleMouseLeave = () => {
-  mouseEnter.value = false;
 };
 </script>
 

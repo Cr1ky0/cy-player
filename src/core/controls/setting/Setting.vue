@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import Switch from '@/components/switch/Switch.vue';
-import { inject, ref } from 'vue';
+import { inject } from 'vue';
 import { useLightOff } from '@/core/hooks/useLightOff.ts';
 import { VideoState } from '@/types';
+import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 
 const videoStates = <VideoState>inject('videoStates');
-const mouseEnter = ref(false);
 const { lightOn, handleLightOffModel } = useLightOff();
-const handleMouseEnter = () => {
-  mouseEnter.value = true;
-};
-
-const handleMouseLeave = () => {
-  mouseEnter.value = false;
-};
+const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 
 const handleLoop = () => {
   videoStates.isLoop = !videoStates.isLoop;
@@ -68,7 +62,6 @@ const handleLoop = () => {
     width: 120px;
     height: 20px;
     z-index: $top-layer;
-    cursor: default;
   }
 
   .cy-player-controls-setting-function {
@@ -82,7 +75,6 @@ const handleLoop = () => {
     justify-content: center;
     flex-direction: column;
     z-index: $top-layer;
-    cursor: default;
     animation: show 0.3s ease;
 
     > div {
@@ -92,7 +84,6 @@ const handleLoop = () => {
     .cy-player-controls-setting-light-off {
       display: flex;
       justify-content: space-between;
-      cursor: pointer;
 
       > div:first-child {
         font-size: 14px;

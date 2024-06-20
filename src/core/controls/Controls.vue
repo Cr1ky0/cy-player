@@ -7,6 +7,7 @@ import { useWebScreenFull } from '@/core/hooks/useWebScreenFull.ts';
 import { PlayerOption } from '@/types';
 import { usePictureInPicture } from '@/core/hooks/usePictureInPicture.ts';
 import Setting from '@/core/controls/setting/Setting.vue';
+import MultiplePlay from '@/core/controls/multiple/MultiplePlay.vue';
 
 const containerRef = <Ref>inject('containerRef');
 const videoRef = <Ref>inject('videoRef');
@@ -16,16 +17,14 @@ const { isScreenFull, toggleScreenFull } = useScreenFull(
   playerOption,
 );
 const { isWebScreenFull, toggleWebScreenFull } = useWebScreenFull(containerRef);
-const { togglePictureInPicture } = usePictureInPicture(
-  videoRef,
-  playerOption,
-);
+const { togglePictureInPicture } = usePictureInPicture(videoRef, playerOption);
 </script>
 
 <template>
   <div class="cy-player-controller-controls">
-    <Volume></Volume>
-    <Setting></Setting>
+    <MultiplePlay />
+    <Volume/>
+    <Setting/>
     <ControlTool
       active-icon-name="inPicture"
       :flag="true"
