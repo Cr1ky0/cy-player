@@ -150,20 +150,6 @@ export const useVideo = (
     },
   );
 
-  // waiting监听
-  watch(
-    () => videoStates.isWaiting,
-    () => {
-      if (videoStates.isWaiting) {
-        // TODO: waiting触发
-        console.log('waiting');
-      } else {
-        // TODO:waiting结束
-        console.log('结束waiting');
-      }
-    },
-  );
-
   onMounted(() => {
     // 如果没有quality不需要切换，把curSrc去除
     if (!option.quality) localStorage.removeItem('curSrc');
