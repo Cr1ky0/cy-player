@@ -23,8 +23,8 @@ const { togglePictureInPicture } = usePictureInPicture(videoRef, playerOption);
 <template>
   <div class="cy-player-controller-controls">
     <MultiplePlay />
-    <Volume/>
-    <Setting/>
+    <Volume />
+    <Setting />
     <ControlTool
       active-icon-name="inPicture"
       :flag="true"

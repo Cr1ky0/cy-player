@@ -146,10 +146,15 @@ export const useVideo = (
   );
 
   onMounted(() => {
+    // 初始化状态
+    const isLoop = localStorage.getItem('isLoop');
+    const volume = localStorage.getItem('volume');
+    if (isLoop) videoStates.isLoop = isLoop === 'true';
+    if (volume) videoStates.volume = parseFloat(volume);
+    // videoRef
     if (videoRef.value) {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
-      // 设置音量为记录音量
       videoElement.volume = videoStates.volume / 100;
       addEvents(videoElement);
       // interval
@@ -158,11 +163,6 @@ export const useVideo = (
         videoStates.volume = videoRef.value!.volume * 100;
       }, 10);
     }
-    // 初始化状态
-    const isLoop = localStorage.getItem('isLoop');
-    const volume = localStorage.getItem('volume');
-    if (isLoop) videoStates.isLoop = isLoop === 'true';
-    if (volume) videoStates.volume = parseFloat(volume);
   });
 
   // remove events
