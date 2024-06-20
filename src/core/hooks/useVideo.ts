@@ -155,7 +155,7 @@ export const useVideo = (
     if (videoRef.value) {
       vRef.value = videoRef.value;
       const videoElement = <HTMLVideoElement>vRef.value;
-      videoElement.volume = videoStates.volume / 100;
+      videoElement.volume = videoStates.volume / 100; // 设置音量
       addEvents(videoElement);
       // interval
       interval.value = setInterval(() => {
