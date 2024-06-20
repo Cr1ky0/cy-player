@@ -93,6 +93,7 @@ export const useLoad = (
    * @description 源视频文件校验以及加载，支持h264(.mp4,.webm,.ogg)，hls(m3u8),默认h264格式
    * @param url 源视频文件链接
    */
+  // TODO:消掉跨域问题
   const loadVideo = async (url: string) => {
     try {
       const response = await fetch(url);
@@ -134,6 +135,7 @@ export const useLoad = (
       sourceFileType.value = null;
       // UNLOAD OPTIONS
       unloadOption();
+      console.log(1);
     }
   };
 

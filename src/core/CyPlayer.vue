@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, provide, ref } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useLoad } from '@/core/hooks/useLoad.ts';
 import Test from './Test.vue';
@@ -9,7 +9,6 @@ import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
 import 'virtual:svg-icons-register';
 import { useMouseCheck } from '@/utils/useMouseCheck.ts';
-import ProgressBar from '@/core/progress/ProgressBar.vue';
 import BottomProgress from '@/core/progress/BottomProgress.vue';
 
 export interface PlayerProps {
@@ -41,10 +40,6 @@ const styles = computed(() => {
     if (typeof option.height === 'string') height = option.height;
     else height = `${option.height}px`;
   }
-  if (!option.width && !option.height) {
-    width = 'auto';
-    height = 'auto';
-  }
   return { width, height, ...option.styles };
 });
 
@@ -75,6 +70,29 @@ provide('useful', useful);
 provide('httpStates', httpStates);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
+
+/**
+ * @description video size set
+ */
+// const setVideoSize = () => {
+//   const videoElement = <HTMLVideoElement>videoRef.value;
+//   const videoContainer = <HTMLDivElement>containerRef.value;
+//   const videoWidth = videoElement.videoWidth;
+//   const videoHeight = videoElement.videoHeight;
+//   console.log(videoWidth,videoHeight);
+//   if (!option.width) videoContainer.style.width = `${videoWidth}px`;
+//   if (!option.height) videoContainer.style.height = `${videoHeight}px`;
+// };
+//
+// onMounted(()=>{
+//   const vElement = <HTMLVideoElement>videoRef.value;
+//   vElement.addEventListener('canplay',setVideoSize)
+// })
+//
+// onBeforeUnmount(()=>{
+//   const vElement = <HTMLVideoElement>videoRef.value;
+//   vElement.removeEventListener('canplay',setVideoSize)
+// })
 </script>
 
 <template>
@@ -94,18 +112,18 @@ provide('videoController', videoController);
     >
       <source src="" type="" />
     </video>
-    <Controller :mouseEnter="mouseEnter"/>
-    <BottomProgress :mouseEnter="mouseEnter"/>
+    <Controller :mouseEnter="mouseEnter" />
+    <BottomProgress :mouseEnter="mouseEnter" />
     <!--  TEST PART  -->
-    <Test></Test>
-    <button @click="showToast">showToast</button>
-    <button @click="closeToast">closeToast</button>
-    <button @click="videoController.play">开始</button>
-    <button @click="videoController.pause">暂停</button>
-    <button @click="videoController.setCurTime(0)">时间调0</button>
-    <button @click="videoController.setVolume(0)">设置音量为0</button>
-    <button @click="videoController.setVolume(50)">设置音量为50</button>
-    <button @click="videoController.setVolume(100)">设置音量为100</button>
+<!--    <Test></Test>-->
+<!--    <button @click="showToast">showToast</button>-->
+<!--    <button @click="closeToast">closeToast</button>-->
+<!--    <button @click="videoController.play">开始</button>-->
+<!--    <button @click="videoController.pause">暂停</button>-->
+<!--    <button @click="videoController.setCurTime(0)">时间调0</button>-->
+<!--    <button @click="videoController.setVolume(0)">设置音量为0</button>-->
+<!--    <button @click="videoController.setVolume(50)">设置音量为50</button>-->
+<!--    <button @click="videoController.setVolume(100)">设置音量为100</button>-->
   </div>
 </template>
 

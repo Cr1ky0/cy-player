@@ -29,7 +29,7 @@ const option = ref<PlayerOption>({
   quality: [
     {
       vQ: '2K',
-      src: '123',
+      src: 'https://cdn.gudsen.vip/2022/11/14/422e7528fce64f03bf1b378cff393237.mp4',
     },
     {
       vQ: '720p',
