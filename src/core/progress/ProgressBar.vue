@@ -89,7 +89,7 @@ watchEffect(()=>{
 @import '@/assets/css/mixin';
 @import '@/assets/css/var';
 
-$progress-base-color: rgba(255, 255, 255, 0.2);
+$progress-base-color: rgba(255, 255, 255, 0.3);
 $progress-buffered-color: rgba(255, 255, 255, 0.5);
 $progress-indicator-time-color: rgba(0, 0, 0, 0.7);
 $progress-slider-diameter: 10px;
