@@ -188,7 +188,8 @@ export const useVideo = (
     // Source源修改
     const sources = videoElement.childNodes;
     sources.forEach((source) => {
-      source.src = src;
+      const element = <HTMLSourceElement>source;
+      element.src = src;
     });
   };
 
