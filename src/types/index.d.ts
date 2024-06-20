@@ -1,3 +1,5 @@
+// 视频种类
+export type SourceType = 'h264' | 'hls';
 // 视频清晰度选项
 export type VideoQuality =
   | '360p'
@@ -66,20 +68,24 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 播放器清晰度指定
    */
   quality?: QualityOption[];
+  /**
+   * @description 源视频种类
+   */
+  sourceType?: SourceType;
 }
 
 // Video回调
 export type CallbackType<T = VideoState> = (e: T) => void;
-export type HttpLoadState = {
-  /**
-   *  @description 视频Http加载状态
-   */
-  httpStateCode: number;
-  /**
-   *  @description 视频加载失败原因
-   */
-  failReason: string;
-};
+// export type HttpLoadState = {
+//   /**
+//    *  @description 视频Http加载状态
+//    */
+//   httpStateCode: number;
+//   /**
+//    *  @description 视频加载失败原因
+//    */
+//   failReason: string;
+// };
 
 export interface VideoCallback<T = CallbackType> {
   /**
@@ -102,14 +108,14 @@ export interface VideoCallback<T = CallbackType> {
    * @description 音量改变时的回调
    */
   onVolumeChange?: T;
-  /**
-   * @description 视频加载成功以后回调
-   */
-  onLoaded?: T;
-  /**
-   * @description 视频加载错误回调
-   */
-  onError?: (e: HttpLoadState) => void;
+  // /**
+  //  * @description 视频加载成功以后回调
+  //  */
+  // onLoaded?: T;
+  // /**
+  //  * @description 视频加载错误回调
+  //  */
+  // onError?: (e?: ErrorEvent) => void;
 }
 
 // Video状态
@@ -151,6 +157,10 @@ export interface VideoState<T = number, U = boolean, K = string> {
    * @description 当前src
    */
   curSrc: K;
+  /**
+   * @description 是否错误
+   */
+  isError: U;
 }
 
 // Video操作

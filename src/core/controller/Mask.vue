@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  HttpLoadState,
-  PlayerOption,
-  VideoController,
-  VideoState,
-} from '@/types';
+import { PlayerOption, VideoController, VideoState } from '@/types';
 import { computed, inject, Ref, watch } from 'vue';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { useToast } from '@/core/hooks/useToast.ts';
@@ -12,14 +7,9 @@ import { useToast } from '@/core/hooks/useToast.ts';
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
 const playerOption = <PlayerOption>inject('playerOption');
-const httpStates = <HttpLoadState>inject('httpStates');
-const useful = <Ref>inject('useful');
 const isDrag = <Ref>inject('isDrag');
-const isError = computed(() => {
-  return useful.value !== null && !useful.value;
-});
 const styles = computed(() => {
-  return videoStates.isPlayEnd || isError.value
+  return videoStates.isPlayEnd || videoStates.isError
     ? { backgroundColor: 'rgba(0,0,0,.3)' }
     : undefined;
 });
@@ -31,17 +21,19 @@ const pos = computed(() => {
 
 const toast = computed(() => {
   return useToast({
-    message: `ErrorOccurred! ErrorReason:${httpStates.failReason} HttpCode:${httpStates.httpStateCode}`,
+    message: `视频因未知原因加载失败！`,
     duration: 2000,
     option: playerOption,
   });
 });
-
-watch(isError, () => {
-  if (isError.value) {
-    toast.value.showToast();
-  }
-});
+watch(
+  () => videoStates.isError,
+  () => {
+    if (videoStates.isError) {
+      toast.value.showToast();
+    }
+  },
+);
 
 const handleClick = () => {
   if (videoStates.isPlay) videoController.pause();
@@ -55,7 +47,7 @@ const handleClick = () => {
     @click="handleClick"
     :style="styles"
   >
-    <div v-if="isError" class="cy-player-error">
+    <div v-if="videoStates.isError" class="cy-player-error">
       <div class="cy-player-error-icon">
         <SvgIcon
           icon-name="close"

@@ -1,16 +1,23 @@
-import { onBeforeUnmount, onMounted, reactive, ref, Ref, watch } from 'vue';
+import {
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  Ref,
+  watch,
+  watchEffect,
+} from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
+import Hls from 'hls.js';
 
 /**
  * @description video状态管理和控制
  * @param videoRef VideoDOM Ref
  * @param option Player Options
- * @param loadVideo useLoad hook
  */
 export const useVideo = (
   videoRef: Ref<HTMLVideoElement | undefined>,
   option: PlayerOption,
-  loadVideo: (url: string) => Promise<void>,
 ) => {
   /**
    * @description 内部ref，全局事件监听或卸载只在该对象上进行，避免组件卸载后无法进行事件移除
@@ -18,7 +25,6 @@ export const useVideo = (
   const vRef = ref<HTMLVideoElement>();
   /**
    * @description 轮询状态刷新计时器，类似curTime这类属性需要监控到连续的变化，不用原生实现
-   *
    */
   const interval = ref<NodeJS.Timeout | null>(null);
   /**
@@ -38,6 +44,7 @@ export const useVideo = (
     duration: 0, // 总时长
     bufferedTime: 0, // 缓存时长/s
     volume: 50, // 音量
+    isError: false, // 是否出错
   });
 
   /**
@@ -63,7 +70,7 @@ export const useVideo = (
       if (vRef.value) vRef.value.currentTime = curTime;
     },
   });
-
+  /****************************事件处理**********************************/
   /**
    * @description 视频是否播放
    */
@@ -84,10 +91,11 @@ export const useVideo = (
   };
   /**
    *
-   * @description 总时长
+   * @description canplay
    */
-  const setDuration = () => {
+  const handleCanplay = () => {
     if (vRef.value) {
+      videoStates.isError = false;
       videoStates.duration = vRef.value.duration || 0;
     }
   };
@@ -115,38 +123,107 @@ export const useVideo = (
     }, 100);
   };
 
+  /**
+   * @description error处理
+   */
+  const handleError = () => {
+    videoStates.isError = true;
+  };
+
   const addEvents = (videoElement: HTMLVideoElement) => {
-    videoElement.addEventListener('canplay', setDuration);
+    videoElement.addEventListener('canplay', handleCanplay);
     videoElement.addEventListener('progress', setBufferedTime);
     videoElement.addEventListener('pause', setIsPlay);
     videoElement.addEventListener('play', setIsPlay);
     videoElement.addEventListener('ended', setIsPlayEnd);
     videoElement.addEventListener('waiting', onWaiting);
     videoElement.addEventListener('playing', onIsPlaying);
+    videoElement.addEventListener('error', handleError);
   };
 
   const removeEvents = (videoElement: HTMLVideoElement) => {
-    videoElement.removeEventListener('canplay', setDuration);
+    videoElement.removeEventListener('canplay', handleCanplay);
     videoElement.removeEventListener('progress', setBufferedTime);
     videoElement.removeEventListener('pause', setIsPlay);
     videoElement.removeEventListener('play', setIsPlay);
     videoElement.removeEventListener('ended', setIsPlayEnd);
     videoElement.removeEventListener('waiting', onWaiting);
     videoElement.removeEventListener('playing', onIsPlaying);
+    videoElement.removeEventListener('error', handleError);
   };
+  /**************************************************************/
+
+  const initStates = () => {
+    videoStates.isPlay = option.autoPlay || false;
+    videoStates.isPlayEnd = false;
+    videoStates.isWaiting = false;
+    videoStates.duration = 0;
+    videoStates.currentPlayTime = 0;
+    videoStates.bufferedTime = 0;
+  };
+
+  /**
+   * @description HLS导入
+   */
+  const setHls = (videoElem: HTMLVideoElement, src: string) => {
+    // 检查浏览器是否支持hls格式
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(src); // 将视频源加载到 HLS 对象中
+      hls.attachMedia(videoElem); // 将 HLS 对象附加到 videoElem 上
+    } else {
+      //TODO:浏览器不支持操作
+      console.log('当前浏览器不支持HLS');
+    }
+  };
+
+  /**
+   * @description 将src添加到元素上
+   */
+  const loadSrc = (src: string) => {
+    const videoElement = <HTMLVideoElement>vRef.value;
+    // 导入src
+    // 注意必须在setHls之前执行，因为如果src为空那么attach会失败
+    videoElement.src = src;
+    // Source源修改
+    const sources = videoElement.childNodes;
+    sources.forEach((source) => {
+      source.src = src;
+    });
+  };
+
+  const loadVideo = (url: string) => {
+    loadSrc(url);
+    if (option.sourceType === 'hls') {
+      setHls(vRef.value!, url);
+    }
+  };
+
+  /**
+   * @description 其他option
+   */
+  watchEffect(() => {
+    if (vRef.value) {
+      const videoElement = vRef.value!;
+      // 导入poster
+      videoElement.poster = option.poster ? option.poster : '';
+    }
+  });
 
   // 监听src重置状态
   watch(
     () => videoStates.curSrc,
     () => {
-      videoStates.isPlay = option.autoPlay || false;
-      videoStates.isPlayEnd = false;
-      videoStates.isWaiting = false;
-      videoStates.duration = 0;
-      videoStates.currentPlayTime = 0;
-      videoStates.bufferedTime = 0;
-      // load
+      initStates();
       loadVideo(videoStates.curSrc);
+    },
+  );
+
+  watch(
+    () => option.videoSrc,
+    () => {
+      initStates();
+      loadVideo(option.videoSrc);
     },
   );
 
@@ -188,11 +265,5 @@ export const useVideo = (
   return {
     videoStates,
     videoController,
-    setIsPlay,
-    setIsPlayEnd,
-    setDuration,
-    setBufferedTime,
-    onWaiting,
-    onIsPlaying,
   };
 };

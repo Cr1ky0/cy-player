@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, provide, ref } from 'vue';
+import { computed, provide, ref } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
-import { useLoad } from '@/core/hooks/useLoad.ts';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useToast } from '@/core/hooks/useToast.ts';
@@ -44,30 +43,25 @@ const styles = computed(() => {
 });
 
 // Hooks
-const { httpStates, useful, loadVideo } = useLoad(videoRef, option);
-const { videoStates, videoController } = useVideo(videoRef, option, loadVideo);
+const { videoStates, videoController } = useVideo(videoRef, option);
 const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 const { showToast, closeToast } = useToast({
   message: 'Test',
   duration: 2000,
   option,
 });
-useCallback(useful, videoStates, httpStates, {
+useCallback(videoStates, {
   onTimeChange: callback?.onTimeChange,
   onPause: callback?.onPause,
   onPlay: callback?.onPlay,
   onPlayEnd: callback?.onPlayEnd,
   onVolumeChange: callback?.onVolumeChange,
-  onLoaded: callback?.onLoaded,
-  onError: callback?.onError,
 });
 
 // Provide
 provide('containerRef', containerRef);
 provide('videoRef', videoRef);
 provide('playerOption', option);
-provide('useful', useful);
-provide('httpStates', httpStates);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
 
@@ -110,20 +104,25 @@ provide('videoController', videoController);
       ref="videoRef"
       :autoplay="option.autoPlay"
     >
-      <source src="" type="" />
+      <source src="" type="video/mp4" />
+      <source src="" type="video/ogg" />
+      <source src="" type="video/webm" />
+      <source src="" type="video/webm" />
+      <source src="" type="application/vnd.apple.mpegURL" />
+      <source src="" type="application/x-mpegURL" />
     </video>
     <Controller :mouseEnter="mouseEnter" />
     <BottomProgress :mouseEnter="mouseEnter" />
     <!--  TEST PART  -->
-<!--    <Test></Test>-->
-<!--    <button @click="showToast">showToast</button>-->
-<!--    <button @click="closeToast">closeToast</button>-->
-<!--    <button @click="videoController.play">开始</button>-->
-<!--    <button @click="videoController.pause">暂停</button>-->
-<!--    <button @click="videoController.setCurTime(0)">时间调0</button>-->
-<!--    <button @click="videoController.setVolume(0)">设置音量为0</button>-->
-<!--    <button @click="videoController.setVolume(50)">设置音量为50</button>-->
-<!--    <button @click="videoController.setVolume(100)">设置音量为100</button>-->
+    <Test></Test>
+    <!--    <button @click="showToast">showToast</button>-->
+    <!--    <button @click="closeToast">closeToast</button>-->
+    <!--    <button @click="videoController.play">开始</button>-->
+    <!--    <button @click="videoController.pause">暂停</button>-->
+    <!--    <button @click="videoController.setCurTime(0)">时间调0</button>-->
+    <!--    <button @click="videoController.setVolume(0)">设置音量为0</button>-->
+    <!--    <button @click="videoController.setVolume(50)">设置音量为50</button>-->
+    <!--    <button @click="videoController.setVolume(100)">设置音量为100</button>-->
   </div>
 </template>
 

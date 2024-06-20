@@ -16,6 +16,7 @@ const option = ref<PlayerOption>({
   // 'http://localhost:3000/input.m3u8',
   // '1231313231212333333333333333333333333333333333333333333333',
   // autoPlay: true,
+  sourceType: 'h264',
   width: 1000,
   height: 500,
   maskIconPlacement: 'right-bottom',
@@ -55,9 +56,9 @@ const callbacks = <VideoCallback>{
 };
 
 const change = () => {
-  option.value.videoSrc =
-    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
-  // option.value.videoSrc = '112312';
+  // option.value.videoSrc =
+  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
+  option.value.videoSrc = '112312';
   // option.value.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
   // option.value.width = '50vw'
   // option.value.showToast = false;

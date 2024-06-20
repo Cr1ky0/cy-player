@@ -1,20 +1,16 @@
-import { HttpLoadState, VideoCallback, VideoState } from '@/types';
-import { Ref, watch } from 'vue';
+import { VideoCallback, VideoState } from '@/types';
+import { watch } from 'vue';
 
 export const useCallback = (
-  useful: Ref<boolean | null>,
   videoStates: VideoState,
-  loadStates: HttpLoadState,
   callbacks: VideoCallback,
 ) => {
   const {
-    onLoaded,
     onPlay,
     onPlayEnd,
     onVolumeChange,
     onPause,
     onTimeChange,
-    onError,
   } = callbacks;
   // 播放和暂停的回调（含自动播放）
   watch(
@@ -53,10 +49,4 @@ export const useCallback = (
       onTimeChange && onTimeChange(videoStates);
     },
   );
-
-  // 视频初始化时加载错误和成功以后回调
-  watch(useful, () => {
-    if (!useful.value) onError && onError(loadStates);
-    else onLoaded && onLoaded(videoStates);
-  });
 };
