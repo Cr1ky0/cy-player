@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, ref, watch } from 'vue';
-import { VideoController, VideoState } from '@/types';
+import { PlayerOption, VideoController, VideoState } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 
 export interface VolumeSliderProps {
@@ -10,9 +10,18 @@ export interface VolumeSliderProps {
 const { changeIsDrag } = defineProps<VolumeSliderProps>();
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
+const playerOption = <PlayerOption>inject('playerOption');
 const progressRef = ref<HTMLDivElement>();
 const volumeProportion = computed(() => {
   return videoStates.volume;
+});
+
+const themeColorStyle = computed(() => {
+  return {
+    backgroundColor: playerOption.themeColor
+      ? playerOption.themeColor
+      : '#00aeec',
+  };
 });
 
 const { yProp, isDrag } = useMouseHandler(progressRef, {
@@ -43,11 +52,11 @@ const handleProgressClick = () => {
       <div class="cy-player-volume-base">
         <div
           class="cy-player-volume-slider"
-          :style="{ bottom: `${volumeProportion}%` }"
+          :style="{ bottom: `${volumeProportion}%` ,...themeColorStyle}"
         ></div>
         <div
           class="cy-player-volume-proportion"
-          :style="{ height: `${volumeProportion}%` }"
+          :style="{ height: `${volumeProportion}%` ,...themeColorStyle}"
         ></div>
       </div>
     </div>
@@ -94,7 +103,7 @@ const handleProgressClick = () => {
         transform: translate(-40%, 50%);
         width: 8px;
         height: 8px;
-        background-color: red;
+        background-color: $default-theme-color;
         border-radius: 100%;
         cursor: pointer;
       }
@@ -103,7 +112,7 @@ const handleProgressClick = () => {
         @include position(absolute, auto, 0, auto, 0);
         width: 2px;
         height: 0;
-        background-color: red;
+        background-color: $default-theme-color;
       }
     }
   }

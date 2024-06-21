@@ -19,7 +19,7 @@ const option = ref<PlayerOption>({
   // autoPlay: true,
   // width: 1000,
   // height: 500,
-  themeColor: '#00aeec',
+  // themeColor: 'yellow',
   maskIconPlacement: 'center',
   toastPlacement: 'left-top',
   keepShowController:true,

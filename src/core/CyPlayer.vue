@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, provide, ref } from 'vue';
+import { onBeforeUnmount, onMounted, provide, ref } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
