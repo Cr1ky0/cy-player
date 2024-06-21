@@ -23,6 +23,11 @@ const option = ref<PlayerOption>({
   maskIconPlacement: 'center',
   toastPlacement: 'left-top',
   keepShowController:true,
+  isSettingShow:true,
+  isPicInPicShow:true,
+  isWebScreenFullShow:true,
+  isScreenFullShow:true,
+  isMultiplePlayShow:true,
   // styles: {
   //   width: '1000px',
   // },

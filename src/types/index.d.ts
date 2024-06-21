@@ -84,6 +84,26 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 是否保持controller显示
    */
   keepShowController?: U;
+  /**
+   * @description 是否显示setting
+   */
+  isSettingShow?:U;
+  /**
+   * @description 是否显示画中画
+   */
+  isPicInPicShow?:U;
+  /**
+   * @description 是否显示网页全屏
+   */
+  isWebScreenFullShow?:U;
+  /**
+   * @description 是否显示全屏
+   */
+  isScreenFullShow?:U;
+  /**
+   * @description 是否显示倍速播放
+   */
+  isMultiplePlayShow?:U;
 }
 
 // Video回调

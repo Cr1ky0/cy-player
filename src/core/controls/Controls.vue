@@ -16,6 +16,31 @@ const playerOption = <PlayerOption>inject('playerOption');
 const hasQuality = computed(() => {
   return playerOption.quality && playerOption.quality.length > 0;
 });
+const showSetting = computed(() => {
+  return typeof playerOption.isSettingShow === 'boolean'
+    ? playerOption.isSettingShow
+    : true;
+});
+const showPicInPic = computed(() => {
+  return typeof playerOption.isPicInPicShow === 'boolean'
+    ? playerOption.isPicInPicShow
+    : true;
+});
+const showWebScreenFull = computed(() => {
+  return typeof playerOption.isWebScreenFullShow === 'boolean'
+    ? playerOption.isWebScreenFullShow
+    : true;
+});
+const showScreenFull = computed(() => {
+  return typeof playerOption.isScreenFullShow === 'boolean'
+    ? playerOption.isScreenFullShow
+    : true;
+});
+const showMultiplePlay = computed(() => {
+  return typeof playerOption.isMultiplePlayShow === 'boolean'
+    ? playerOption.isMultiplePlayShow
+    : true;
+});
 const { isScreenFull, toggleScreenFull } = useScreenFull(
   containerRef,
   playerOption,
@@ -26,17 +51,19 @@ const { togglePictureInPicture } = usePictureInPicture(videoRef, playerOption);
 
 <template>
   <div class="cy-player-controller-controls">
-    <Quality v-if="hasQuality"/>
-    <MultiplePlay />
+    <Quality v-if="hasQuality" />
+    <MultiplePlay v-if="showMultiplePlay" />
     <Volume />
-    <Setting />
+    <Setting v-if="showSetting" />
     <ControlTool
+      v-if="showPicInPic"
       active-icon-name="inPicture"
       :flag="true"
       tip="画中画"
       @click="togglePictureInPicture"
     />
     <ControlTool
+      v-if="showWebScreenFull"
       active-icon-name="closeWebFullScreen"
       inactive-icon-name="webFullScreen"
       :flag="isWebScreenFull"
@@ -44,6 +71,7 @@ const { togglePictureInPicture } = usePictureInPicture(videoRef, playerOption);
       @click="toggleWebScreenFull"
     />
     <ControlTool
+      v-if="showScreenFull"
       active-icon-name="closeFullScreen"
       inactive-icon-name="fullScreen"
       :flag="isScreenFull"
