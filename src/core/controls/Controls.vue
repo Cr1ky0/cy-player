@@ -13,6 +13,7 @@ import Quality from '@/core/controls/quality/Quality.vue';
 const containerRef = <Ref>inject('containerRef');
 const videoRef = <Ref>inject('videoRef');
 const playerOption = <PlayerOption>inject('playerOption');
+
 const hasQuality = computed(() => {
   return playerOption.quality && playerOption.quality.length > 0;
 });
@@ -41,12 +42,13 @@ const showMultiplePlay = computed(() => {
     ? playerOption.isMultiplePlayShow
     : true;
 });
+
+const { isWebScreenFull, toggleWebScreenFull } = useWebScreenFull(containerRef);
+const { togglePictureInPicture } = usePictureInPicture(videoRef, playerOption);
 const { isScreenFull, toggleScreenFull } = useScreenFull(
   containerRef,
   playerOption,
 );
-const { isWebScreenFull, toggleWebScreenFull } = useWebScreenFull(containerRef);
-const { togglePictureInPicture } = usePictureInPicture(videoRef, playerOption);
 </script>
 
 <template>
