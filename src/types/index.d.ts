@@ -80,6 +80,10 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 控制器根样式
    */
   controllerStyles?: CSSProperties;
+  /**
+   * @description 是否保持controller显示
+   */
+  keepShowController?: U;
 }
 
 // Video回调

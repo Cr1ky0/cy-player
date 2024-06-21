@@ -13,6 +13,9 @@ const style = computed(() => {
     ? playerOption.controllerStyles
     : undefined;
 });
+const keepShow = computed(()=>{
+  return typeof playerOption.keepShowController === 'boolean' ? playerOption.keepShowController : false;
+})
 /**
  * 进度条拖拽标志
  */
@@ -23,7 +26,7 @@ provide('isDrag', isDrag);
 <template>
   <Mask />
   <div
-    :class="`cy-player-controller-container ${mouseEnter ? 'cy-player-controller-active' : ''}`"
+    :class="`cy-player-controller-container ${mouseEnter || keepShow ? 'cy-player-controller-active' : ''}`"
     :style="style"
   >
     <ProgressBar />

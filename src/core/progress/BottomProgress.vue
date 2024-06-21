@@ -13,6 +13,10 @@ const themeColorStyle = computed(() => {
   };
 });
 
+const keepShow = computed(()=>{
+  return typeof playerOption.keepShowController === 'boolean' ? playerOption.keepShowController : false;
+})
+
 /**
  * @description 已播放百分比
  */
@@ -24,7 +28,7 @@ const completedProportion = computed(() => {
 </script>
 
 <template>
-  <div v-if="!props.mouseEnter" class="cy-player-bottom-progress">
+  <div v-if="!props.mouseEnter && !keepShow" class="cy-player-bottom-progress">
     <div
       class="cy-player-bottom-progress-completed"
       :style="{ width: `${completedProportion}%`, ...themeColorStyle }"

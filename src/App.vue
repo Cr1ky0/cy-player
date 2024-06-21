@@ -22,6 +22,7 @@ const option = ref<PlayerOption>({
   themeColor: '#00aeec',
   maskIconPlacement: 'center',
   toastPlacement: 'left-top',
+  keepShowController:true,
   // styles: {
   //   width: '1000px',
   // },
