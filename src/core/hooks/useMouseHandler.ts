@@ -42,6 +42,7 @@ export const useMouseHandler = (
    * @description 元素高度
    */
   const height = ref(0);
+
   const handleMouseDown = (e: MouseEvent) => {
     e.preventDefault();
     isDrag.value = true;

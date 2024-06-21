@@ -20,9 +20,9 @@ export default defineConfig({
     },
   },
   // publicDir: 'public',
-  server: {
-    headers: {
-      'Cache-Control': 'no-cache',
-    },
-  },
+  // server: {
+  //   headers: {
+  //     'Cache-Control': 'no-cache',
+  //   },
+  // },
 });

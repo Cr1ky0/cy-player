@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, Ref, ref, watchEffect } from 'vue';
+import { computed, inject, Ref, ref, watch, watchEffect } from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
@@ -14,6 +14,7 @@ const themeColor = computed(() => {
   return playerOption.themeColor ? playerOption.themeColor : '#00aeec';
 });
 
+const showSlider = ref<boolean>(false);
 const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
   onMouseDown() {
     videoController.pause();
@@ -28,6 +29,16 @@ const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
     if (isDrag.value) videoController.play(); // 要加判断，不然其他地方点击也会play，且要在重置isDrag之前
   },
 });
+
+// 计时显示关闭
+const timer = ref<NodeJS.Timeout | null>(null);
+watch(mouseEnter, () => {
+  if (timer.value) clearTimeout(timer.value);
+  timer.value = setTimeout(() => {
+    showSlider.value = mouseEnter.value;
+  },200);
+});
+
 /**
  * @description 已播放百分比
  */
@@ -81,10 +92,16 @@ watchEffect(() => {
         :style="{ borderBottomColor: themeColor }"
       ></div>
     </div>
-    <div
-      class="cy-player-progress-slider"
-      :style="{ left: `${completedProportion}%`, backgroundColor: themeColor }"
-    ></div>
+    <Transition>
+      <div
+        v-show="showSlider || isDrag"
+        class="cy-player-progress-slider"
+        :style="{
+          left: `${completedProportion}%`,
+          backgroundColor: themeColor,
+        }"
+      ></div>
+    </Transition>
     <div
       class="cy-player-progress-completed"
       :style="{ width: `${completedProportion}%`, backgroundColor: themeColor }"
@@ -142,7 +159,7 @@ $progress-radius: 1.5px;
       height: 0;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-top: 5px solid red; /* Change the color and size as needed */
+      border-top: 5px solid $default-theme-color; /* Change the color and size as needed */
     }
 
     .cy-player-progress-indicator-up {
@@ -152,7 +169,7 @@ $progress-radius: 1.5px;
       height: 0;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 5px solid red; /* 你可以更改颜色 */
+      border-bottom: 5px solid $default-theme-color; /* 你可以更改颜色 */
     }
   }
 
@@ -160,7 +177,7 @@ $progress-radius: 1.5px;
     @include position(absolute, 0, auto, auto, 0);
     width: 0;
     height: 100%;
-    background-color: red;
+    background-color: $default-theme-color;
     z-index: $second-top-layer;
     border-radius: $progress-radius;
   }
@@ -170,9 +187,23 @@ $progress-radius: 1.5px;
     height: $progress-slider-diameter;
     width: $progress-slider-diameter;
     transform: translate(-50%, -25%);
-    background-color: red;
+    background-color: $default-theme-color;
     border-radius: 100%;
     z-index: $top-layer;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  /* 用vue3格式的transition，出现时会闪现，这里沿用vue2格式的 */
+  .v-enter-from,
+  .v-leave-to {
+    opacity: 0;
+  }
+
+  .v-enter-to,
+  .v-leave-from {
+    opacity: 1;
   }
 
   .cy-player-progress-buffered {

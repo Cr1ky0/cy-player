@@ -59,7 +59,7 @@ $progress-radius: 1.5px;
     @include position(absolute, 0, auto, auto, 0);
     width: 0;
     height: 100%;
-    background-color: red;
+    background-color: $default-theme-color;
     z-index: $second-top-layer;
     border-radius: 1px;
   }
