@@ -20,7 +20,7 @@ const option = ref<PlayerOption>({
   // width: 1000,
   // height: 500,
   // themeColor: 'yellow',
-  maskIconPlacement: 'center',
+  maskIconPlacement: 'right-bottom',
   toastPlacement: 'left-top',
   keepShowController:true,
   isSettingShow:true,

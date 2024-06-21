@@ -7,6 +7,12 @@ const playerOption = <PlayerOption>inject('playerOption');
 const videoStates = <VideoState>inject('videoStates');
 const chosenIndex = ref(0);
 
+const themeColorStyle = computed(() => {
+  return {
+    color: playerOption.themeColor ? playerOption.themeColor : '#00aeec',
+  };
+});
+
 const qualities = computed(() => {
   return playerOption.quality!.map((item) => {
     return item.vQ;
@@ -53,8 +59,8 @@ watchEffect(() => {
       <div
         v-for="(item, index) in qualities"
         :key="index"
+        :style="index === chosenIndex ? themeColorStyle : ''"
         @click="handleChangeQuality(index)"
-        :class="chosenIndex === index ? 'cy-player-quality-chosen-style' : ''"
       >
         {{ item }}
       </div>
@@ -91,10 +97,6 @@ watchEffect(() => {
     border-radius: 3px;
     overflow: hidden;
     animation: show 0.3s ease;
-
-    .cy-player-quality-chosen-style {
-      color: red !important;
-    }
 
     > div {
       width: 100%;

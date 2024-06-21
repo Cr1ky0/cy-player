@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { inject, ref, Ref } from 'vue';
+import { computed, inject, ref, Ref } from 'vue';
 import { useMouseCheck } from '@/utils/useMouseCheck.ts';
+import { PlayerOption } from '@/types';
 
 const multiples = ['2.0x', '1.75x', '1.5x', '1.25x', '1.0x', '0.75x', '0.5x'];
 const videoRef = <Ref>inject('videoRef');
+const playerOption = <PlayerOption>inject('playerOption');
 const chosenIndex = ref(4);
+
+const themeColorStyle = computed(() => {
+  return {
+    color: playerOption.themeColor ? playerOption.themeColor : '#00aeec',
+  };
+});
 
 const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 
@@ -27,8 +35,8 @@ const handleClick = (index: number) => {
       <div
         v-for="(item, index) in multiples"
         :key="index"
+        :style="index === chosenIndex ? themeColorStyle : ''"
         @click="handleClick(index)"
-        :class="index === chosenIndex ? 'cy-player-multiple-chosen-style' : ''"
       >
         {{ item }}
       </div>
@@ -64,11 +72,7 @@ const handleClick = (index: number) => {
     flex-direction: column;
     border-radius: 3px;
     overflow: hidden;
-    animation: show .3s ease;
-
-    .cy-player-multiple-chosen-style {
-      color: red !important;
-    }
+    animation: show 0.3s ease;
 
     > div {
       width: 100%;
