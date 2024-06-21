@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
-import { computed, inject, Ref } from 'vue';
+import { computed, inject } from 'vue';
 import { formatTime } from '@/utils';
 import { VideoController, VideoState } from '@/types';
 
@@ -10,7 +10,7 @@ const curTime = computed(() => {
   return formatTime(Math.floor(videoStates.currentPlayTime));
 });
 const duration = computed(() => {
-  return videoStates.isError
+  return !videoStates.isError
     ? formatTime(Math.floor(videoStates.duration))
     : formatTime(0);
 });

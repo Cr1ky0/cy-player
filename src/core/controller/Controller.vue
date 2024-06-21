@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import ProgressBar from '@/core/progress/ProgressBar.vue';
 import Mask from '@/core/controller/Mask.vue';
-import { provide, ref } from 'vue';
+import { computed, inject, provide, ref } from 'vue';
 import Playback from '@/core/controls/Playback.vue';
 import Controls from '@/core/controls/Controls.vue';
+import { PlayerOption } from '@/types';
 
 defineProps(['mouseEnter']);
+const playerOption = <PlayerOption>inject('playerOption');
+const style = computed(() => {
+  return playerOption.controllerStyles
+    ? playerOption.controllerStyles
+    : undefined;
+});
 /**
  * 进度条拖拽标志
  */
@@ -17,6 +24,7 @@ provide('isDrag', isDrag);
   <Mask />
   <div
     :class="`cy-player-controller-container ${mouseEnter ? 'cy-player-controller-active' : ''}`"
+    :style="style"
   >
     <ProgressBar />
     <div class="cy-player-controller-controls-container">

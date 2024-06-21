@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, provide, ref } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
@@ -26,21 +26,6 @@ const callback = props.callback || null; // reactive
  */
 const videoRef = ref<HTMLVideoElement>();
 const containerRef = ref<HTMLDivElement>();
-/**
- * @description 播放器的size以及其他styles
- */
-const styles = computed(() => {
-  let width, height;
-  if (option.width) {
-    if (typeof option.width === 'string') width = option.width;
-    else width = `${option.width}px`;
-  }
-  if (option.height) {
-    if (typeof option.height === 'string') height = option.height;
-    else height = `${option.height}px`;
-  }
-  return { width, height, ...option.styles };
-});
 
 // Hooks
 const { videoStates, videoController } = useVideo(videoRef, option);
@@ -66,27 +51,31 @@ provide('videoStates', videoStates);
 provide('videoController', videoController);
 
 /**
- * @description video size set
+ * @description Set Video Size
  */
-// const setVideoSize = () => {
-//   const videoElement = <HTMLVideoElement>videoRef.value;
-//   const videoContainer = <HTMLDivElement>containerRef.value;
-//   const videoWidth = videoElement.videoWidth;
-//   const videoHeight = videoElement.videoHeight;
-//   console.log(videoWidth,videoHeight);
-//   if (!option.width) videoContainer.style.width = `${videoWidth}px`;
-//   if (!option.height) videoContainer.style.height = `${videoHeight}px`;
-// };
-//
-// onMounted(()=>{
-//   const vElement = <HTMLVideoElement>videoRef.value;
-//   vElement.addEventListener('canplay',setVideoSize)
-// })
-//
-// onBeforeUnmount(()=>{
-//   const vElement = <HTMLVideoElement>videoRef.value;
-//   vElement.removeEventListener('canplay',setVideoSize)
-// })
+const setVideoSize = () => {
+  const videoElement = <HTMLVideoElement>videoRef.value;
+  const videoContainer = <HTMLDivElement>containerRef.value;
+  const videoWidth = videoElement.videoWidth;
+  const videoHeight = videoElement.videoHeight;
+  if (!option.width && !option.styles?.width)
+    videoContainer.style.width = `${videoWidth}px`;
+  if (!option.height && !option.styles?.height)
+    videoContainer.style.height = `${videoHeight}px`;
+  if (option.height) videoContainer.style.height = `${option.height}px`;
+  if (option.width) videoContainer.style.width = `${option.width}px`;
+};
+
+onMounted(() => {
+  setVideoSize();
+  const vElement = <HTMLVideoElement>videoRef.value;
+  vElement.addEventListener('canplay', setVideoSize);
+});
+
+onBeforeUnmount(() => {
+  const vElement = <HTMLVideoElement>videoRef.value;
+  vElement.removeEventListener('canplay', setVideoSize);
+});
 </script>
 
 <template>
@@ -94,7 +83,7 @@ provide('videoController', videoController);
     id="cy-player-container"
     class="cy-player-container"
     ref="containerRef"
-    :style="styles"
+    :style="{ ...option.styles }"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
@@ -103,18 +92,19 @@ provide('videoController', videoController);
       id="cy-player"
       ref="videoRef"
       :autoplay="option.autoPlay"
+      :src="option.videoSrc"
     >
-      <source src="" type="video/mp4" />
-      <source src="" type="video/ogg" />
-      <source src="" type="video/webm" />
-      <source src="" type="video/webm" />
-      <source src="" type="application/vnd.apple.mpegURL" />
-      <source src="" type="application/x-mpegURL" />
+      <source :src="option.videoSrc" type="video/mp4" />
+      <source :src="option.videoSrc" type="video/ogg" />
+      <source :src="option.videoSrc" type="video/webm" />
+      <source :src="option.videoSrc" type="video/webm" />
+      <source :src="option.videoSrc" type="application/vnd.apple.mpegURL" />
+      <source :src="option.videoSrc" type="application/x-mpegURL" />
     </video>
     <Controller :mouseEnter="mouseEnter" />
     <BottomProgress :mouseEnter="mouseEnter" />
     <!--  TEST PART  -->
-    <Test></Test>
+    <!--    <Test></Test>-->
     <!--    <button @click="showToast">showToast</button>-->
     <!--    <button @click="closeToast">closeToast</button>-->
     <!--    <button @click="videoController.play">开始</button>-->

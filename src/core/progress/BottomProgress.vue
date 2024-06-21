@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
-import { VideoState } from '@/types';
+import { PlayerOption, VideoState } from '@/types';
 
 const props = defineProps(['mouseEnter']);
 const videoStates = <VideoState>inject('videoStates');
+const playerOption = <PlayerOption>inject('playerOption');
+const themeColorStyle = computed(() => {
+  return {
+    backgroundColor: playerOption.themeColor
+      ? playerOption.themeColor
+      : '#00aeec',
+  };
+});
 
 /**
  * @description 已播放百分比
@@ -19,7 +27,7 @@ const completedProportion = computed(() => {
   <div v-if="!props.mouseEnter" class="cy-player-bottom-progress">
     <div
       class="cy-player-bottom-progress-completed"
-      :style="{ width: `${completedProportion}%` }"
+      :style="{ width: `${completedProportion}%`, ...themeColorStyle }"
     ></div>
   </div>
 </template>
@@ -41,7 +49,7 @@ $progress-radius: 1.5px;
   background-color: transparent;
   z-index: $top-layer;
   cursor: default;
-  animation: show .3s ease;
+  animation: show 0.3s ease;
 
   .cy-player-bottom-progress-completed {
     @include position(absolute, 0, auto, auto, 0);

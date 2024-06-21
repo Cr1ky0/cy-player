@@ -53,7 +53,7 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    */
   showToast?: U;
   /**
-   * @description container css样式
+   * @description 播放器根样式
    */
   styles?: CSSProperties;
   /**
@@ -72,6 +72,14 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 源视频种类
    */
   sourceType?: SourceType;
+  /**
+   * @description 播放器主题颜色
+   */
+  themeColor?: T;
+  /**
+   * @description 控制器根样式
+   */
+  controllerStyles?: CSSProperties;
 }
 
 // Video回调

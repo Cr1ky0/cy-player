@@ -1,5 +1,5 @@
 import { onMounted, reactive, Ref, ref, watch } from 'vue';
-import { HttpLoadState, PlayerOption } from '@/types';
+import { PlayerOption } from '@/types';
 import Hls from 'hls.js';
 
 /**
@@ -21,7 +21,7 @@ export const useLoad = (
   videoRef: Ref<HTMLVideoElement | undefined>,
   option: PlayerOption,
 ) => {
-  const httpStates: HttpLoadState = reactive({
+  const httpStates = reactive({
     httpStateCode: 404,
     failReason: '',
   });

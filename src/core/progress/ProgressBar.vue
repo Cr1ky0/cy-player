@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { computed, inject, Ref, ref, watchEffect } from 'vue';
-import { VideoController, VideoState } from '@/types';
+import { PlayerOption, VideoController, VideoState } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
 
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
 const progressDrag = <Ref>inject('isDrag');
+const playerOption = <PlayerOption>inject('playerOption');
 const progressRef = ref<HTMLDivElement>();
+
+const themeColor = computed(() => {
+  return playerOption.themeColor ? playerOption.themeColor : '#00aeec';
+});
 
 const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
   onMouseDown() {
@@ -52,9 +57,9 @@ const moveTime = computed(() => {
   return (xProp.value / 100) * videoStates.duration;
 });
 
-watchEffect(()=>{
-  progressDrag.value = isDrag.value
-})
+watchEffect(() => {
+  progressDrag.value = isDrag.value;
+});
 </script>
 
 <template>
@@ -67,16 +72,22 @@ watchEffect(()=>{
       <div class="cy-player-progress-indicator-time">
         {{ moveVideoTime }}
       </div>
-      <div class="cy-player-progress-indicator-down"></div>
-      <div class="cy-player-progress-indicator-up"></div>
+      <div
+        class="cy-player-progress-indicator-down"
+        :style="{ borderTopColor: themeColor }"
+      ></div>
+      <div
+        class="cy-player-progress-indicator-up"
+        :style="{ borderBottomColor: themeColor }"
+      ></div>
     </div>
     <div
       class="cy-player-progress-slider"
-      :style="{ left: `${completedProportion}%` }"
+      :style="{ left: `${completedProportion}%`, backgroundColor: themeColor }"
     ></div>
     <div
       class="cy-player-progress-completed"
-      :style="{ width: `${completedProportion}%` }"
+      :style="{ width: `${completedProportion}%`, backgroundColor: themeColor }"
     ></div>
     <div
       class="cy-player-progress-buffered"
