@@ -19,6 +19,7 @@ const handleIconClick = () => {
     videoController.setVolume(0);
   } else {
     const lastVolume = localStorage.getItem('lastVolume');
+    console.log(lastVolume);
     if (lastVolume) videoController.setVolume(parseInt(lastVolume));
     else videoController.setVolume(50);
   }

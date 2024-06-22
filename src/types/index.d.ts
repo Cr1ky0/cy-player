@@ -104,6 +104,10 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 是否显示倍速播放
    */
   isMultiplePlayShow?:U;
+  /**
+   * @description 视频当前播放时间更新频率
+   */
+  updateCurTimeDuration?:K;
 }
 
 // Video回调
@@ -144,10 +148,10 @@ export interface VideoCallback<T = CallbackType> {
   //  * @description 视频加载成功以后回调
   //  */
   // onLoaded?: T;
-  // /**
-  //  * @description 视频加载错误回调
-  //  */
-  // onError?: (e?: ErrorEvent) => void;
+  /**
+   * @description 视频加载错误回调
+   */
+  onError?: () => void;
 }
 
 // Video状态

@@ -35,6 +35,7 @@ useCallback(videoStates, {
   onPlay: callback?.onPlay,
   onPlayEnd: callback?.onPlayEnd,
   onVolumeChange: callback?.onVolumeChange,
+  onError: callback?.onError,
 });
 
 // Provide

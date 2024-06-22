@@ -11,9 +11,9 @@ const test = ref(true);
  */
 const option = ref<PlayerOption>({
   videoSrc:
-    // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
-  'http://localhost:3000/test.mp4',
+  // 'http://localhost:3000/test.mp4',
   // 'http://localhost:3000/input.m3u8',
   // '1231313231212333333333333333333333333333333333333333333333',
   sourceType: 'h264',
@@ -29,6 +29,7 @@ const option = ref<PlayerOption>({
   isWebScreenFullShow: true,
   isScreenFullShow: true,
   isMultiplePlayShow: true,
+  updateCurTimeDuration:100,
   // styles: {
   //   width: '1000px',
   // },
@@ -38,20 +39,20 @@ const option = ref<PlayerOption>({
   showToast: true, // 默认false
   poster:
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
-  // quality: [
-  //   {
-  //     vQ: '2K',
-  //     src: 'https://cdn.gudsen.vip/2022/11/14/422e7528fce64f03bf1b378cff393237.mp4',
-  //   },
-  //   {
-  //     vQ: '720p',
-  //     src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
-  //   },
-  //   {
-  //     vQ: '480p',
-  //     src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
-  //   },
-  // ],
+  quality: [
+    {
+      vQ: '2K',
+      src: 'https://cdn.gudsen.vip/2022/11/14/422e7528fce64f03bf1b378cff393237.mp4',
+    },
+    {
+      vQ: '720p',
+      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+    },
+    {
+      vQ: '480p',
+      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+    },
+  ],
 });
 
 // 适配测试
@@ -80,13 +81,13 @@ onMounted(() => {
 
 const callbacks = <VideoCallback>{
   onTimeChange: (e) => {
-    // console.log(e);
+    console.log('timechange');
   },
-  onError(e) {
-    // console.log(123);
+  onError() {
+    console.log('err');
   },
   onLoaded(e) {
-    // console.log(e);
+    // console.log(l);
   },
 };
 
@@ -95,7 +96,7 @@ const change = () => {
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
   // option.value.videoSrc = '112312';
   // option.value.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
-  option.value.width = '50vw';
+  // option.value.width = '50vw';
   // option.value.isScreenFullShow = false;
   // option.value.showToast = false;
   // option.value.toastPlacement = 'center';

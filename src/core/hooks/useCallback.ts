@@ -11,6 +11,7 @@ export const useCallback = (
     onVolumeChange,
     onPause,
     onTimeChange,
+    onError
   } = callbacks;
   // 播放和暂停的回调（含自动播放）
   watch(
@@ -49,4 +50,9 @@ export const useCallback = (
       onTimeChange && onTimeChange(videoStates);
     },
   );
+
+  // 错误回调
+  watch(()=>videoStates.isError,()=>{
+    onError && onError();
+  })
 };

@@ -1,12 +1,4 @@
-import {
-  onBeforeUnmount,
-  onMounted,
-  reactive,
-  ref,
-  Ref,
-  watch,
-  watchEffect,
-} from 'vue';
+import { onBeforeUnmount, onMounted, reactive, ref, Ref, watch } from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
 import Hls from 'hls.js';
 
@@ -57,7 +49,7 @@ export const useVideo = (
     setVolume: (volume) => {
       if (vRef.value) {
         // 记录上一次音量值
-        if (volume > 0) localStorage.setItem('lastVolume', String(volume));
+        if (volume >= 1) localStorage.setItem('lastVolume', String(volume));
         // muted状态下始终为0
         const v = volume <= 0 ? 0 : volume >= 100 ? 100 : volume;
         vRef.value.volume = volume <= 0 ? 0 : volume >= 100 ? 1 : volume / 100;
@@ -203,13 +195,21 @@ export const useVideo = (
   /**
    * @description 其他option
    */
-  watchEffect(() => {
-    if (vRef.value) {
-      const videoElement = vRef.value!;
-      // 导入poster
-      videoElement.poster = option.poster ? option.poster : '';
-    }
-  });
+  watch(
+    [() => vRef.value, () => option.poster, () => option.updateCurTimeDuration],
+    () => {
+      if (vRef.value) {
+        const videoElement = vRef.value!;
+        // 导入poster
+        videoElement.poster = option.poster ? option.poster : '';
+        // update计时器
+        if (interval.value) clearInterval(interval.value);
+        interval.value = setInterval(() => {
+          videoStates.currentPlayTime = vRef.value!.currentTime;
+        }, option.updateCurTimeDuration || 20);
+      }
+    },
+  );
 
   // 监听src重置状态
   watch(
@@ -246,11 +246,6 @@ export const useVideo = (
       const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.volume = videoStates.volume / 100; // 设置音量
       addEvents(videoElement);
-      // interval
-      interval.value = setInterval(() => {
-        videoStates.currentPlayTime = videoRef.value!.currentTime;
-        videoStates.volume = videoRef.value!.volume * 100;
-      }, 10);
     }
   });
 
