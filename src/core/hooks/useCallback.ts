@@ -1,5 +1,5 @@
 import { VideoCallback, VideoState } from '@/types';
-import { watch } from 'vue';
+import { readonly, watch } from 'vue';
 
 export const useCallback = (
   videoStates: VideoState,
@@ -11,16 +11,17 @@ export const useCallback = (
     onVolumeChange,
     onPause,
     onTimeChange,
-    onError
+    onWaiting,
+    onError,
   } = callbacks;
   // 播放和暂停的回调（含自动播放）
   watch(
     () => videoStates.isPlay,
     () => {
       if (videoStates.isPlay) {
-        onPlay && onPlay(videoStates);
+        onPlay && onPlay(readonly(videoStates));
       } else {
-        onPause && onPause(videoStates);
+        onPause && onPause(readonly(videoStates));
       }
     },
   );
@@ -30,7 +31,7 @@ export const useCallback = (
     () => videoStates.isPlayEnd,
     () => {
       if (videoStates.isPlayEnd) {
-        onPlayEnd && onPlayEnd(videoStates);
+        onPlayEnd && onPlayEnd(readonly(videoStates));
       }
     },
   );
@@ -39,7 +40,7 @@ export const useCallback = (
   watch(
     () => videoStates.volume,
     () => {
-      onVolumeChange && onVolumeChange(videoStates);
+      onVolumeChange && onVolumeChange(readonly(videoStates));
     },
   );
 
@@ -47,12 +48,23 @@ export const useCallback = (
   watch(
     () => videoStates.currentPlayTime,
     () => {
-      onTimeChange && onTimeChange(videoStates);
+      onTimeChange && onTimeChange(readonly(videoStates));
+    },
+  );
+
+  // 视频等待回调
+  watch(
+    () => videoStates.isWaiting,
+    () => {
+      onWaiting && onWaiting(readonly(videoStates));
     },
   );
 
   // 错误回调
-  watch(()=>videoStates.isError,()=>{
-    onError && onError();
-  })
+  watch(
+    () => videoStates.isError,
+    () => {
+      onError && onError();
+    },
+  );
 };

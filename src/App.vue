@@ -29,7 +29,7 @@ const option = ref<PlayerOption>({
   isWebScreenFullShow: true,
   isScreenFullShow: true,
   isMultiplePlayShow: true,
-  updateCurTimeDuration:100,
+  updateCurTimeDuration: 100,
   // styles: {
   //   width: '1000px',
   // },
@@ -80,14 +80,26 @@ onMounted(() => {
 });
 
 const callbacks = <VideoCallback>{
+  onPlay: (e) => {
+    console.log('play');
+  },
+  onPlayEnd: (e) => {
+    console.log('playend');
+  },
+  onPause: (e) => {
+    console.log('pause');
+  },
+  onVolumeChange: (e) => {
+    console.log('volumechange');
+  },
   onTimeChange: (e) => {
     console.log('timechange');
   },
+  onWaiting(e) {
+    console.log('waiting');
+  },
   onError() {
     console.log('err');
-  },
-  onLoaded(e) {
-    // console.log(l);
   },
 };
 

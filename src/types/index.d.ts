@@ -87,27 +87,27 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 是否显示setting
    */
-  isSettingShow?:U;
+  isSettingShow?: U;
   /**
    * @description 是否显示画中画
    */
-  isPicInPicShow?:U;
+  isPicInPicShow?: U;
   /**
    * @description 是否显示网页全屏
    */
-  isWebScreenFullShow?:U;
+  isWebScreenFullShow?: U;
   /**
    * @description 是否显示全屏
    */
-  isScreenFullShow?:U;
+  isScreenFullShow?: U;
   /**
    * @description 是否显示倍速播放
    */
-  isMultiplePlayShow?:U;
+  isMultiplePlayShow?: U;
   /**
-   * @description 视频当前播放时间更新频率
+   * @description 视频当前播放时间更新频率 (ms)
    */
-  updateCurTimeDuration?:K;
+  updateCurTimeDuration?: K;
 }
 
 // Video回调
@@ -144,14 +144,14 @@ export interface VideoCallback<T = CallbackType> {
    * @description 音量改变时的回调
    */
   onVolumeChange?: T;
-  // /**
-  //  * @description 视频加载成功以后回调
-  //  */
-  // onLoaded?: T;
   /**
    * @description 视频加载错误回调
    */
   onError?: () => void;
+  /**
+   * @description 视频等待时回调
+   */
+  onWaiting?: T;
 }
 
 // Video状态

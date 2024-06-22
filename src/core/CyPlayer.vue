@@ -16,8 +16,8 @@ export interface PlayerProps {
 
 // Props
 const props = defineProps<PlayerProps>();
-const option = props.option; // reactive
-const callback = props.callback || null; // reactive
+const option = props.option;
+const callback = props.callback || null;
 
 // Refs
 /**
@@ -35,6 +35,7 @@ useCallback(videoStates, {
   onPlay: callback?.onPlay,
   onPlayEnd: callback?.onPlayEnd,
   onVolumeChange: callback?.onVolumeChange,
+  onWaiting:callback?.onWaiting,
   onError: callback?.onError,
 });
 
