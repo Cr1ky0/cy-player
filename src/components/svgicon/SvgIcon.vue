@@ -21,8 +21,7 @@ const click = computed(() => {
 <template>
   <svg
     :class="className"
-    :font-size="fontSize || '18px'"
-    :style="styles"
+    :style="{ ...styles, fontSize: fontSize || '1.125rem' }"
     @click="click"
     aria-hidden="true"
   >
@@ -32,6 +31,7 @@ const click = computed(() => {
 
 <style scoped lang="scss">
 @import '@/assets/css/mixin';
+
 svg {
   @include selectable(none);
   cursor: pointer;

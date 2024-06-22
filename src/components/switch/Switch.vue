@@ -25,9 +25,9 @@ const handleClick = () => {
 @import '@/assets/css/mixin';
 
 .cy-player-switch-component {
-  width: 32px;
-  height: 16px;
-  border-radius: 8px;
+  width: 2rem;
+  height: 1rem;
+  border-radius: .5rem;
   background-color: gray;
   cursor: pointer;
   position: relative;
@@ -35,8 +35,8 @@ const handleClick = () => {
 
   .cy-player-switch-slider {
     @include position(absolute, 0, auto, auto, 0);
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     border-radius: 100%;
     background-color: #fff;
     transition-property: left, transform;

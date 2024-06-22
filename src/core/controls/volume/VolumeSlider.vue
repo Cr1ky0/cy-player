@@ -71,9 +71,9 @@ const handleProgressClick = () => {
   @include xCenterAlign(-110%);
   z-index: $top-layer;
   background-color: rgba(0, 0, 0, 0.8);
-  height: 120px;
-  width: 40px;
-  border-radius: 3px;
+  height: 7.5rem;
+  width: 2.5rem;
+  border-radius: .2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,8 +81,8 @@ const handleProgressClick = () => {
 
   .cy-player-volume-number {
     color: #fff;
-    font-size: 14px;
-    padding: 5px 0;
+    font-size: .85rem;
+    padding: .3rem 0;
   }
 
   .cy-player-volume-progress {
@@ -94,15 +94,15 @@ const handleProgressClick = () => {
 
     .cy-player-volume-base {
       position: relative;
-      width: 2px;
+      width: .125rem;
       height: 100%;
       background-color: #fff;
 
       .cy-player-volume-slider {
         @include position(absolute, auto, 0, auto, 0);
         transform: translate(-40%, 50%);
-        width: 8px;
-        height: 8px;
+        width: .5rem;
+        height: .5rem;
         background-color: $default-theme-color;
         border-radius: 100%;
         cursor: pointer;
@@ -110,7 +110,7 @@ const handleProgressClick = () => {
 
       .cy-player-volume-proportion {
         @include position(absolute, auto, 0, auto, 0);
-        width: 2px;
+        width: .125rem;
         height: 0;
         background-color: $default-theme-color;
       }

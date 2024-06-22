@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, provide, ref } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
-import Test from './Test.vue';
 import { useCallback } from '@/core/hooks/useCallback.ts';
-import { useToast } from '@/core/hooks/useToast.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
-import 'virtual:svg-icons-register';
 import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 import BottomProgress from '@/core/progress/BottomProgress.vue';
+import 'virtual:svg-icons-register';
+import './index.css';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -30,11 +29,6 @@ const containerRef = ref<HTMLDivElement>();
 // Hooks
 const { videoStates, videoController } = useVideo(videoRef, option);
 const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
-const { showToast, closeToast } = useToast({
-  message: 'Test',
-  duration: 2000,
-  option,
-});
 useCallback(videoStates, {
   onTimeChange: callback?.onTimeChange,
   onPause: callback?.onPause,
@@ -62,8 +56,16 @@ const setVideoSize = () => {
     videoContainer.style.width = `${videoWidth}px`;
   if (!option.height && !option.styles?.height)
     videoContainer.style.height = `${videoHeight}px`;
-  if (option.height) videoContainer.style.height = `${option.height}px`;
-  if (option.width) videoContainer.style.width = `${option.width}px`;
+  if (option.height) {
+    if (typeof option.height === 'number')
+      videoContainer.style.height = `${option.height}px`;
+    else videoContainer.style.height = option.height;
+  }
+  if (option.width) {
+    if (typeof option.width === 'number')
+      videoContainer.style.width = `${option.width}px`;
+    else videoContainer.style.width = option.width;
+  }
 };
 
 onMounted(() => {
@@ -103,16 +105,6 @@ onBeforeUnmount(() => {
     </video>
     <Controller :mouseEnter="mouseEnter" />
     <BottomProgress :mouseEnter="mouseEnter" />
-    <!--  TEST PART  -->
-    <!--    <Test></Test>-->
-    <!--    <button @click="showToast">showToast</button>-->
-    <!--    <button @click="closeToast">closeToast</button>-->
-    <!--    <button @click="videoController.play">开始</button>-->
-    <!--    <button @click="videoController.pause">暂停</button>-->
-    <!--    <button @click="videoController.setCurTime(0)">时间调0</button>-->
-    <!--    <button @click="videoController.setVolume(0)">设置音量为0</button>-->
-    <!--    <button @click="videoController.setVolume(50)">设置音量为50</button>-->
-    <!--    <button @click="videoController.setVolume(100)">设置音量为100</button>-->
   </div>
 </template>
 

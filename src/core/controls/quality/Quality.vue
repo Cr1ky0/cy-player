@@ -77,31 +77,31 @@ watchEffect(() => {
   @include childCenter;
   @include selectable(none);
   position: relative;
-  padding: 0 10px;
+  padding: 0 .7rem;
   cursor: pointer;
   z-index: $top-layer;
 
   .cy-player-quality-icon {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 1rem;
+    line-height: 1.25rem;
   }
 
   .cy-player-quality-function {
     @include xCenterAlign(-110%);
     background-color: rgba(0, 0, 0, 0.8);
-    width: 80px;
+    width: 5rem;
     z-index: $top-layer;
     display: flex;
     flex-direction: column;
-    border-radius: 3px;
+    border-radius: .2rem;
     overflow: hidden;
     animation: show 0.3s ease;
 
     > div {
       width: 100%;
-      padding: 8px 0;
-      font-size: 14px;
+      padding: .5rem 0;
+      font-size: .8rem;
       color: rgba(255, 255, 255, 0.8);
       text-align: center;
 
@@ -114,7 +114,7 @@ watchEffect(() => {
   .cy-player-quality-bottom {
     @include xCenterAlign(-100%);
     width: 100%;
-    height: 20px;
+    height: 1.25rem;
     background-color: transparent;
   }
 }

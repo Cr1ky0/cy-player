@@ -24,13 +24,13 @@ const handleClick = () => {
       v-if="typeof flag !== 'boolean' || flag"
       :icon-name="activeIconName"
       :fill="fill ? fill : 'rgba(255,255,255,.9)'"
-      :font-size="fontSize ? fontSize : '20px'"
+      :font-size="fontSize ? fontSize : '1.25rem'"
     />
     <SvgIcon
       v-else-if="inactiveIconName && !flag"
       :icon-name="inactiveIconName"
       :fill="fill ? fill : 'rgba(255,255,255,.9)'"
-      :font-size="fontSize ? fontSize : '20px'"
+      :font-size="fontSize ? fontSize : '1.25rem'"
     />
   </div>
 </template>
@@ -44,18 +44,18 @@ const handleClick = () => {
   height: 100%;
   position: relative;
   cursor: pointer;
-  padding: 0 10px;
+  padding: 0 .7rem;
 
   .cy-player-control-tool-hover-tip {
     @include xCenterAlign(-130%);
     display: none;
     white-space: nowrap;
-    padding: 1px 6px;
-    height: 25px;
-    line-height: 25px;
-    font-size: 14px;
+    padding: .05rem .3rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    font-size: .85rem;
     text-align: center;
-    border-radius: 3px;
+    border-radius: .2rem;
     background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
     animation: show 0.3s ease;

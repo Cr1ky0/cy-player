@@ -40,13 +40,13 @@ const changeIsDrag = (value: boolean) => {
         v-if="!isMuted"
         icon-name="volume"
         fill="rgba(255,255,255,.9)"
-        font-size="20px"
+        font-size="1.25rem"
       ></SvgIcon>
       <SvgIcon
         v-else
         icon-name="mute"
         fill="rgba(255,255,255,.9)"
-        font-size="20px"
+        font-size="1.25rem"
       ></SvgIcon>
     </div>
     <VolumeSlider
@@ -66,7 +66,7 @@ const changeIsDrag = (value: boolean) => {
   height: 100%;
   position: relative;
   cursor: pointer;
-  padding: 0 10px;
+  padding: 0 0.7rem;
 
   .cy-player-volume-icon {
     @include childCenter();
@@ -76,8 +76,8 @@ const changeIsDrag = (value: boolean) => {
 
   .cy-player-volume-bottom {
     @include xCenterAlign(-100%);
-    width: 40px;
-    height: 15px;
+    width: 2.5rem;
+    height: 0.9rem;
     background-color: transparent;
     z-index: $top-layer;
   }

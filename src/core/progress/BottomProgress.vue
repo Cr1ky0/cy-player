@@ -43,13 +43,13 @@ const completedProportion = computed(() => {
 $progress-base-color: rgba(255, 255, 255, 0.2);
 $progress-buffered-color: rgba(255, 255, 255, 0.5);
 $progress-indicator-time-color: rgba(0, 0, 0, 0.7);
-$progress-slider-diameter: 10px;
-$progress-radius: 1.5px;
+$progress-slider-diameter: .7rem;
+$progress-radius: .1rem;
 
 .cy-player-bottom-progress {
   @include position(absolute, auto, 0, auto, 0);
   width: 100%;
-  height: 3px;
+  height: .2rem;
   background-color: transparent;
   z-index: $top-layer;
   cursor: default;
@@ -61,7 +61,7 @@ $progress-radius: 1.5px;
     height: 100%;
     background-color: $default-theme-color;
     z-index: $second-top-layer;
-    border-radius: 1px;
+    border-radius: .1rem;
   }
 }
 </style>

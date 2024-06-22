@@ -25,7 +25,7 @@ const handleLoop = () => {
     <SvgIcon
       icon-name="set"
       fill="rgba(255,255,255,.8)"
-      font-size="20px"
+      font-size="1.25rem"
     ></SvgIcon>
     <div v-if="mouseEnter" class="cy-player-controls-setting-function">
       <div
@@ -54,22 +54,22 @@ const handleLoop = () => {
   height: 100%;
   position: relative;
   cursor: pointer;
-  padding: 0 10px;
+  padding: 0 .7rem;
 
   .cy-player-controls-setting-bottom {
     @include xCenterAlign(-100%);
     background-color: transparent;
-    width: 120px;
-    height: 20px;
+    width: 7.5rem;
+    height: 1.25rem;
     z-index: $top-layer;
   }
 
   .cy-player-controls-setting-function {
     @include xCenterAlign(-115%);
     color: #fff;
-    width: 100px;
-    padding: 10px;
-    border-radius: 3px;
+    width: 6.25rem;
+    padding: .7rem;
+    border-radius: .2rem;
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
@@ -78,7 +78,7 @@ const handleLoop = () => {
     animation: show 0.3s ease;
 
     > div {
-      margin: 5px 0;
+      margin: .3rem 0;
     }
 
     .cy-player-controls-setting-light-off {
@@ -86,10 +86,10 @@ const handleLoop = () => {
       justify-content: space-between;
 
       > div:first-child {
-        font-size: 14px;
-        width: 75px;
+        font-size: .8rem;
+        width: 4.7rem;
         text-align: center;
-        letter-spacing: 6px;
+        letter-spacing: .3rem;
       }
     }
 
@@ -97,7 +97,7 @@ const handleLoop = () => {
       @extend .cy-player-controls-setting-light-off;
 
       > div:first-child {
-        letter-spacing: 2px;
+        letter-spacing: .125rem;
       }
     }
   }

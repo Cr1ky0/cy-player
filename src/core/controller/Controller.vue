@@ -13,9 +13,11 @@ const style = computed(() => {
     ? playerOption.controllerStyles
     : undefined;
 });
-const keepShow = computed(()=>{
-  return typeof playerOption.keepShowController === 'boolean' ? playerOption.keepShowController : false;
-})
+const keepShow = computed(() => {
+  return typeof playerOption.keepShowController === 'boolean'
+    ? playerOption.keepShowController
+    : false;
+});
 /**
  * 进度条拖拽标志
  */
@@ -45,7 +47,7 @@ provide('isDrag', isDrag);
 }
 
 .cy-player-controller-container {
-  padding: 0 10px;
+  padding: 0 0.75rem;
   height: $controller-container-height;
   background-color: rgba(0, 0, 0, 0.2);
   position: absolute;

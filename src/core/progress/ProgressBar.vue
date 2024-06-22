@@ -120,8 +120,8 @@ watchEffect(() => {
 $progress-base-color: rgba(255, 255, 255, 0.3);
 $progress-buffered-color: rgba(255, 255, 255, 0.5);
 $progress-indicator-time-color: rgba(0, 0, 0, 0.7);
-$progress-slider-diameter: 10px;
-$progress-radius: 1.5px;
+$progress-slider-diameter: 0.7rem;
+$progress-radius: 0.1rem;
 
 .cy-player-progress-bar {
   width: 100%;
@@ -142,10 +142,10 @@ $progress-radius: 1.5px;
 
     .cy-player-progress-indicator-time {
       @include position(absolute, 0, auto, auto, 0);
-      height: 14px;
-      line-height: 14px;
-      padding: 0 2px;
-      font-size: 12px;
+      height: 1rem;
+      line-height: 1rem;
+      padding: 0 .15rem;
+      font-size: .75rem;
       text-align: center;
       background-color: $progress-indicator-time-color;
       color: #fff;
@@ -157,9 +157,9 @@ $progress-radius: 1.5px;
       transform: translate(-50%, -150%);
       width: 0;
       height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 5px solid $default-theme-color; /* Change the color and size as needed */
+      border-left: .3rem solid transparent;
+      border-right: .3rem solid transparent;
+      border-top: .3rem solid $default-theme-color; /* Change the color and size as needed */
     }
 
     .cy-player-progress-indicator-up {
@@ -167,9 +167,9 @@ $progress-radius: 1.5px;
       transform: translate(-50%, 150%);
       width: 0;
       height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-bottom: 5px solid $default-theme-color; /* 你可以更改颜色 */
+      border-left: .3rem solid transparent;
+      border-right: .3rem solid transparent;
+      border-bottom: .3rem solid $default-theme-color; /* 你可以更改颜色 */
     }
   }
 

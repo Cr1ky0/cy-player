@@ -17,17 +17,19 @@ const option = ref<PlayerOption>({
   // '1231313231212333333333333333333333333333333333333333333333',
   sourceType: 'h264',
   // autoPlay: true,
-  // width: 1000,
-  // height: 500,
+  width: '100vw',
+  height: '300px',
+  // width:1000,
+  // height:600,
   // themeColor: 'yellow',
   maskIconPlacement: 'right-bottom',
   toastPlacement: 'left-top',
-  keepShowController:true,
-  isSettingShow:true,
-  isPicInPicShow:true,
-  isWebScreenFullShow:true,
-  isScreenFullShow:true,
-  isMultiplePlayShow:true,
+  keepShowController: true,
+  isSettingShow: true,
+  isPicInPicShow: true,
+  isWebScreenFullShow: true,
+  isScreenFullShow: true,
+  isMultiplePlayShow: true,
   // styles: {
   //   width: '1000px',
   // },
@@ -74,7 +76,7 @@ const change = () => {
   // option.value.showToast = false;
   // option.value.toastPlacement = 'center';
   // option.value.maskIconPlacement = 'center';
-  option.value.themeColor = 'red';
+  // option.value.themeColor = 'red';
 };
 </script>
 

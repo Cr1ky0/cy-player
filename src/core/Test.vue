@@ -29,7 +29,7 @@ const show2 = ()=>{
 </script>
 
 <template>
-  <div style="margin-top: 20px">
+  <div style="margin-top: 1.25rem">
     <div>{{ videoStates.currentPlayTime }}</div>
     <div>{{ videoStates.duration }}</div>
     <div>{{ videoStates.bufferedTime }}</div>

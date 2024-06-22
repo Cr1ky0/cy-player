@@ -52,7 +52,7 @@ const handleClick = () => {
         <SvgIcon
           icon-name="close"
           fill="rgba(255,255,255,.8)"
-          font-size="50px"
+          font-size="3rem"
           :style="{ cursor: 'default' }"
         ></SvgIcon>
       </div>
@@ -62,7 +62,7 @@ const handleClick = () => {
       <SvgIcon
         icon-name="loading"
         fill="rgba(255,255,255,.8)"
-        font-size="50px"
+        font-size="3rem"
         :style="{ cursor: 'default' }"
       ></SvgIcon>
     </div>
@@ -71,7 +71,7 @@ const handleClick = () => {
         <SvgIcon
           icon-name="replay"
           fill="rgba(255,255,255,.8)"
-          font-size="30px"
+          font-size="1.875rem"
           :styles="{ cursor: 'default' }"
         ></SvgIcon>
       </div>
@@ -84,7 +84,7 @@ const handleClick = () => {
       <SvgIcon
         icon-name="player"
         fill="rgba(255,255,255,.8)"
-        font-size="50px"
+        font-size="3.125rem"
         :styles="{ cursor: 'default' }"
       ></SvgIcon>
     </div>
@@ -102,8 +102,8 @@ const handleClick = () => {
   height: 100%;
 
   .cy-player-replay-icon {
-    width: 50px;
-    height: 50px;
+    width: 3.125rem;
+    height: 3.125rem;
     margin: auto;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 100%;
@@ -114,7 +114,7 @@ const handleClick = () => {
 
   .cy-player-replay-tip {
     text-align: center;
-    font-size: 16px;
+    font-size: 0.8rem;
     color: #fff;
   }
 
