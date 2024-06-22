@@ -8,7 +8,6 @@ import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 import BottomProgress from '@/core/progress/BottomProgress.vue';
 import 'virtual:svg-icons-register';
 import './index.css';
-import Test from '@/core/Test.vue';
 
 export interface PlayerProps {
   option: PlayerOption;
