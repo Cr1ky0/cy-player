@@ -14,7 +14,7 @@ const themeColorStyle = computed(() => {
 });
 
 const keepShow = computed(()=>{
-  return typeof playerOption.keepShowController === 'boolean' ? playerOption.keepShowController : false;
+  return typeof playerOption.keepControllerShow === 'boolean' ? playerOption.keepControllerShow : false;
 })
 
 /**

@@ -83,7 +83,7 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 是否保持controller显示
    */
-  keepShowController?: U;
+  keepControllerShow?: U;
   /**
    * @description 是否显示setting
    */

@@ -14,8 +14,8 @@ const style = computed(() => {
     : undefined;
 });
 const keepShow = computed(() => {
-  return typeof playerOption.keepShowController === 'boolean'
-    ? playerOption.keepShowController
+  return typeof playerOption.keepControllerShow === 'boolean'
+    ? playerOption.keepControllerShow
     : false;
 });
 /**

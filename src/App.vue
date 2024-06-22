@@ -21,21 +21,21 @@ const option = ref<PlayerOption>({
   // width: '60vw',
   // height: '300px',
   // themeColor: 'yellow',
-  maskIconPlacement: 'right-bottom',
+  showToast: true, // 默认false
+  maskIconPlacement: 'center',
   toastPlacement: 'left-top',
-  keepShowController: true,
-  isSettingShow: true,
-  isPicInPicShow: true,
-  isWebScreenFullShow: true,
-  isScreenFullShow: true,
-  isMultiplePlayShow: true,
+  // keepControllerShow: true,
+  // isSettingShow: true,
+  // isPicInPicShow: true,
+  // isWebScreenFullShow: true,
+  // isScreenFullShow: true,
+  // isMultiplePlayShow: true,
   // styles: {
   //   width: '1000px',
   // },
   // controllerStyles: {
   //   backgroundColor: 'transparent',
   // },
-  showToast: true, // 默认false
   poster:
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
   quality: [
