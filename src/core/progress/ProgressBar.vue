@@ -36,7 +36,7 @@ watch(mouseEnter, () => {
   if (timer.value) clearTimeout(timer.value);
   timer.value = setTimeout(() => {
     showSlider.value = mouseEnter.value;
-  },200);
+  }, 200);
 });
 
 /**
@@ -144,8 +144,8 @@ $progress-radius: 0.1rem;
       @include position(absolute, 0, auto, auto, 0);
       height: 1rem;
       line-height: 1rem;
-      padding: 0 .15rem;
-      font-size: .75rem;
+      padding: 0 0.15rem;
+      font-size: 0.75rem;
       text-align: center;
       background-color: $progress-indicator-time-color;
       color: #fff;
@@ -157,9 +157,9 @@ $progress-radius: 0.1rem;
       transform: translate(-50%, -150%);
       width: 0;
       height: 0;
-      border-left: .3rem solid transparent;
-      border-right: .3rem solid transparent;
-      border-top: .3rem solid $default-theme-color; /* Change the color and size as needed */
+      border-left: 0.3rem solid transparent;
+      border-right: 0.3rem solid transparent;
+      border-top: 0.3rem solid $default-theme-color; /* Change the color and size as needed */
     }
 
     .cy-player-progress-indicator-up {
@@ -167,9 +167,9 @@ $progress-radius: 0.1rem;
       transform: translate(-50%, 150%);
       width: 0;
       height: 0;
-      border-left: .3rem solid transparent;
-      border-right: .3rem solid transparent;
-      border-bottom: .3rem solid $default-theme-color; /* 你可以更改颜色 */
+      border-left: 0.3rem solid transparent;
+      border-right: 0.3rem solid transparent;
+      border-bottom: 0.3rem solid $default-theme-color; /* 你可以更改颜色 */
     }
   }
 
