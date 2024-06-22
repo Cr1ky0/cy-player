@@ -47,9 +47,6 @@ export const useLoad = (
       const hls = new Hls();
       hls.loadSource(src); // 将视频源加载到 HLS 对象中
       hls.attachMedia(videoElem); // 将 HLS 对象附加到 videoElem 上
-    } else {
-      //TODO:浏览器不支持操作
-      console.log('当前浏览器不支持HLS');
     }
   };
 
