@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import {
-  ComponentInternalInstance,
-  getCurrentInstance,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  ref,
-  watch,
-} from 'vue';
+import { onBeforeUnmount, onMounted, provide, ref, useSlots, watch } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
@@ -54,9 +46,6 @@ provide('videoRef', videoRef);
 provide('playerOption', option);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
-provide('playerComponent', getCurrentInstance());
-const proxy = getCurrentInstance()!.proxy; // 生产环境只能用proxy，否则不生效
-provide('slots', proxy!.$slots);
 
 /**
  * @description Set Video Size
@@ -96,6 +85,8 @@ onBeforeUnmount(() => {
 watch([() => option.width, () => option.height], () => {
   setVideoSize();
 });
+
+const slots = useSlots();
 </script>
 
 <template>
@@ -121,9 +112,12 @@ watch([() => option.width, () => option.height], () => {
       <source :src="option.videoSrc" type="application/vnd.apple.mpegURL" />
       <source :src="option.videoSrc" type="application/x-mpegURL" />
     </video>
-    <Controller :mouseEnter="mouseEnter" />
+    <Controller :mouseEnter="mouseEnter">
+      <template v-for="(_, key) in slots" :key="key" v-slot:[key]>
+        <slot :name="key" />
+      </template>
+    </Controller>
     <BottomProgress :mouseEnter="mouseEnter" />
-    <Test></Test>
   </div>
 </template>
 

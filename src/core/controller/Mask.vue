@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PlayerOption, VideoController, VideoState } from '@/types';
-import { computed, inject, Ref, watch } from 'vue';
+import { computed, inject, Ref, useSlots, watch } from 'vue';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { useToast } from '@/core/hooks/useToast.ts';
 
@@ -26,6 +26,12 @@ const toast = computed(() => {
     option: playerOption,
   });
 });
+
+const handleClick = () => {
+  if (videoStates.isPlay) videoController.pause();
+  else videoController.play();
+};
+
 watch(
   () => videoStates.isError,
   () => {
@@ -35,10 +41,8 @@ watch(
   },
 );
 
-const handleClick = () => {
-  if (videoStates.isPlay) videoController.pause();
-  else videoController.play();
-};
+// slots
+const slots = useSlots();
 </script>
 
 <template>
@@ -48,18 +52,23 @@ const handleClick = () => {
     :style="styles"
   >
     <div v-if="videoStates.isError" class="cy-player-error">
-      <div class="cy-player-error-icon">
-        <SvgIcon
-          icon-name="close"
-          fill="rgba(255,255,255,.8)"
-          font-size="3rem"
-          :style="{ cursor: 'default' }"
-        ></SvgIcon>
+      <slot v-if="slots.error" name="error"></slot>
+      <div v-else>
+        <div class="cy-player-error-icon">
+          <SvgIcon
+            icon-name="close"
+            fill="rgba(255,255,255,.8)"
+            font-size="3rem"
+            :style="{ cursor: 'default' }"
+          ></SvgIcon>
+        </div>
+        <div class="cy-player-error-tip">视频出错了</div>
       </div>
-      <div class="cy-player-error-tip">视频出错了</div>
     </div>
     <div v-else-if="videoStates.isWaiting" class="cy-player-loading-icon">
+      <slot v-if="slots.waiting" name="waiting"></slot>
       <SvgIcon
+        v-else
         icon-name="loading"
         fill="rgba(255,255,255,.8)"
         font-size="3rem"
@@ -67,21 +76,26 @@ const handleClick = () => {
       ></SvgIcon>
     </div>
     <div v-else-if="videoStates.isPlayEnd" class="cy-player-replay">
-      <div class="cy-player-replay-icon">
-        <SvgIcon
-          icon-name="replay"
-          fill="rgba(255,255,255,.8)"
-          font-size="1.875rem"
-          :styles="{ cursor: 'default' }"
-        ></SvgIcon>
+      <slot v-if="slots.playend" name="playend"></slot>
+      <div v-else>
+        <div class="cy-player-replay-icon">
+          <SvgIcon
+            icon-name="replay"
+            fill="rgba(255,255,255,.8)"
+            font-size="1.875rem"
+            :styles="{ cursor: 'default' }"
+          ></SvgIcon>
+        </div>
+        <div class="cy-player-replay-tip">重播</div>
       </div>
-      <div class="cy-player-replay-tip">重播</div>
     </div>
     <div
       v-else-if="!isDrag && !videoStates.isPlay"
       class="cy-player-pause-icon"
     >
+      <slot v-if="slots.paused" name="paused"></slot>
       <SvgIcon
+        v-else
         icon-name="player"
         fill="rgba(255,255,255,.8)"
         font-size="3.125rem"

@@ -119,9 +119,18 @@ const change = () => {
 
 <template>
   <CyPlayer v-if="test" :option="option" :callback="callbacks">
-    <template #default>
-      <div>test</div>
-    </template>
+    <!--        <template #playend>-->
+    <!--          <div>playend</div>-->
+    <!--        </template>-->
+    <!--    <template #waiting>-->
+    <!--      <div>waiting</div>-->
+    <!--    </template>-->
+    <!--        <template #paused>-->
+    <!--          <div>paused</div>-->
+    <!--        </template>-->
+    <!--    <template #error>-->
+    <!--      <div>error</div>-->
+    <!--    </template>-->
   </CyPlayer>
   <button @click="test = false">卸载</button>
   <button @click="change">change</button>

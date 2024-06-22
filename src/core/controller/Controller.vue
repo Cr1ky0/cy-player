@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ProgressBar from '@/core/progress/ProgressBar.vue';
 import Mask from '@/core/controller/Mask.vue';
-import { computed, inject, provide, ref } from 'vue';
+import { computed, inject, provide, ref, useSlots } from 'vue';
 import Playback from '@/core/controls/Playback.vue';
 import Controls from '@/core/controls/Controls.vue';
 import { PlayerOption } from '@/types';
@@ -23,10 +23,16 @@ const keepShow = computed(() => {
  */
 const isDrag = ref<boolean>(false);
 provide('isDrag', isDrag);
+
+const slots = useSlots();
 </script>
 
 <template>
-  <Mask />
+  <Mask>
+    <template v-for="(_, key) in slots" :key="key" v-slot:[key]>
+      <slot :name="key"/>
+    </template>
+  </Mask>
   <div
     :class="`cy-player-controller-container ${mouseEnter || keepShow ? 'cy-player-controller-active' : ''}`"
     :style="style"

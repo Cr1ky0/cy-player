@@ -8,6 +8,7 @@ import {
   ref,
   Ref,
   Slots,
+  useSlots,
 } from 'vue';
 import { PlayerOption, VideoState } from '@/types';
 import { useToast } from '@/core/hooks/useToast.ts';
@@ -36,8 +37,6 @@ const show2 = () => {
   toast.value.showToast();
 };
 
-// SLOTS
-const slots = <Slots>inject('slots');
 </script>
 
 <template>
@@ -50,7 +49,6 @@ const slots = <Slots>inject('slots');
     <div>{{ videoStates.isPlay }}</div>
     <button @click="show1">show1</button>
     <button @click="show2">show2</button>
-    <slot v-if="slots && slots.default" name="default"></slot>
   </div>
 </template>
 
