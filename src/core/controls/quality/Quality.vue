@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { PlayerOption, VideoState } from '@/types';
-import { computed, inject, ref, watchEffect } from 'vue';
+import { computed, inject, onMounted, ref, watch } from 'vue';
 import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 
 const playerOption = <PlayerOption>inject('playerOption');
 const videoStates = <VideoState>inject('videoStates');
-const chosenIndex = ref(0);
+const chosenIndex = ref(-1);
 
 const themeColorStyle = computed(() => {
   return {
@@ -35,17 +35,26 @@ const handleChangeQuality = (index: number) => {
   const curSrc = srcs.value[index];
   videoStates.curSrc = curSrc;
   chosenIndex.value = index;
-  localStorage.setItem('curSrc', curSrc);
+  localStorage.setItem('curPlayTime', String(videoStates.currentPlayTime)); // 保证切换进度
+  // 视频质量切换保存
+  if (playerOption.qualitySave) localStorage.setItem('curSrc', curSrc);
 };
 
-watchEffect(() => {
-  if (playerOption.quality) {
-    // 选中颜色是根据url来判断的,quality中的src与curSrc相符的
-    chosenIndex.value = playerOption.quality.findIndex((item) => {
-      return item.src === videoStates.curSrc;
+watch(
+  () => videoStates.curSrc,
+  () => {
+    // 优先选择chosen的
+    chosenIndex.value = playerOption.quality!.findIndex((item) => {
+      return item.chosen;
     });
-  }
-});
+    if (chosenIndex.value === -1) {
+      // 根据url来判断选中颜色,quality中的src与curSrc相符的
+      chosenIndex.value = playerOption.quality!.findIndex((item) => {
+        return item.src === videoStates.curSrc;
+      });
+    }
+  },
+);
 </script>
 
 <template>
@@ -77,7 +86,7 @@ watchEffect(() => {
   @include childCenter;
   @include selectable(none);
   position: relative;
-  padding: 0 .7rem;
+  padding: 0 0.7rem;
   cursor: pointer;
   z-index: $top-layer;
 
@@ -94,14 +103,14 @@ watchEffect(() => {
     z-index: $top-layer;
     display: flex;
     flex-direction: column;
-    border-radius: .2rem;
+    border-radius: 0.2rem;
     overflow: hidden;
     animation: show 0.3s ease;
 
     > div {
       width: 100%;
-      padding: .5rem 0;
-      font-size: .8rem;
+      padding: 0.5rem 0;
+      font-size: 0.8rem;
       color: rgba(255, 255, 255, 0.8);
       text-align: center;
 

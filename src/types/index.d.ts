@@ -14,6 +14,7 @@ export type VideoQuality =
 interface QualityOption {
   vQ: VideoQuality;
   src: string;
+  chosen?: boolean;
 }
 
 // 位置选项
@@ -104,6 +105,10 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 是否显示倍速播放
    */
   isMultiplePlayShow?: U;
+  /**
+   * @description 视频质量是否进行默认选择记忆
+   */
+  qualitySave?: U;
 }
 
 // Video回调

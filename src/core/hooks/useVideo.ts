@@ -192,45 +192,48 @@ export const useVideo = (
   /**
    * @description 其他option
    */
-  watch(
-    [() => vRef.value, () => option.poster],
-    () => {
-      if (vRef.value) {
-        const videoElement = vRef.value!;
-        // 导入poster
-        videoElement.poster = option.poster ? option.poster : '';
-      }
-    },
-  );
+  watch([() => vRef.value, () => option.poster], () => {
+    if (vRef.value) {
+      const videoElement = vRef.value!;
+      // 导入poster
+      videoElement.poster = option.poster ? option.poster : '';
+    }
+  });
 
-  // 监听src重置状态
+  // 监听quality更改状态
   watch(
     () => videoStates.curSrc,
     () => {
       initStates();
       loadVideo(videoStates.curSrc);
+      const curPlayTime = localStorage.getItem('curPlayTime');
+      const curTime = parseFloat(curPlayTime || '0');
+      videoController.setCurTime(curTime);
+      videoController.play();
+      localStorage.removeItem('curPlayTime') // 切换完毕后删除，避免初始化时快进
     },
   );
 
-  watch(
-    () => option.videoSrc,
-    () => {
-      initStates();
-      loadVideo(option.videoSrc);
-    },
-  );
 
   onMounted(() => {
     // 如果没有quality不需要切换，把curSrc去除
-    if (!option.quality) localStorage.removeItem('curSrc');
+    if (!option.quality || option.quality.length === 0)
+      localStorage.removeItem('curSrc');
     // 初始化状态
     const isLoop = localStorage.getItem('isLoop');
     const volume = localStorage.getItem('volume');
     const curSrc = localStorage.getItem('curSrc');
+    // const curSrc = localStorage.getItem('curSrc');
     if (isLoop) videoStates.isLoop = isLoop === 'true';
     if (volume) videoStates.volume = parseFloat(volume);
     // 初始Src设置
-    if (curSrc) videoStates.curSrc = curSrc;
+    const index = option.quality?.findIndex((item) => {
+      return item.chosen;
+    });
+    // 存在chosen的src首先选择
+    if (index && index !== -1) videoStates.curSrc = option.quality![index].src;
+    // 如果打开了qualitySave则采用默认保存规则
+    else if (option.qualitySave && curSrc) videoStates.curSrc = curSrc;
     else videoStates.curSrc = option.videoSrc;
     // videoRef
     if (videoRef.value) {

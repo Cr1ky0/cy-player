@@ -42,16 +42,19 @@ const option = reactive<PlayerOption>({
     {
       vQ: '2K',
       src: 'https://cdn.gudsen.vip/2022/11/14/422e7528fce64f03bf1b378cff393237.mp4',
+      // chosen: true,
     },
     {
       vQ: '720p',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p1.mp4',
+      // chosen: true,
     },
     {
       vQ: '480p',
       src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
     },
   ],
+  qualitySave: true,
 });
 
 // 适配测试
@@ -101,7 +104,7 @@ const callbacks = <VideoCallback>{
     // console.log('err');
   },
 };
-
+// TODO: slider
 const change = () => {
   // option.videoSrc =
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
@@ -129,6 +132,9 @@ const change = () => {
     <!--        </template>-->
     <!--    <template #error>-->
     <!--      <div>error</div>-->
+    <!--    </template>-->
+    <!--    <template #progress-slider>-->
+    <!--      <div>slider</div>-->
     <!--    </template>-->
   </CyPlayer>
   <button @click="test = false">卸载</button>
