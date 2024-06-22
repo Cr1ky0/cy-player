@@ -210,10 +210,9 @@ export const useVideo = (
       const curTime = parseFloat(curPlayTime || '0');
       videoController.setCurTime(curTime);
       videoController.play();
-      localStorage.removeItem('curPlayTime') // 切换完毕后删除，避免初始化时快进
+      localStorage.removeItem('curPlayTime'); // 切换完毕后删除，避免初始化时快进
     },
   );
-
 
   onMounted(() => {
     // 如果没有quality不需要切换，把curSrc去除
@@ -243,7 +242,9 @@ export const useVideo = (
       addEvents(videoElement);
       // update计时器
       interval.value = setInterval(() => {
-        videoStates.currentPlayTime = vRef.value!.currentTime;
+        videoStates.currentPlayTime = videoElement.currentTime;
+        // videoStates.bufferedTime =
+        //   videoElement.buffered.length > 0 ? videoElement.buffered.end(0) : 0;
       }, 20);
     }
   });
