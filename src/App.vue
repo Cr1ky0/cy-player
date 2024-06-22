@@ -29,7 +29,6 @@ const option = ref<PlayerOption>({
   isWebScreenFullShow: true,
   isScreenFullShow: true,
   isMultiplePlayShow: true,
-  updateCurTimeDuration: 100,
   // styles: {
   //   width: '1000px',
   // },

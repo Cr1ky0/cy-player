@@ -104,10 +104,6 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 是否显示倍速播放
    */
   isMultiplePlayShow?: U;
-  /**
-   * @description 视频当前播放时间更新频率 (ms)
-   */
-  updateCurTimeDuration?: K;
 }
 
 // Video回调

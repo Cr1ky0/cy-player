@@ -193,17 +193,12 @@ export const useVideo = (
    * @description 其他option
    */
   watch(
-    [() => vRef.value, () => option.poster, () => option.updateCurTimeDuration],
+    [() => vRef.value, () => option.poster],
     () => {
       if (vRef.value) {
         const videoElement = vRef.value!;
         // 导入poster
         videoElement.poster = option.poster ? option.poster : '';
-        // update计时器
-        if (interval.value) clearInterval(interval.value);
-        interval.value = setInterval(() => {
-          videoStates.currentPlayTime = vRef.value!.currentTime;
-        }, option.updateCurTimeDuration || 20);
       }
     },
   );
@@ -243,6 +238,10 @@ export const useVideo = (
       const videoElement = <HTMLVideoElement>vRef.value;
       videoElement.volume = videoStates.volume / 100; // 设置音量
       addEvents(videoElement);
+      // update计时器
+      interval.value = setInterval(() => {
+        videoStates.currentPlayTime = vRef.value!.currentTime;
+      }, 20);
     }
   });
 
