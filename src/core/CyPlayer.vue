@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, provide, ref } from 'vue';
+import { onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
@@ -77,6 +77,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   const vElement = <HTMLVideoElement>videoRef.value;
   vElement.removeEventListener('canplay', setVideoSize);
+});
+
+watch([() => option.width, () => option.height], () => {
+  setVideoSize();
 });
 </script>
 
