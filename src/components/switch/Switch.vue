@@ -1,10 +1,17 @@
 <script setup lang="ts">
+import { PlayerOption } from '@/types';
+import { computed, inject } from 'vue';
+
 export interface SwitchProps {
   flag: boolean;
   onClick?: () => void;
 }
 
 const props = defineProps<SwitchProps>();
+const playerOption = <PlayerOption>inject('playerOption');
+const themeColorStyle = computed(() => {
+  return { backgroundColor: playerOption.themeColor || '#00aeec' };
+});
 const handleClick = () => {
   props.onClick && props.onClick();
 };
@@ -12,8 +19,9 @@ const handleClick = () => {
 
 <template>
   <div
-    :class="`cy-player-switch-component ${flag ? 'cy-player-switch-component-active' : ''}`"
+    class="cy-player-switch-component"
     @click="handleClick"
+    :style="flag ? themeColorStyle : undefined"
   >
     <div
       :class="`cy-player-switch-slider ${flag ? 'cy-player-switch-slider-active' : ''} `"
@@ -27,7 +35,7 @@ const handleClick = () => {
 .cy-player-switch-component {
   width: 2rem;
   height: 1rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   background-color: gray;
   cursor: pointer;
   position: relative;
@@ -48,10 +56,6 @@ const handleClick = () => {
     left: 100%;
     transform: translateX(-100%);
   }
-}
-
-.cy-player-switch-component-active {
-  background-color: red;
 }
 
 @keyframes slide {

@@ -11,7 +11,7 @@ const playerOption = <PlayerOption>inject('playerOption');
 const progressRef = ref<HTMLDivElement>();
 
 const themeColor = computed(() => {
-  return playerOption.themeColor ? playerOption.themeColor : '#00aeec';
+  return playerOption.themeColor || '#00aeec';
 });
 
 const showSlider = ref<boolean>(false);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CyPlayer from '@/core/CyPlayer.vue';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useViewport } from '@/useViewport.ts';
 
@@ -9,7 +9,7 @@ const test = ref(true);
 /**
  * @description 提供响应式option
  */
-const option = ref<PlayerOption>({
+const option = reactive<PlayerOption>({
   videoSrc:
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
@@ -57,14 +57,14 @@ const option = ref<PlayerOption>({
 // 适配测试
 const setSize = (xw: number) => {
   if (xw <= 480) {
-    option.value.width = '100vw';
-    option.value.height = '300px';
+    option.width = '100vw';
+    option.height = '300px';
   } else if (xw <= 720) {
-    option.value.width = '100vw';
-    option.value.height = '500px';
+    option.width = '100vw';
+    option.height = '500px';
   } else {
-    option.value.width = '1000px';
-    option.value.height = '600px';
+    option.width = '1000px';
+    option.height = '600px';
   }
 };
 
@@ -103,16 +103,16 @@ const callbacks = <VideoCallback>{
 };
 
 const change = () => {
-  // option.value.videoSrc =
+  // option.videoSrc =
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
-  // option.value.videoSrc = '112312';
-  // option.value.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
-  // option.value.width = '50vw';
-  // option.value.isScreenFullShow = false;
-  // option.value.showToast = false;
-  // option.value.toastPlacement = 'center';
-  // option.value.maskIconPlacement = 'center';
-  // option.value.themeColor = 'red';
+  // option.videoSrc = '112312';
+  // option.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
+  // option.width = '50vw';
+  // option.isScreenFullShow = false;
+  // option.showToast = false;
+  // option.toastPlacement = 'center';
+  // option.maskIconPlacement = 'center';
+  // option.themeColor = 'red';
 };
 </script>
 
