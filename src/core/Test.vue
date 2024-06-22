@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, ref, Ref } from 'vue';
+import {
+  ComponentInternalInstance,
+  computed,
+  getCurrentInstance,
+  inject,
+  onMounted,
+  ref,
+  Ref,
+  Slots,
+} from 'vue';
 import { PlayerOption, VideoState } from '@/types';
 import { useToast } from '@/core/hooks/useToast.ts';
 
@@ -22,10 +31,13 @@ const show1 = () => {
   toast.value.showToast();
 };
 
-const show2 = ()=>{
+const show2 = () => {
   message.value = '123！';
   toast.value.showToast();
-}
+};
+
+// SLOTS
+const slots = <Slots>inject('slots');
 </script>
 
 <template>
@@ -38,6 +50,7 @@ const show2 = ()=>{
     <div>{{ videoStates.isPlay }}</div>
     <button @click="show1">show1</button>
     <button @click="show2">show2</button>
+    <slot v-if="slots && slots.default" name="default"></slot>
   </div>
 </template>
 

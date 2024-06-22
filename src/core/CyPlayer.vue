@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
+import {
+  ComponentInternalInstance,
+  getCurrentInstance,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  watch,
+} from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
@@ -8,6 +16,7 @@ import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 import BottomProgress from '@/core/progress/BottomProgress.vue';
 import 'virtual:svg-icons-register';
 import './index.css';
+import Test from '@/core/Test.vue';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -35,7 +44,7 @@ useCallback(videoStates, {
   onPlay: callback?.onPlay,
   onPlayEnd: callback?.onPlayEnd,
   onVolumeChange: callback?.onVolumeChange,
-  onWaiting:callback?.onWaiting,
+  onWaiting: callback?.onWaiting,
   onError: callback?.onError,
 });
 
@@ -45,6 +54,9 @@ provide('videoRef', videoRef);
 provide('playerOption', option);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
+provide('playerComponent', getCurrentInstance());
+const proxy = getCurrentInstance()!.proxy; // 生产环境只能用proxy，否则不生效
+provide('slots', proxy!.$slots);
 
 /**
  * @description Set Video Size
@@ -111,6 +123,7 @@ watch([() => option.width, () => option.height], () => {
     </video>
     <Controller :mouseEnter="mouseEnter" />
     <BottomProgress :mouseEnter="mouseEnter" />
+    <Test></Test>
   </div>
 </template>
 

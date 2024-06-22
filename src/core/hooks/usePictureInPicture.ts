@@ -3,6 +3,7 @@ import { PlayerOption } from '@/types';
 import { useToast } from '@/core/hooks/useToast.ts';
 
 export const usePictureInPicture = (elementRef: Ref, option: PlayerOption) => {
+  const eRef = ref<HTMLVideoElement | null>(null);
   const isPictureInPicture = ref(false);
   const message = ref('');
   const toast = computed(() => {
@@ -14,7 +15,7 @@ export const usePictureInPicture = (elementRef: Ref, option: PlayerOption) => {
   });
 
   const togglePictureInPicture = () => {
-    const element = elementRef.value!;
+    const element = <HTMLVideoElement>eRef.value;
     try {
       if (document.pictureInPictureEnabled) {
         if (!isPictureInPicture.value) element.requestPictureInPicture();
@@ -32,15 +33,16 @@ export const usePictureInPicture = (elementRef: Ref, option: PlayerOption) => {
   const changeIsPictureInPicture = () => {
     isPictureInPicture.value = !isPictureInPicture.value;
   };
-  
+
   onMounted(() => {
     const element = <HTMLVideoElement>elementRef.value!;
+    eRef.value = element;
     element.addEventListener('enterpictureinpicture', changeIsPictureInPicture);
     element.addEventListener('leavepictureinpicture', changeIsPictureInPicture);
   });
 
   onBeforeUnmount(() => {
-    const element = <HTMLVideoElement>elementRef.value!;
+    const element = <HTMLVideoElement>eRef.value!;
     element.removeEventListener(
       'enterpictureinpicture',
       changeIsPictureInPicture,

@@ -7,6 +7,7 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
    * @description 全屏标志
    */
   const isScreenFull = ref(false);
+  const eRef = ref<HTMLVideoElement | null>(null);
   const message = ref('');
   const toast = computed(() => {
     return useToast({
@@ -26,7 +27,7 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
   }
 
   const toggleScreenFull = () => {
-    const element = elementRef.value!;
+    const element = <HTMLVideoElement>eRef.value;
     try {
       if (isFullScreenSupported()) {
         if (!isScreenFull.value) {
@@ -71,12 +72,13 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
   };
 
   onMounted(() => {
-    const element = elementRef.value!;
+    const element = <HTMLVideoElement>elementRef.value;
+    eRef.value = element;
     element.addEventListener('fullscreenchange', changeScreenFull);
   });
 
   onBeforeUnmount(() => {
-    const element = elementRef.value!;
+    const element = <HTMLVideoElement>eRef.value;
     element.removeEventListener('fullscreenchange', changeScreenFull);
   });
 

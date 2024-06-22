@@ -81,25 +81,25 @@ onMounted(() => {
 
 const callbacks = <VideoCallback>{
   onPlay: (e) => {
-    console.log('play');
+    // console.log('play');
   },
   onPlayEnd: (e) => {
-    console.log('playend');
+    // console.log('playend');
   },
   onPause: (e) => {
-    console.log('pause');
+    // console.log('pause');
   },
   onVolumeChange: (e) => {
-    console.log('volumechange');
+    // console.log('volumechange');
   },
   onTimeChange: (e) => {
-    console.log('timechange');
+    // console.log('timechange');
   },
   onWaiting(e) {
-    console.log('waiting');
+    // console.log('waiting');
   },
   onError() {
-    console.log('err');
+    // console.log('err');
   },
 };
 
@@ -118,7 +118,11 @@ const change = () => {
 </script>
 
 <template>
-  <CyPlayer v-if="test" :option="option" :callback="callbacks"></CyPlayer>
+  <CyPlayer v-if="test" :option="option" :callback="callbacks">
+    <template #default>
+      <div>test</div>
+    </template>
+  </CyPlayer>
   <button @click="test = false">卸载</button>
   <button @click="change">change</button>
 </template>
