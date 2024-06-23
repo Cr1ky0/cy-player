@@ -45,6 +45,7 @@ const showMultiplePlay = computed(() => {
     : true;
 });
 
+// TODO:图标hover效果
 const { isWebScreenFull, toggleWebScreenFull } = useWebScreenFull(containerRef);
 const { togglePictureInPicture } = usePictureInPicture(videoRef, playerOption);
 const { isScreenFull, toggleScreenFull } = useScreenFull(

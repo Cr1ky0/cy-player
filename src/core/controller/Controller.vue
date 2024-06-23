@@ -26,7 +26,6 @@ const isDrag = ref<boolean>(false);
 provide('isDrag', isDrag);
 
 const slots = useSlots();
-// TODO:Error时不可用;
 </script>
 
 <template>

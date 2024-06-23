@@ -18,9 +18,9 @@ const handleLoop = () => {
 <template>
   <div
     class="cy-player-controls-setting"
-    @click="showFunc = !showFunc"
   >
     <SvgIcon
+      @click="showFunc = !showFunc"
       icon-name="set"
       fill="rgba(255,255,255,.8)"
       font-size="1.25rem"
