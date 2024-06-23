@@ -1,23 +1,20 @@
 <script setup lang="ts">
 import Volume from '@/core/controls/volume/Volume.vue';
 import ControlTool from '@/components/controltool/ControlTool.vue';
-import { computed, inject, Ref } from 'vue';
+import { computed, inject, Ref, watch } from 'vue';
 import { useScreenFull } from '@/core/hooks/useScreenFull.ts';
 import { useWebScreenFull } from '@/core/hooks/useWebScreenFull.ts';
-import { PlayerOption } from '@/types';
+import { PlayerOption, VideoState } from '@/types';
 import { usePictureInPicture } from '@/core/hooks/usePictureInPicture.ts';
 import Setting from '@/core/controls/setting/Setting.vue';
 import MultiplePlay from '@/core/controls/multiple/MultiplePlay.vue';
 import Quality from '@/core/controls/quality/Quality.vue';
+import { useSetSize } from '@/core/hooks/useSetSize.ts';
 
-const containerRef = <Ref>inject('containerRef');
+const containerRef = <Ref<HTMLDivElement>>inject('containerRef');
 const videoRef = <Ref>inject('videoRef');
 const playerOption = <PlayerOption>inject('playerOption');
-
-const videoSizeProp = computed(() => {
-  const vElem = <HTMLVideoElement>videoRef.value;
-  return (vElem.videoWidth / vElem.videoHeight) * 100;
-});
+const videoStates = <VideoState>inject('videoStates');
 
 const hasQuality = computed(() => {
   return playerOption.quality && playerOption.quality.length > 0;
@@ -54,22 +51,40 @@ const { isScreenFull, toggleScreenFull } = useScreenFull(
   containerRef,
   playerOption,
 );
-/**
- * @description 视频缩放调节
- */
-const videoScale = () => {
-  if (!isScreenFull.value) {
-    const elem = <HTMLVideoElement>videoRef.value;
-    const eWidth = parseFloat(getComputedStyle(elem).width);
-    // 比例设为 当前宽度 / 宽高比 即根据视频宽高比以及当前宽度计算出来的合适高度
-    const adaptiveHeight = eWidth / (videoSizeProp.value / 100);
-  }
-};
+const { adaptiveVideoSize, getElementSize } = useSetSize(
+  videoRef,
+  containerRef,
+  playerOption,
+  videoStates,
+);
 
-const handleScreenFull = () => {
-  videoScale();
-  toggleScreenFull();
-};
+// screenfull时的视频尺寸自适应
+watch(isScreenFull, () => {
+  if (isScreenFull.value) {
+    // 注意用屏幕宽高
+    adaptiveVideoSize(screen.width, screen.height);
+  }
+  // 退出全屏时
+  else {
+    // 这里为了避免和webscreenfull产生冲突故这么写
+    const { width, height } = getElementSize(containerRef.value);
+    adaptiveVideoSize(width, height);
+  }
+});
+
+// webscreenfull时的视频尺寸自适应
+watch(isWebScreenFull, () => {
+  // 没有全屏再自适应
+  if(!isScreenFull.value) {
+    if (isWebScreenFull.value)
+      // 注意用视口宽高
+      adaptiveVideoSize(window.innerWidth, window.innerHeight);
+    else {
+      const { width, height } = getElementSize(containerRef.value);
+      adaptiveVideoSize(width, height);
+    }
+  }
+});
 </script>
 
 <template>
@@ -99,7 +114,7 @@ const handleScreenFull = () => {
       inactive-icon-name="fullScreen"
       :flag="isScreenFull"
       tip="全屏"
-      @click="handleScreenFull"
+      @click="toggleScreenFull"
     />
   </div>
 </template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {
-  computed,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -17,6 +16,7 @@ import BottomProgress from '@/core/progress/BottomProgress.vue';
 import 'virtual:svg-icons-register';
 import './index.css';
 import Test from '@/core/Test.vue';
+import { useSetSize } from '@/core/hooks/useSetSize.ts';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -38,6 +38,12 @@ const containerRef = ref<HTMLDivElement>();
 // Hooks
 const { videoStates, videoController } = useVideo(videoRef, option);
 const { mouseEnter, isMobile } = useMouseCheck(containerRef);
+const { setTotalSize } = useSetSize(
+  videoRef,
+  containerRef,
+  option,
+  videoStates,
+);
 useCallback(videoStates, {
   onTimeChange: callback?.onTimeChange,
   onPause: callback?.onPause,
@@ -55,54 +61,7 @@ provide('playerOption', option);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
 
-// SIZE
-const adaptiveVideoSize = (cWidth: number, cHeight: number) => {
-  // const cElem = <HTMLDivElement>containerRef.value;
-  const vElem = <HTMLVideoElement>videoRef.value;
-  // const cWidth = parseFloat(getComputedStyle(cElem).width); // 父元素width,这里video的width始终占满该元素
-  // const cHeight = parseFloat(getComputedStyle(cElem).height); // 父元素height
-  const ContainerSizeProp = cWidth / cHeight; // 父元素宽长比
-  const videoSizeProp = videoStates.videoWidth / videoStates.videoHeight; // video元素宽长比
-  // container比例 > video比例：说明video应该按宽度缩放，即height占满父元素，width按视频本身比例缩放（想象一个宽屏里放一个窄视频）
-  if (ContainerSizeProp > videoSizeProp) {
-    vElem.style.height = cHeight + 'px';
-    vElem.style.width = `${cHeight * videoSizeProp}px`; // vW / vH = (vW_ / vH_ )
-  }
-  // 否则按长度缩放，即width占满父元素，height按视频本身比例缩放（想象一个窄屏里放一个款视频）
-  else {
-    vElem.style.width = cWidth + 'px';
-    vElem.style.height = `${cWidth / videoSizeProp}px`; // vW / vH =  (vH_ / vW_)
-  }
-};
-
-const setTotalSize = () => {
-  const videoElement = <HTMLVideoElement>videoRef.value;
-  const videoContainer = <HTMLDivElement>containerRef.value;
-  const videoWidth = videoElement.videoWidth;
-  const videoHeight = videoElement.videoHeight;
-  // container size
-  if (!option.width && !option.styles?.width)
-    videoContainer.style.width = `${videoWidth}px`;
-  if (!option.height && !option.styles?.height)
-    videoContainer.style.height = `${videoHeight}px`;
-  if (option.height) {
-    if (typeof option.height === 'number')
-      videoContainer.style.height = `${option.height}px`;
-    else videoContainer.style.height = option.height;
-  }
-  if (option.width) {
-    if (typeof option.width === 'number')
-      videoContainer.style.width = `${option.width}px`;
-    else videoContainer.style.width = option.width;
-  }
-  // adapt video size
-  const cWidth = parseFloat(getComputedStyle(videoContainer).width);
-  const cHeight = parseFloat(getComputedStyle(videoContainer).height);
-  adaptiveVideoSize(cWidth, cHeight);
-};
-
 onMounted(() => {
-  // setTotalSize();
   const vElement = <HTMLVideoElement>videoRef.value;
   vElement.addEventListener('canplay', setTotalSize);
   // 移动端修正音量
