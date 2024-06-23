@@ -135,7 +135,6 @@ const slots = useSlots();
 .cy-player {
   @include position(absolute, 50%, auto, auto, 50%);
   transform: translate(-50%, -50%);
-  margin: auto;
   //width: 100%;
   //height: 100%;
   object-fit: cover;

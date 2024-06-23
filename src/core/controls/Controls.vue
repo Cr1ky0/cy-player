@@ -66,7 +66,7 @@ watch(isScreenFull, () => {
   }
   // 退出全屏时
   else {
-    // 这里为了避免和webscreenfull产生冲突故这么写
+    // 避免和webscreenfull产生冲突，退出时基于容器宽高来设置
     const { width, height } = getElementSize(containerRef.value);
     adaptiveVideoSize(width, height);
   }
