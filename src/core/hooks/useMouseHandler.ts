@@ -131,7 +131,6 @@ export const useMouseHandler = (
   onBeforeUnmount(() => {
     const dom = cRef.value!;
     if (isMobile.value) {
-      // touch事件里的touchend可以同时表示mousedown和mouseleave
       dom.removeEventListener('touchstart', handleMouseDown);
       window.removeEventListener('touchmove', handleMouseMove);
       window.removeEventListener('touchend', handleMouseUp);
