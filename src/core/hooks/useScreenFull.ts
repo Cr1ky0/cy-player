@@ -26,6 +26,7 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
     );
   }
 
+  // TODO:全屏后旋转适配
   const toggleScreenFull = () => {
     const element = <HTMLVideoElement>eRef.value;
     try {
@@ -43,6 +44,7 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
             // IE/Edge
             element.msRequestFullscreen();
           }
+          changeOrientation('landscape');
         } else {
           if (document.exitFullscreen) {
             document.exitFullscreen();
