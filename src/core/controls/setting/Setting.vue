@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import Switch from '@/components/switch/Switch.vue';
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import { useLightOff } from '@/core/hooks/useLightOff.ts';
 import { VideoState } from '@/types';
-import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 
 const videoStates = <VideoState>inject('videoStates');
+const showFunc = ref(false);
 const { lightOn, handleLightOffModel } = useLightOff();
-const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 
 const handleLoop = () => {
   videoStates.isLoop = !videoStates.isLoop;
@@ -19,15 +18,14 @@ const handleLoop = () => {
 <template>
   <div
     class="cy-player-controls-setting"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
+    @click="showFunc = !showFunc"
   >
     <SvgIcon
       icon-name="set"
       fill="rgba(255,255,255,.8)"
       font-size="1.25rem"
     ></SvgIcon>
-    <div v-if="mouseEnter" class="cy-player-controls-setting-function">
+    <div v-if="showFunc" class="cy-player-controls-setting-function">
       <div
         class="cy-player-controls-setting-light-off"
         @click="handleLightOffModel"
@@ -40,7 +38,7 @@ const handleLoop = () => {
         <Switch :flag="videoStates.isLoop"></Switch>
       </div>
     </div>
-    <div v-if="mouseEnter" class="cy-player-controls-setting-bottom"></div>
+    <div v-if="showFunc" class="cy-player-controls-setting-bottom"></div>
   </div>
 </template>
 

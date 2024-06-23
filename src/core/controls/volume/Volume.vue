@@ -12,7 +12,7 @@ const isMuted = computed(() => {
   return videoStates.volume === 0;
 });
 
-const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
+const { mouseEnter,isMobile, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 
 const handleIconClick = () => {
   if (!isMuted.value) {
@@ -31,6 +31,7 @@ const changeIsDrag = (value: boolean) => {
 
 <template>
   <div
+    v-if="!isMobile"
     class="cy-player-volume-controller-container"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"

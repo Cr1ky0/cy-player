@@ -5,7 +5,6 @@ import { computed, inject, provide, ref, useSlots } from 'vue';
 import Playback from '@/core/controls/Playback.vue';
 import Controls from '@/core/controls/Controls.vue';
 import { PlayerOption } from '@/types';
-
 defineProps(['mouseEnter']);
 const playerOption = <PlayerOption>inject('playerOption');
 const style = computed(() => {

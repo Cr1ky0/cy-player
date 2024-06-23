@@ -209,7 +209,7 @@ export const useVideo = (
       const curPlayTime = localStorage.getItem('curPlayTime');
       const curTime = parseFloat(curPlayTime || '0');
       videoController.setCurTime(curTime);
-      videoController.play();
+      if (curPlayTime) videoController.play();
       localStorage.removeItem('curPlayTime'); // 切换完毕后删除，避免初始化时快进
     },
   );

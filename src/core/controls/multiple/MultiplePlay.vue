@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { computed, inject, ref, Ref } from 'vue';
-import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 import { PlayerOption } from '@/types';
 
 const multiples = ['2.0x', '1.75x', '1.5x', '1.25x', '1.0x', '0.75x', '0.5x'];
 const videoRef = <Ref>inject('videoRef');
 const playerOption = <PlayerOption>inject('playerOption');
 const chosenIndex = ref(4);
+const showFunc = ref(false);
 
 const themeColorStyle = computed(() => {
   return {
     color: playerOption.themeColor ? playerOption.themeColor : '#00aeec',
   };
 });
-
-const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 
 const handleClick = (index: number) => {
   const chosenMultiple = parseFloat(multiples[index]);
@@ -25,13 +23,9 @@ const handleClick = (index: number) => {
 </script>
 
 <template>
-  <div
-    class="cy-player-multiple-play"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
+  <div class="cy-player-multiple-play" @click="showFunc = !showFunc">
     <div class="cy-player-multiple-icon">倍速</div>
-    <div v-if="mouseEnter" class="cy-player-multiple-function">
+    <div v-if="showFunc" class="cy-player-multiple-function">
       <div
         v-for="(item, index) in multiples"
         :key="index"
@@ -41,7 +35,7 @@ const handleClick = (index: number) => {
         {{ item }}
       </div>
     </div>
-    <div v-if="mouseEnter" class="cy-player-multiple-bottom"></div>
+    <div v-if="showFunc" class="cy-player-multiple-bottom"></div>
   </div>
 </template>
 
@@ -53,7 +47,7 @@ const handleClick = (index: number) => {
   @include childCenter;
   @include selectable(none);
   position: relative;
-  padding: 0 .7rem;
+  padding: 0 0.7rem;
   cursor: pointer;
   z-index: $top-layer;
 
@@ -70,14 +64,14 @@ const handleClick = (index: number) => {
     z-index: $top-layer;
     display: flex;
     flex-direction: column;
-    border-radius: .2rem;
+    border-radius: 0.2rem;
     overflow: hidden;
     animation: show 0.3s ease;
 
     > div {
       width: 100%;
-      padding: .5rem 0;
-      font-size: .8rem;
+      padding: 0.5rem 0;
+      font-size: 0.8rem;
       color: rgba(255, 255, 255, 0.8);
       text-align: center;
 

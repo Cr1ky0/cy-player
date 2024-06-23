@@ -29,7 +29,7 @@ const containerRef = ref<HTMLDivElement>();
 
 // Hooks
 const { videoStates, videoController } = useVideo(videoRef, option);
-const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
+const { mouseEnter, isMobile } = useMouseCheck(containerRef);
 useCallback(videoStates, {
   onTimeChange: callback?.onTimeChange,
   onPause: callback?.onPause,
@@ -75,6 +75,9 @@ onMounted(() => {
   setVideoSize();
   const vElement = <HTMLVideoElement>videoRef.value;
   vElement.addEventListener('canplay', setVideoSize);
+  // 移动端修正音量
+  if(isMobile.value)
+    videoController.setVolume(80);
 });
 
 onBeforeUnmount(() => {
@@ -95,8 +98,6 @@ const slots = useSlots();
     class="cy-player-container"
     ref="containerRef"
     :style="{ ...option.styles }"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
   >
     <video
       class="cy-player"

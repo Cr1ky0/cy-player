@@ -24,7 +24,7 @@ const option = reactive<PlayerOption>({
   showToast: true, // 默认false
   maskIconPlacement: 'center',
   toastPlacement: 'left-top',
-  // keepControllerShow: true,
+  keepControllerShow: true,
   // isSettingShow: true,
   // isPicInPicShow: true,
   // isWebScreenFullShow: true,
@@ -116,6 +116,7 @@ const change = () => {
   // option.toastPlacement = 'center';
   // option.maskIconPlacement = 'center';
   // option.themeColor = 'red';
+  option.keepControllerShow = !option.keepControllerShow;
 };
 </script>
 

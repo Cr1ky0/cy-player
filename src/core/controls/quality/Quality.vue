@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { PlayerOption, VideoState } from '@/types';
-import { computed, inject, onMounted, ref, watch } from 'vue';
-import { useMouseCheck } from '@/utils/useMouseCheck.ts';
+import { computed, inject, ref, watch } from 'vue';
 
 const playerOption = <PlayerOption>inject('playerOption');
 const videoStates = <VideoState>inject('videoStates');
 const chosenIndex = ref(-1);
+const showFunc = ref(false);
 
 const themeColorStyle = computed(() => {
   return {
@@ -28,8 +28,6 @@ const srcs = computed(() => {
 const chosenItem = computed(() => {
   return qualities.value[chosenIndex.value];
 });
-
-const { mouseEnter, handleMouseEnter, handleMouseLeave } = useMouseCheck();
 
 const handleChangeQuality = (index: number) => {
   const curSrc = srcs.value[index];
@@ -58,13 +56,11 @@ watch(
 </script>
 
 <template>
-  <div
-    class="cy-player-quality"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
-    <div class="cy-player-quality-icon">{{ chosenItem }}</div>
-    <div v-if="mouseEnter" class="cy-player-quality-function">
+  <div class="cy-player-quality" @click="showFunc = !showFunc">
+    <div class="cy-player-quality-icon">
+      {{ chosenItem }}
+    </div>
+    <div v-if="showFunc" class="cy-player-quality-function">
       <div
         v-for="(item, index) in qualities"
         :key="index"
@@ -74,7 +70,7 @@ watch(
         {{ item }}
       </div>
     </div>
-    <div v-if="mouseEnter" class="cy-player-quality-bottom"></div>
+    <div v-if="showFunc" class="cy-player-quality-bottom"></div>
   </div>
 </template>
 
