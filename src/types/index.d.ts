@@ -198,6 +198,14 @@ export interface VideoState<T = number, U = boolean, K = string> {
    * @description 是否错误
    */
   isError: U;
+  /**
+   * @description 当前video自己的宽度
+   */
+  videoWidth: T;
+  /**
+   * @description 当前video自己的宽度
+   */
+  videoHeight: T;
 }
 
 // Video操作

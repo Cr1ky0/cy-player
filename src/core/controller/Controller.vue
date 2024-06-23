@@ -4,8 +4,10 @@ import Mask from '@/core/controller/Mask.vue';
 import { computed, inject, provide, ref, useSlots } from 'vue';
 import Playback from '@/core/controls/Playback.vue';
 import Controls from '@/core/controls/Controls.vue';
-import { PlayerOption } from '@/types';
+import { PlayerOption, VideoState } from '@/types';
+
 defineProps(['mouseEnter']);
+const videoStates = <VideoState>inject('videoStates');
 const playerOption = <PlayerOption>inject('playerOption');
 const style = computed(() => {
   return playerOption.controllerStyles
@@ -24,17 +26,19 @@ const isDrag = ref<boolean>(false);
 provide('isDrag', isDrag);
 
 const slots = useSlots();
+// TODO:Error时不可用;
 </script>
 
 <template>
   <Mask>
     <template v-for="(_, key) in slots" :key="key" v-slot:[key]>
-      <slot :name="key"/>
+      <slot :name="key" />
     </template>
   </Mask>
   <div
     :class="`cy-player-controller-container ${mouseEnter || keepShow ? 'cy-player-controller-active' : ''}`"
     :style="style"
+    v-if="!videoStates.isError"
   >
     <ProgressBar />
     <div class="cy-player-controller-controls-container">

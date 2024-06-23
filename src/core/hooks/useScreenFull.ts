@@ -7,7 +7,7 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
    * @description 全屏标志
    */
   const isScreenFull = ref(false);
-  const eRef = ref<HTMLVideoElement | null>(null);
+  const eRef = ref<HTMLElement | null>(null);
   const message = ref('');
   const toast = computed(() => {
     return useToast({
@@ -26,9 +26,8 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
     );
   }
 
-  // TODO:全屏后旋转适配
   const toggleScreenFull = () => {
-    const element = <HTMLVideoElement>eRef.value;
+    const element = <HTMLElement>eRef.value;
     try {
       if (isFullScreenSupported()) {
         if (!isScreenFull.value) {
@@ -44,7 +43,6 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
             // IE/Edge
             element.msRequestFullscreen();
           }
-          changeOrientation('landscape');
         } else {
           if (document.exitFullscreen) {
             document.exitFullscreen();
@@ -74,13 +72,13 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
   };
 
   onMounted(() => {
-    const element = <HTMLVideoElement>elementRef.value;
+    const element = <HTMLElement>elementRef.value;
     eRef.value = element;
     element.addEventListener('fullscreenchange', changeScreenFull);
   });
 
   onBeforeUnmount(() => {
-    const element = <HTMLVideoElement>eRef.value;
+    const element = <HTMLElement>eRef.value;
     element.removeEventListener('fullscreenchange', changeScreenFull);
   });
 

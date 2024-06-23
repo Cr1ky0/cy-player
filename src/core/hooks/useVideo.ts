@@ -37,6 +37,8 @@ export const useVideo = (
     bufferedTime: 0, // 缓存时长/s
     volume: 50, // 音量
     isError: false, // 是否出错
+    videoWidth: 0, // 当前video自己的宽度
+    videoHeight: 0, // 当前video自己的高度
   });
 
   /**
@@ -89,6 +91,8 @@ export const useVideo = (
     if (vRef.value) {
       videoStates.isError = false;
       videoStates.duration = vRef.value.duration || 0;
+      videoStates.videoWidth = vRef.value.videoWidth;
+      videoStates.videoHeight = vRef.value.videoHeight;
     }
   };
 
@@ -200,12 +204,13 @@ export const useVideo = (
     }
   });
 
-  // 监听quality更改状态
+  // 监听src更改状态
   watch(
     () => videoStates.curSrc,
     () => {
       initStates();
       loadVideo(videoStates.curSrc);
+      // 切换quality时逻辑
       const curPlayTime = localStorage.getItem('curPlayTime');
       const curTime = parseFloat(curPlayTime || '0');
       videoController.setCurTime(curTime);
@@ -222,7 +227,6 @@ export const useVideo = (
     const isLoop = localStorage.getItem('isLoop');
     const volume = localStorage.getItem('volume');
     const curSrc = localStorage.getItem('curSrc');
-    // const curSrc = localStorage.getItem('curSrc');
     if (isLoop) videoStates.isLoop = isLoop === 'true';
     if (volume) videoStates.volume = parseFloat(volume);
     // 初始Src设置

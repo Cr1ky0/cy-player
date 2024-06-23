@@ -14,6 +14,11 @@ const containerRef = <Ref>inject('containerRef');
 const videoRef = <Ref>inject('videoRef');
 const playerOption = <PlayerOption>inject('playerOption');
 
+const videoSizeProp = computed(() => {
+  const vElem = <HTMLVideoElement>videoRef.value;
+  return (vElem.videoWidth / vElem.videoHeight) * 100;
+});
+
 const hasQuality = computed(() => {
   return playerOption.quality && playerOption.quality.length > 0;
 });
@@ -49,6 +54,22 @@ const { isScreenFull, toggleScreenFull } = useScreenFull(
   containerRef,
   playerOption,
 );
+/**
+ * @description 视频缩放调节
+ */
+const videoScale = () => {
+  if (!isScreenFull.value) {
+    const elem = <HTMLVideoElement>videoRef.value;
+    const eWidth = parseFloat(getComputedStyle(elem).width);
+    // 比例设为 当前宽度 / 宽高比 即根据视频宽高比以及当前宽度计算出来的合适高度
+    const adaptiveHeight = eWidth / (videoSizeProp.value / 100);
+  }
+};
+
+const handleScreenFull = () => {
+  videoScale();
+  toggleScreenFull();
+};
 </script>
 
 <template>
@@ -78,7 +99,7 @@ const { isScreenFull, toggleScreenFull } = useScreenFull(
       inactive-icon-name="fullScreen"
       :flag="isScreenFull"
       tip="全屏"
-      @click="toggleScreenFull"
+      @click="handleScreenFull"
     />
   </div>
 </template>
