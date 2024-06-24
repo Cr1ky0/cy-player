@@ -61,7 +61,6 @@ $progress-radius: .1rem;
     height: 100%;
     background-color: $default-theme-color;
     z-index: $second-top-layer;
-    border-radius: .1rem;
   }
 }
 </style>
