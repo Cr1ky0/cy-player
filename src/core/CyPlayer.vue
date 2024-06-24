@@ -6,9 +6,9 @@ import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
 import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 import BottomProgress from '@/core/progress/BottomProgress.vue';
+import { useSetSize } from '@/core/hooks/useSetSize.ts';
 import 'virtual:svg-icons-register';
 import './index.css';
-import { useSetSize } from '@/core/hooks/useSetSize.ts';
 
 export interface PlayerProps {
   option: PlayerOption;
@@ -50,7 +50,7 @@ useCallback(videoStates, {
   onVolumeChange: callback?.onVolumeChange,
   onWaiting: callback?.onWaiting,
   onError: callback?.onError,
-});
+}); // quality回调在Quality.vue中
 
 // Provide
 provide('containerRef', containerRef);
@@ -65,6 +65,7 @@ const handleSize = () => {
 };
 
 onMounted(() => {
+  //TODO: 自定义mount
   // 初始化时没有宽高自动设定一个值，避免初始化加载error元素尺寸消失
   if (
     !option.width &&
@@ -97,6 +98,7 @@ watch([() => option.width, () => option.height], () => {
 });
 
 const slots = useSlots();
+// TODO:自动识别src
 </script>
 
 <template>
@@ -110,7 +112,6 @@ const slots = useSlots();
       class="cy-player"
       id="cy-player"
       ref="videoRef"
-      :autoplay="option.autoPlay"
       :src="option.videoSrc"
     >
       <source :src="option.videoSrc" type="video/mp4" />

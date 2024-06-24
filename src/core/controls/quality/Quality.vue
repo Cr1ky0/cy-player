@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { PlayerOption, VideoCallback, VideoState } from '@/types';
+import { PlayerOption, VideoCallback, VideoController, VideoState } from '@/types';
 import { computed, inject, ref, watch } from 'vue';
 
 const playerOption = <PlayerOption>inject('playerOption');
 const videoStates = <VideoState>inject('videoStates');
+const videoController = <VideoController>inject('videoController')
 const callback = <VideoCallback>inject('callback');
 const chosenIndex = ref(-1);
 const showFunc = ref(false);
@@ -59,7 +60,7 @@ watch(
 </script>
 
 <template>
-  <div class="cy-player-quality" @click="showFunc = !showFunc">
+  <div v-if="chosenIndex !== -1" class="cy-player-quality" @click="showFunc = !showFunc">
     <div class="cy-player-quality-icon">
       {{ chosenItem }}
     </div>

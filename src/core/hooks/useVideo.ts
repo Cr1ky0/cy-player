@@ -1,6 +1,7 @@
 import { onBeforeUnmount, onMounted, reactive, ref, Ref, watch } from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
 import Hls from 'hls.js';
+import { supportTypes } from '@/core/hooks/useLoad.ts';
 
 /**
  * @description video状态管理和控制
@@ -23,6 +24,10 @@ export const useVideo = (
    * @description waiting计时器，playing后一段时间再置为false
    */
   const timer = ref<NodeJS.Timeout | null>(null);
+  /**
+   * @description 全局hls对象
+   */
+  let curHls: Hls | null = null;
   /**
    * @description video本身的相关状态
    */
@@ -89,6 +94,7 @@ export const useVideo = (
    */
   const handleCanplay = () => {
     if (vRef.value) {
+      option.autoPlay && videoController.play(); // 自动播放（切换视频是也会调用）
       videoStates.isError = false;
       videoStates.duration = vRef.value.duration || 0;
       videoStates.videoWidth = vRef.value.videoWidth;
@@ -164,10 +170,47 @@ export const useVideo = (
   const setHls = (videoElem: HTMLVideoElement, src: string) => {
     // 检查浏览器是否支持hls格式
     if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(src); // 将视频源加载到 HLS 对象中
-      hls.attachMedia(videoElem); // 将 HLS 对象附加到 videoElem 上
+      if (curHls) {
+        curHls.detachMedia();
+        curHls.loadSource(src);
+        curHls.attachMedia(videoElem);
+      } else {
+        const hls = new Hls();
+        curHls = hls;
+        hls.loadSource(src); // 将视频源加载到 HLS 对象中
+        hls.attachMedia(videoElem); // 将 HLS 对象附加到 videoElem 上
+      }
     }
+  };
+
+  /**
+   * @description 根据url检测video类型（需要跨域支持）
+   * @return 返回是否为HLS对象
+   */
+  const checkHls = async (url: string) => {
+    const response = await fetch(url);
+    if (response.ok) {
+      // content type
+      const contentTypes = response.headers
+        .get('content-type')!
+        .toLowerCase()
+        .split(';')
+        .map((item) => item.trim());
+      const type =
+        contentTypes.find((type) => {
+          return supportTypes.includes(type);
+        }) || null;
+      // 类型检测
+      if (type) {
+        // LOAD OPTIONS
+        return (
+          type === 'application/vnd.apple.mpegurl' ||
+          type === 'application/x-mpegurl'
+        );
+      }
+      return false;
+    }
+    return false;
   };
 
   /**
@@ -190,6 +233,12 @@ export const useVideo = (
     loadSrc(url);
     if (option.sourceType === 'hls') {
       setHls(vRef.value!, url);
+    } else if (option.sourceType === 'auto') {
+      checkHls(url).then((isHls) => {
+        if (isHls) {
+          setHls(vRef.value!, url);
+        }
+      });
     }
   };
 
@@ -214,7 +263,6 @@ export const useVideo = (
       const curPlayTime = localStorage.getItem('curPlayTime');
       const curTime = parseFloat(curPlayTime || '0');
       videoController.setCurTime(curTime);
-      if (curPlayTime) videoController.play();
       localStorage.removeItem('curPlayTime'); // 切换完毕后删除，避免初始化时快进
     },
   );

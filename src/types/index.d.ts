@@ -1,7 +1,7 @@
 import { CSSProperties } from 'vue';
 
 // 视频种类
-export type SourceType = 'h264' | 'hls';
+export type SourceType = 'h264' | 'hls' | 'auto';
 // 视频清晰度选项
 export type VideoQuality =
   | '360p'

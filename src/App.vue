@@ -11,13 +11,14 @@ const test = ref(true);
  */
 const option = reactive<PlayerOption>({
   videoSrc:
-    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
-  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+    // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+    // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
   // 'http://localhost:3000/test.mp4',
   // 'http://localhost:3000/input.m3u8',
   // '1231313231212333333333333333333333333333333333333333333333',
-  sourceType: 'h264', // 默认h264
-  // autoPlay: true,
+  sourceType: 'auto', // 默认h264(auto需要跨域支持)
+  autoPlay: true,
   // width: '60vw',
   // height: '300px',
   // themeColor: 'yellow',
@@ -25,7 +26,7 @@ const option = reactive<PlayerOption>({
   // showToast: false, // 默认true
   maskIconPlacement: 'center',
   toastPlacement: 'left-top',
-  customizedItemPlacement:'right-bottom',
+  customizedItemPlacement: 'right-bottom',
   showProgressFloat: false, // 默认为true
   // keepControllerShow: true,
   // isSettingShow: true,
@@ -43,8 +44,12 @@ const option = reactive<PlayerOption>({
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
   quality: [
     {
+      vQ: '8K',
+      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+    },
+    {
       vQ: '4K',
-      src: '123',
+      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
     },
     {
       vQ: '2K',
@@ -52,7 +57,7 @@ const option = reactive<PlayerOption>({
     },
     {
       vQ: '720p',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p1.mp4',
+      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
       // chosen: true,
     },
     {
@@ -64,28 +69,28 @@ const option = reactive<PlayerOption>({
 });
 
 // 适配测试
-// const setSize = (xw: number) => {
-//   if (xw <= 480) {
-//     option.width = '100vw';
-//     option.height = '300px';
-//   } else if (xw <= 720) {
-//     option.width = '100vw';
-//     option.height = '500px';
-//   } else {
-//     option.width = '1000px';
-//     option.height = '600px';
-//   }
-// };
-//
-// const { xWidth } = useViewport();
-//
-// watch(xWidth, () => {
-//   setSize(xWidth.value);
-// });
-//
-// onMounted(() => {
-//   setSize(window.innerWidth);
-// });
+const setSize = (xw: number) => {
+  if (xw <= 480) {
+    option.width = '100vw';
+    option.height = '300px';
+  } else if (xw <= 720) {
+    option.width = '100vw';
+    option.height = '500px';
+  } else {
+    option.width = '1000px';
+    option.height = '600px';
+  }
+};
+
+const { xWidth } = useViewport();
+
+watch(xWidth, () => {
+  setSize(xWidth.value);
+});
+
+onMounted(() => {
+  setSize(window.innerWidth);
+});
 
 const callbacks = <VideoCallback>{
   onPlay: (e) => {
@@ -125,7 +130,7 @@ const change = () => {
   // option.toastPlacement = 'center';
   // option.maskIconPlacement = 'center';
   // option.themeColor = 'red';
-  option.keepControllerShow = !option.keepControllerShow;
+  // option.keepControllerShow = !option.keepControllerShow;
 };
 </script>
 
@@ -146,9 +151,9 @@ const change = () => {
     <!--    <template #slider>-->
     <!--      <div>123</div>-->
     <!--    </template>-->
-    <template #customized>
-      <div style="color:#FFF">123123</div>
-    </template>
+    <!--    <template #customized>-->
+    <!--      <div style="color:#FFF">123123</div>-->
+    <!--    </template>-->
   </CyPlayer>
   <button @click="test = false">卸载</button>
   <button @click="change">change</button>

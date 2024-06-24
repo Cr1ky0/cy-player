@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "hls.js": "^1.5.11",
-    "screenfull": "^6.0.2",
     "vue": "^3.4.21"
   },
   "devDependencies": {
