@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { PlayerOption, VideoState } from '@/types';
+import { PlayerOption, VideoCallback, VideoState } from '@/types';
 import { computed, inject, ref, watch } from 'vue';
 
 const playerOption = <PlayerOption>inject('playerOption');
 const videoStates = <VideoState>inject('videoStates');
+const callback = <VideoCallback>inject('callback');
 const chosenIndex = ref(-1);
 const showFunc = ref(false);
 
@@ -36,6 +37,8 @@ const handleChangeQuality = (index: number) => {
   localStorage.setItem('curPlayTime', String(videoStates.currentPlayTime)); // 保证切换进度
   // 视频质量切换保存
   if (playerOption.qualitySave) localStorage.setItem('curSrc', curSrc);
+  // 视频切换回调
+  callback.onQualityChange && callback.onQualityChange(qualities.value[index]);
 };
 
 watch(

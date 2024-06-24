@@ -25,6 +25,7 @@ const option = reactive<PlayerOption>({
   // showToast: false, // 默认true
   maskIconPlacement: 'center',
   toastPlacement: 'left-top',
+  showProgressFloat: false, // 默认为true
   // keepControllerShow: true,
   // isSettingShow: true,
   // isPicInPicShow: true,
@@ -108,6 +109,9 @@ const callbacks = <VideoCallback>{
   onError() {
     // console.log('err');
   },
+  onQualityChange(quality) {
+    // console.log(quality);
+  },
 };
 // TODO: slider
 const change = () => {
@@ -127,21 +131,21 @@ const change = () => {
 
 <template>
   <CyPlayer v-if="test" :option="option" :callback="callbacks">
-    <!--        <template #playend>-->
-    <!--          <div>playend</div>-->
-    <!--        </template>-->
+    <!--    <template #playend>-->
+    <!--      <div>playend</div>-->
+    <!--    </template>-->
     <!--    <template #waiting>-->
     <!--      <div>waiting</div>-->
     <!--    </template>-->
-    <!--        <template #paused>-->
-    <!--          <div>paused</div>-->
-    <!--        </template>-->
+    <!--    <template #paused>-->
+    <!--      <div>paused</div>-->
+    <!--    </template>-->
     <!--    <template #error>-->
     <!--      <div>error</div>-->
     <!--    </template>-->
-    <!--            <template #slider>-->
-    <!--              <div>123</div>-->
-    <!--            </template>-->
+    <!--    <template #slider>-->
+    <!--      <div>123</div>-->
+    <!--    </template>-->
   </CyPlayer>
   <button @click="test = false">卸载</button>
   <button @click="change">change</button>

@@ -1,3 +1,5 @@
+import { CSSProperties } from 'vue';
+
 // 视频种类
 export type SourceType = 'h264' | 'hls';
 // 视频清晰度选项
@@ -26,8 +28,6 @@ export type Position =
   | 'center';
 
 // Player选项
-import { CSSProperties } from 'vue';
-
 export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 视频地址
@@ -113,6 +113,10 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description video的尺寸自适应
    */
   videoAutoFix?: U;
+  /**
+   * @description 是否显示悬浮提示进度条（controller隐藏后的进度条提示）
+   */
+  showProgressFloat?:U;
 }
 
 // Video回调
@@ -157,6 +161,10 @@ export interface VideoCallback<T = CallbackType> {
    * @description 视频等待时回调
    */
   onWaiting?: T;
+  /**
+   * @description 视频质量切换时回调
+   */
+  onQualityChange?: (quality: VideoQuality) => void;
 }
 
 // Video状态

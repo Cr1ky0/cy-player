@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  ref,
-  useSlots,
-  watch,
-} from 'vue';
+import { onBeforeUnmount, onMounted, provide, ref, useSlots, watch } from 'vue';
 import { PlayerOption, VideoCallback } from '@/types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
@@ -31,6 +24,10 @@ option.videoAutoFix =
   typeof option.videoAutoFix === 'boolean' ? option.videoAutoFix : true;
 option.showToast =
   typeof option.showToast === 'boolean' ? option.showToast : true;
+option.showProgressFloat =
+  typeof option.showProgressFloat === 'boolean'
+    ? option.showProgressFloat
+    : true;
 option.sourceType = option.sourceType || 'h264';
 // Refs
 const videoRef = ref<HTMLVideoElement>();
@@ -61,6 +58,7 @@ provide('videoRef', videoRef);
 provide('playerOption', option);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
+provide('callback',callback);
 
 const handleSize = () => {
   setTotalSize(option.videoAutoFix);
@@ -126,7 +124,7 @@ const slots = useSlots();
         <slot :name="key" />
       </template>
     </Controller>
-    <BottomProgress :mouseEnter="mouseEnter" />
+    <BottomProgress v-if="option.showProgressFloat" :mouseEnter="mouseEnter" />
   </div>
 </template>
 
