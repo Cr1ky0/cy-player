@@ -19,6 +19,12 @@ const pos = computed(() => {
     : 'center';
 });
 
+const cusPos = computed(() => {
+  return playerOption.customizedItemPlacement
+    ? playerOption.customizedItemPlacement
+    : 'center';
+});
+
 const toast = computed(() => {
   return useToast({
     message: `视频因未知原因加载失败！`,
@@ -51,6 +57,12 @@ const slots = useSlots();
     @click="handleClick"
     :style="styles"
   >
+    <div
+      v-if="slots.customized"
+      :class="`cy-player-controller-mask-customized cy-player-controller-mask-${cusPos}`"
+    >
+      <slot name="customized"></slot>
+    </div>
     <div v-if="videoStates.isError" class="cy-player-error">
       <slot v-if="slots.error" name="error"></slot>
       <div v-else>
@@ -114,6 +126,13 @@ const slots = useSlots();
   @include selectable(none);
   width: 100%;
   height: 100%;
+
+  .cy-player-controller-mask-customized {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: $top-layer;
+  }
 
   .cy-player-replay-icon {
     width: 3.125rem;

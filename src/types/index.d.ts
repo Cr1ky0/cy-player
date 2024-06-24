@@ -116,7 +116,11 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 是否显示悬浮提示进度条（controller隐藏后的进度条提示）
    */
-  showProgressFloat?:U;
+  showProgressFloat?: U;
+  /**
+   * @description 自定义组件在屏幕上的所在位置
+   */
+  customizedItemPlacement?: Position;
 }
 
 // Video回调

@@ -25,6 +25,7 @@ const option = reactive<PlayerOption>({
   // showToast: false, // 默认true
   maskIconPlacement: 'center',
   toastPlacement: 'left-top',
+  customizedItemPlacement:'right-bottom',
   showProgressFloat: false, // 默认为true
   // keepControllerShow: true,
   // isSettingShow: true,
@@ -48,7 +49,6 @@ const option = reactive<PlayerOption>({
     {
       vQ: '2K',
       src: 'https://cdn.gudsen.vip/2022/11/14/422e7528fce64f03bf1b378cff393237.mp4',
-      // chosen: true,
     },
     {
       vQ: '720p',
@@ -146,6 +146,9 @@ const change = () => {
     <!--    <template #slider>-->
     <!--      <div>123</div>-->
     <!--    </template>-->
+    <template #customized>
+      <div style="color:#FFF">123123</div>
+    </template>
   </CyPlayer>
   <button @click="test = false">卸载</button>
   <button @click="change">change</button>
