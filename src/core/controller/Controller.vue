@@ -26,11 +26,20 @@ const isDrag = ref<boolean>(false);
 provide('isDrag', isDrag);
 
 const slots = useSlots();
+const filteredSlots = Object.keys(slots).reduce(
+  (acc, key) => {
+    if (key !== 'slider') {
+      acc[key] = slots[key];
+    }
+    return acc;
+  },
+  {} as Record<string, any>,
+);
 </script>
 
 <template>
   <Mask>
-    <template v-for="(_, key) in slots" :key="key" v-slot:[key]>
+    <template v-for="(_, key) in filteredSlots" :key="key" v-slot:[key]>
       <slot :name="key" />
     </template>
   </Mask>
@@ -39,7 +48,11 @@ const slots = useSlots();
     :style="style"
     v-if="!videoStates.isError"
   >
-    <ProgressBar />
+    <ProgressBar>
+      <template v-if="slots.slider" #slider>
+        <slot name="slider"></slot>
+      </template>
+    </ProgressBar>
     <div class="cy-player-controller-controls-container">
       <Playback />
       <Controls />

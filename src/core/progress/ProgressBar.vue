@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, Ref, ref, watch, watchEffect } from 'vue';
+import { computed, inject, Ref, ref, useSlots, watch, watchEffect } from 'vue';
 import { PlayerOption, VideoController, VideoState } from '@/types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
@@ -71,6 +71,8 @@ const moveTime = computed(() => {
 watchEffect(() => {
   progressDrag.value = isDrag.value;
 });
+
+const slots = useSlots();
 </script>
 
 <template>
@@ -94,8 +96,19 @@ watchEffect(() => {
     </div>
     <Transition>
       <div
+        v-if="slots.slider"
         v-show="showSlider || isDrag"
-        class="cy-player-progress-slider"
+        class="cy-player-progress-slider-base"
+        :style="{
+          left: `${completedProportion}%`,
+        }"
+      >
+        <slot name="slider"></slot>
+      </div>
+      <div
+        v-else
+        v-show="showSlider || isDrag"
+        class="cy-player-progress-slider-base cy-player-progress-slider"
         :style="{
           left: `${completedProportion}%`,
           backgroundColor: themeColor,
@@ -154,7 +167,7 @@ $progress-radius: 0.1rem;
 
     .cy-player-progress-indicator-down {
       @include position(absolute, 0, auto, auto, 0);
-      transform: translate(-50%, -150%);
+      transform: translate(-50%, -200%);
       width: 0;
       height: 0;
       border-left: 0.3rem solid transparent;
@@ -164,7 +177,7 @@ $progress-radius: 0.1rem;
 
     .cy-player-progress-indicator-up {
       @include position(absolute, auto, 0, auto, 0);
-      transform: translate(-50%, 150%);
+      transform: translate(-50%, 200%);
       width: 0;
       height: 0;
       border-left: 0.3rem solid transparent;
@@ -182,17 +195,20 @@ $progress-radius: 0.1rem;
     border-radius: $progress-radius;
   }
 
-  .cy-player-progress-slider {
-    @include position(absolute, 0, auto, 0, auto);
-    height: $progress-slider-diameter;
-    width: $progress-slider-diameter;
-    transform: translate(-50%, -25%);
-    background-color: $default-theme-color;
-    border-radius: 100%;
+  .cy-player-progress-slider-base {
+    @include position(absolute, 50%, auto, auto, 0);
+    transform: translate(-50%, -50%);
     z-index: $top-layer;
     transition:
       opacity 0.3s ease,
       transform 0.3s ease;
+  }
+
+  .cy-player-progress-slider {
+    height: $progress-slider-diameter;
+    width: $progress-slider-diameter;
+    background-color: $default-theme-color;
+    border-radius: 100%;
   }
 
   /* 用vue3格式的transition，出现时会闪现，这里沿用vue2格式的 */

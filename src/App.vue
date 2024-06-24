@@ -139,9 +139,9 @@ const change = () => {
     <!--    <template #error>-->
     <!--      <div>error</div>-->
     <!--    </template>-->
-    <!--    <template #progress-slider>-->
-    <!--      <div>slider</div>-->
-    <!--    </template>-->
+    <!--            <template #slider>-->
+    <!--              <div>123</div>-->
+    <!--            </template>-->
   </CyPlayer>
   <button @click="test = false">卸载</button>
   <button @click="change">change</button>
