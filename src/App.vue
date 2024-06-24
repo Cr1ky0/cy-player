@@ -37,8 +37,8 @@ const option = reactive<PlayerOption>({
   // controllerStyles: {
   //   backgroundColor: 'transparent',
   // },
-  // poster:
-  //   'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
+  poster:
+    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
   quality: [
     {
       vQ: '4K',

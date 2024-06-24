@@ -20,6 +20,7 @@ const handleLoop = () => {
     class="cy-player-controls-setting"
   >
     <SvgIcon
+      class="cy-player-controls-setting-icon"
       @click="showFunc = !showFunc"
       icon-name="set"
       fill="rgba(255,255,255,.8)"
@@ -53,6 +54,13 @@ const handleLoop = () => {
   position: relative;
   cursor: pointer;
   padding: 0 .7rem;
+
+  .cy-player-controls-setting-icon{
+    transition: transform .3s ease;
+    &:hover{
+      transform:rotateZ(60deg);
+    }
+  }
 
   .cy-player-controls-setting-bottom {
     @include xCenterAlign(-100%);

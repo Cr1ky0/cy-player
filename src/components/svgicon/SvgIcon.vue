@@ -5,7 +5,6 @@ export interface SvgIconProps {
   iconName: string;
   fill: string;
   fontSize?: string;
-  className?: string;
   styles?: CSSProperties;
   onClick?: (e: MouseEvent) => void;
 }
@@ -20,7 +19,6 @@ const click = computed(() => {
 
 <template>
   <svg
-    :class="className"
     :style="{ ...styles, fontSize: fontSize || '1.125rem' }"
     @click="click"
     aria-hidden="true"
