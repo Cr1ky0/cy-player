@@ -40,7 +40,7 @@ export const useSetSize = (
   /**
    * @description 设置容器以及video宽高
    */
-  const setTotalSize = () => {
+  const setTotalSize = (adaptVideo?: boolean) => {
     const videoElement = <HTMLVideoElement>vRef.value;
     const videoContainer = <HTMLDivElement>cRef.value;
     const videoWidth = videoElement.videoWidth;
@@ -61,8 +61,10 @@ export const useSetSize = (
       else videoContainer.style.width = option.width;
     }
     // adapt video size
-    const { width, height } = getElementSize(videoContainer);
-    adaptiveVideoSize(width, height);
+    if (typeof adaptVideo !== 'boolean' || adaptVideo) {
+      const { width, height } = getElementSize(videoContainer);
+      adaptiveVideoSize(width, height);
+    }
   };
 
   onMounted(() => {

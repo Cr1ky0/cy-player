@@ -247,8 +247,6 @@ export const useVideo = (
       // update计时器
       interval.value = setInterval(() => {
         videoStates.currentPlayTime = videoElement.currentTime;
-        // videoStates.bufferedTime =
-        //   videoElement.buffered.length > 0 ? videoElement.buffered.end(0) : 0;
       }, 20);
     }
   });

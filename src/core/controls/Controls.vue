@@ -61,28 +61,32 @@ const { adaptiveVideoSize, getElementSize } = useSetSize(
 
 // screenfull时的视频尺寸自适应
 watch(isScreenFull, () => {
-  if (isScreenFull.value) {
-    // 注意用屏幕宽高
-    adaptiveVideoSize(screen.width, screen.height);
-  }
-  // 退出全屏时
-  else {
-    // 避免和webscreenfull产生冲突，退出时基于容器宽高来设置
-    const { width, height } = getElementSize(containerRef.value);
-    adaptiveVideoSize(width, height);
+  if (playerOption.videoAutoFix) {
+    if (isScreenFull.value) {
+      // 注意用屏幕宽高
+      adaptiveVideoSize(screen.width, screen.height);
+    }
+    // 退出全屏时
+    else {
+      // 避免和webscreenfull产生冲突，退出时基于容器宽高来设置
+      const { width, height } = getElementSize(containerRef.value);
+      adaptiveVideoSize(width, height);
+    }
   }
 });
 
 // webscreenfull时的视频尺寸自适应
 watch(isWebScreenFull, () => {
-  // 没有全屏再自适应
-  if(!isScreenFull.value) {
-    if (isWebScreenFull.value)
-      // 注意用视口宽高
-      adaptiveVideoSize(window.innerWidth, window.innerHeight);
-    else {
-      const { width, height } = getElementSize(containerRef.value);
-      adaptiveVideoSize(width, height);
+  if (playerOption.videoAutoFix) {
+    // 没有全屏再自适应
+    if (!isScreenFull.value) {
+      if (isWebScreenFull.value)
+        // 注意用视口宽高
+        adaptiveVideoSize(window.innerWidth, window.innerHeight);
+      else {
+        const { width, height } = getElementSize(containerRef.value);
+        adaptiveVideoSize(width, height);
+      }
     }
   }
 });

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  computed,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -15,7 +16,6 @@ import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 import BottomProgress from '@/core/progress/BottomProgress.vue';
 import 'virtual:svg-icons-register';
 import './index.css';
-import Test from '@/core/Test.vue';
 import { useSetSize } from '@/core/hooks/useSetSize.ts';
 
 export interface PlayerProps {
@@ -27,11 +27,13 @@ export interface PlayerProps {
 const props = defineProps<PlayerProps>();
 const option = props.option;
 const callback = props.callback || null;
-
+// default props
+option.videoAutoFix =
+  typeof option.videoAutoFix === 'boolean' ? option.videoAutoFix : true;
+option.showToast =
+  typeof option.showToast === 'boolean' ? option.showToast : true;
+option.sourceType = option.sourceType || 'h264';
 // Refs
-/**
- * @description video对象
- */
 const videoRef = ref<HTMLVideoElement>();
 const containerRef = ref<HTMLDivElement>();
 
@@ -61,16 +63,35 @@ provide('playerOption', option);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
 
+const handleSize = () => {
+  setTotalSize(option.videoAutoFix);
+};
+
 onMounted(() => {
-  const vElement = <HTMLVideoElement>videoRef.value;
-  vElement.addEventListener('canplay', setTotalSize);
+  // 初始化时没有宽高自动设定一个值，避免初始化加载error元素尺寸消失
+  if (
+    !option.width &&
+    !option.height &&
+    !option.styles?.height &&
+    !option.styles?.width
+  ) {
+    containerRef.value!.style.width = `800px`;
+    containerRef.value!.style.height = `450px`;
+  }
+  // video size auto fix
+  if (option.videoAutoFix) {
+    const vElement = <HTMLVideoElement>videoRef.value;
+    vElement.addEventListener('canplay', handleSize);
+  }
   // 移动端修正音量
   if (isMobile.value) videoController.setVolume(80);
 });
 
 onBeforeUnmount(() => {
-  const vElement = <HTMLVideoElement>videoRef.value;
-  vElement.removeEventListener('canplay', setTotalSize);
+  if (option.videoAutoFix) {
+    const vElement = <HTMLVideoElement>videoRef.value;
+    vElement.removeEventListener('canplay', handleSize);
+  }
 });
 
 // option size监视
@@ -108,7 +129,6 @@ const slots = useSlots();
       </template>
     </Controller>
     <BottomProgress :mouseEnter="mouseEnter" />
-    <!--    <Test></Test>-->
   </div>
 </template>
 
@@ -135,8 +155,8 @@ const slots = useSlots();
 .cy-player {
   @include position(absolute, 50%, auto, auto, 50%);
   transform: translate(-50%, -50%);
-  //width: 100%;
-  //height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 </style>
