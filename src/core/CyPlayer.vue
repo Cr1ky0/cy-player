@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {
-  computed,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -118,7 +117,6 @@ const slots = useSlots();
     >
       <source :src="option.videoSrc" type="video/mp4" />
       <source :src="option.videoSrc" type="video/ogg" />
-      <source :src="option.videoSrc" type="video/webm" />
       <source :src="option.videoSrc" type="video/webm" />
       <source :src="option.videoSrc" type="application/vnd.apple.mpegURL" />
       <source :src="option.videoSrc" type="application/x-mpegURL" />
