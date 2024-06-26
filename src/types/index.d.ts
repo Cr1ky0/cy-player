@@ -169,6 +169,14 @@ export interface VideoCallback<T = CallbackType> {
    * @description 视频质量切换时回调
    */
   onQualityChange?: (quality: VideoQuality) => void;
+  /**
+   * @description 组件onMounted回调
+   */
+  onPlayerMounted?: (videoRef: HTMLVideoElement, containerElem: HTMLDivElement) => void;
+  /**
+   * @description 组件onBeforeUnmount回调
+   */
+  onPlayerBeforeUnmount?: (videoRef: HTMLVideoElement, containerElem: HTMLDivElement) => void;
 }
 
 // Video状态

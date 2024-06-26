@@ -12,8 +12,8 @@ const test = ref(true);
 const option = reactive<PlayerOption>({
   videoSrc:
     // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
-    // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
-    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
+    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
   // 'http://localhost:3000/test.mp4',
   // 'http://localhost:3000/input.m3u8',
   // '1231313231212333333333333333333333333333333333333333333333',
@@ -42,29 +42,29 @@ const option = reactive<PlayerOption>({
   // },
   poster:
     'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
-  quality: [
-    {
-      vQ: '8K',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
-    },
-    {
-      vQ: '4K',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
-    },
-    {
-      vQ: '2K',
-      src: 'https://cdn.gudsen.vip/2022/11/14/422e7528fce64f03bf1b378cff393237.mp4',
-    },
-    {
-      vQ: '720p',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
-      // chosen: true,
-    },
-    {
-      vQ: '480p',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
-    },
-  ],
+  // quality: [
+  //   {
+  //     vQ: '8K',
+  //     src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+  //   },
+  //   {
+  //     vQ: '4K',
+  //     src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
+  //   },
+  //   {
+  //     vQ: '2K',
+  //     src: 'https://cdn.gudsen.vip/2022/11/14/422e7528fce64f03bf1b378cff393237.mp4',
+  //   },
+  //   {
+  //     vQ: '720p',
+  //     src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+  //     // chosen: true,
+  //   },
+  //   {
+  //     vQ: '480p',
+  //     src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+  //   },
+  // ],
   // qualitySave: true,
 });
 
@@ -108,17 +108,22 @@ const callbacks = <VideoCallback>{
   onTimeChange: (e) => {
     // console.log('timechange');
   },
-  onWaiting(e) {
+  onWaiting: (e) => {
     // console.log('waiting');
   },
-  onError() {
+  onError: () => {
     // console.log('err');
   },
-  onQualityChange(quality) {
+  onQualityChange: (quality) => {
     // console.log(quality);
   },
+  onPlayerMounted: (vElem, cElem) => {
+    console.log(vElem, cElem);
+  },
+  onPlayerBeforeUnmount: (vElem, cElem) => {
+    console.log(vElem, cElem);
+  },
 };
-// TODO: slider
 const change = () => {
   // option.videoSrc =
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';

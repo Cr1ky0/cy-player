@@ -58,14 +58,13 @@ provide('videoRef', videoRef);
 provide('playerOption', option);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
-provide('callback',callback);
+provide('callback', callback);
 
 const handleSize = () => {
   setTotalSize(option.videoAutoFix);
 };
 
 onMounted(() => {
-  //TODO: 自定义mount
   // 初始化时没有宽高自动设定一个值，避免初始化加载error元素尺寸消失
   if (
     !option.width &&
@@ -83,6 +82,9 @@ onMounted(() => {
   }
   // 移动端修正音量
   if (isMobile.value) videoController.setVolume(80);
+  // 自定义Mount回调
+  callback?.onPlayerMounted &&
+    callback.onPlayerMounted(videoRef.value!, containerRef.value!);
 });
 
 onBeforeUnmount(() => {
@@ -90,6 +92,9 @@ onBeforeUnmount(() => {
     const vElement = <HTMLVideoElement>videoRef.value;
     vElement.removeEventListener('canplay', handleSize);
   }
+  // 自定义beforeUnmount回调
+  callback?.onPlayerBeforeUnmount &&
+    callback.onPlayerBeforeUnmount(videoRef.value!, containerRef.value!);
 });
 
 // option size监视
@@ -98,7 +103,6 @@ watch([() => option.width, () => option.height], () => {
 });
 
 const slots = useSlots();
-// TODO:自动识别src
 </script>
 
 <template>
@@ -115,10 +119,10 @@ const slots = useSlots();
       :src="option.videoSrc"
     >
       <source :src="option.videoSrc" type="video/mp4" />
-      <source :src="option.videoSrc" type="video/ogg" />
       <source :src="option.videoSrc" type="video/webm" />
-      <source :src="option.videoSrc" type="application/vnd.apple.mpegURL" />
+      <source :src="option.videoSrc" type="video/ogg" />
       <source :src="option.videoSrc" type="application/x-mpegURL" />
+      <source :src="option.videoSrc" type="application/vnd.apple.mpegURL" />
     </video>
     <Controller :mouseEnter="mouseEnter">
       <template v-for="(_, key) in slots" :key="key" v-slot:[key]>
