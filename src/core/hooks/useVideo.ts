@@ -1,5 +1,5 @@
 import { onBeforeUnmount, onMounted, reactive, ref, Ref, watch } from 'vue';
-import { PlayerOption, VideoController, VideoState } from '@/types';
+import { PlayerOption, VideoController, VideoState } from 'types';
 import Hls from 'hls.js';
 import { supportTypes } from '@/core/hooks/useLoad.ts';
 

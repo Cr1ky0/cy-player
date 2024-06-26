@@ -1,5 +1,5 @@
 import { computed, onBeforeUnmount, onMounted, Ref, ref } from 'vue';
-import { PlayerOption } from '@/types';
+import { PlayerOption } from 'types';
 import { useToast } from '@/core/hooks/useToast.ts';
 
 export const usePictureInPicture = (elementRef: Ref, option: PlayerOption) => {

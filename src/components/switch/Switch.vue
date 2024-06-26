@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PlayerOption } from '@/types';
+import { PlayerOption } from 'types';
 import { computed, inject } from 'vue';
 
 export interface SwitchProps {

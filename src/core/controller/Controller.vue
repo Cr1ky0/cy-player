@@ -4,7 +4,7 @@ import Mask from '@/core/controller/Mask.vue';
 import { computed, inject, provide, ref, useSlots } from 'vue';
 import Playback from '@/core/controls/Playback.vue';
 import Controls from '@/core/controls/Controls.vue';
-import { PlayerOption, VideoState } from '@/types';
+import { PlayerOption, VideoState } from 'types';
 
 defineProps(['mouseEnter']);
 const videoStates = <VideoState>inject('videoStates');

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
-import { PlayerOption, VideoState } from '@/types';
+import { PlayerOption, VideoState } from 'types';
 
 const props = defineProps(['mouseEnter']);
 const videoStates = <VideoState>inject('videoStates');

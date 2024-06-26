@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PlayerOption, VideoController, VideoState } from '@/types';
+import { PlayerOption, VideoController, VideoState } from 'types';
 import { computed, inject, Ref, useSlots, watch } from 'vue';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { useToast } from '@/core/hooks/useToast.ts';

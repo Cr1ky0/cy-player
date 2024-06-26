@@ -3,7 +3,7 @@ import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import Switch from '@/components/switch/Switch.vue';
 import { inject, ref } from 'vue';
 import { useLightOff } from '@/core/hooks/useLightOff.ts';
-import { VideoState } from '@/types';
+import { VideoState } from 'types';
 
 const videoStates = <VideoState>inject('videoStates');
 const showFunc = ref(false);

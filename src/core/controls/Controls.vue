@@ -4,7 +4,7 @@ import ControlTool from '@/components/controltool/ControlTool.vue';
 import { computed, inject, Ref, watch } from 'vue';
 import { useScreenFull } from '@/core/hooks/useScreenFull.ts';
 import { useWebScreenFull } from '@/core/hooks/useWebScreenFull.ts';
-import { PlayerOption, VideoState } from '@/types';
+import { PlayerOption, VideoState } from 'types';
 import { usePictureInPicture } from '@/core/hooks/usePictureInPicture.ts';
 import Setting from '@/core/controls/setting/Setting.vue';
 import MultiplePlay from '@/core/controls/multiple/MultiplePlay.vue';

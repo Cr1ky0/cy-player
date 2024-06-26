@@ -1,5 +1,3 @@
-import { CSSProperties } from 'vue';
-
 // 视频种类
 export type SourceType = 'h264' | 'hls' | 'auto';
 // 视频清晰度选项
@@ -13,7 +11,7 @@ export type VideoQuality =
   | '8K';
 
 // quality选项
-interface QualityOption {
+export interface QualityOption {
   vQ: VideoQuality;
   src: string;
   chosen?: boolean;
@@ -56,7 +54,7 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 播放器根样式
    */
-  styles?: CSSProperties;
+  styles?: import('vue').CSSProperties;
   /**
    * @description 遮罩图标位置，默认center
    */
@@ -80,7 +78,7 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 控制器根样式
    */
-  controllerStyles?: CSSProperties;
+  controllerStyles?: import('vue').CSSProperties;
   /**
    * @description 是否保持controller显示
    */
@@ -240,3 +238,8 @@ export interface VideoController {
   setVolume: (volume: number) => void;
   setCurTime: (curTime: number) => void;
 }
+
+interface CyPlayerVueComponent extends import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}>{};
+declare const CyPlayer: CyVuePlayerComponent;
+export { CyPlayer };
+export default CyPlayer;

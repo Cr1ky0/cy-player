@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, ref, watch } from 'vue';
-import { PlayerOption, VideoController, VideoState } from '@/types';
+import { PlayerOption, VideoController, VideoState } from 'types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 
 export interface VolumeSliderProps {

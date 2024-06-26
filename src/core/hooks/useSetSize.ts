@@ -1,5 +1,5 @@
 import { onMounted, ref, Ref } from 'vue';
-import { PlayerOption, VideoState } from '@/types';
+import { PlayerOption, VideoState } from 'types';
 
 export const useSetSize = (
   videoRef: Ref,

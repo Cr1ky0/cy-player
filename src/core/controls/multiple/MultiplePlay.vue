@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, ref, Ref } from 'vue';
-import { PlayerOption } from '@/types';
+import { PlayerOption } from 'types';
 
 const multiples = ['2.0x', '1.75x', '1.5x', '1.25x', '1.0x', '0.75x', '0.5x'];
 const videoRef = <Ref>inject('videoRef');

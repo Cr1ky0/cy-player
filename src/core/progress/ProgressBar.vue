@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, Ref, ref, useSlots, watch, watchEffect } from 'vue';
-import { PlayerOption, VideoController, VideoState } from '@/types';
+import { PlayerOption, VideoController, VideoState } from 'types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
 

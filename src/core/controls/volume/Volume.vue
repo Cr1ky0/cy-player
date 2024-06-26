@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { computed, inject, ref } from 'vue';
-import { VideoController, VideoState } from '@/types';
+import { VideoController, VideoState } from 'types';
 import VolumeSlider from '@/core/controls/volume/VolumeSlider.vue';
 import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 

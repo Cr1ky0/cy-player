@@ -2,7 +2,7 @@
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { computed, inject } from 'vue';
 import { formatTime } from '@/utils';
-import { VideoController, VideoState } from '@/types';
+import { VideoController, VideoState } from 'types';
 
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');

@@ -1,5 +1,5 @@
 import { onMounted, reactive, Ref, ref, watch } from 'vue';
-import { PlayerOption } from '@/types';
+import { PlayerOption } from 'types';
 import Hls from 'hls.js';
 
 /**

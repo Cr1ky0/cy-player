@@ -1,4 +1,4 @@
-import { VideoCallback, VideoState } from '@/types';
+import { VideoCallback, VideoState } from 'types';
 import { readonly, watch } from 'vue';
 
 export const useCallback = (

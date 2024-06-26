@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Position } from '@/types';
+import { Position } from 'types';
 
 export interface ToastProps {
   message: string;
