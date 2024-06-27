@@ -106,7 +106,7 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 视频质量是否进行默认选择记忆
    */
-  qualitySave?: U;
+  // qualitySave?: U;
   /**
    * @description video的尺寸自适应
    */

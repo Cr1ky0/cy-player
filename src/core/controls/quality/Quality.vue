@@ -36,7 +36,7 @@ const handleChangeQuality = (index: number) => {
   chosenIndex.value = index;
   localStorage.setItem('curPlayTime', String(videoStates.currentPlayTime)); // 保证切换进度
   // 视频质量切换保存
-  if (playerOption.qualitySave) localStorage.setItem('curSrc', curSrc);
+  // if (playerOption.qualitySave) localStorage.setItem('curSrc', curSrc);
   // 视频切换回调
   callback.onQualityChange && callback.onQualityChange(qualities.value[index]);
 };
