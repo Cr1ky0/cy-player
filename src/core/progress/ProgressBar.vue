@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, Ref, ref, useSlots, watch, watchEffect } from 'vue';
+import { computed, inject, Ref, ref, useSlots, watch } from 'vue';
 import { PlayerOption, VideoController, VideoState } from 'types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
@@ -22,11 +22,12 @@ const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
   },
   onMouseMove() {
     if (isDrag.value) {
-      videoController.setCurTime(moveTime.value);
+      // 不让100%进度状态设置以免视频处于播放结束状态拖动时出现bug
+      if (xProp.value < 100) videoController.setCurTime(moveTime.value);
     }
   },
   onMouseUp() {
-    if (isDrag.value) videoController.play(); // 要加判断，不然其他地方点击也会play，且要在重置isDrag之前
+    if (isDrag.value && !videoStates.isPlayEnd) videoController.play(); // 要加判断，不然其他地方点击也会play，且要在重置isDrag之前
   },
 });
 
@@ -68,7 +69,7 @@ const moveTime = computed(() => {
   return (xProp.value / 100) * videoStates.duration;
 });
 
-watchEffect(() => {
+watch(isDrag, () => {
   progressDrag.value = isDrag.value;
 });
 

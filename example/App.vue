@@ -118,10 +118,10 @@ const callbacks = <VideoCallback>{
     // console.log(quality);
   },
   onPlayerMounted: (vElem, cElem) => {
-    console.log(vElem, cElem);
+    // console.log(vElem, cElem);
   },
   onPlayerBeforeUnmount: (vElem, cElem) => {
-    console.log(vElem, cElem);
+    // console.log(vElem, cElem);
   },
 };
 const change = () => {

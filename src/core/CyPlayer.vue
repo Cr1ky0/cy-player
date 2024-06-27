@@ -116,6 +116,7 @@ const slots = useSlots();
       class="cy-player"
       id="cy-player"
       ref="videoRef"
+      :autoplay="option.autoPlay"
       :src="option.videoSrc"
     >
       <source :src="option.videoSrc" type="video/mp4" />

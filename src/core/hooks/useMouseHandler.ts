@@ -83,6 +83,7 @@ export const useMouseHandler = (
       xProp.value = (x / width.value) * 100;
       yProp.value = (y / height.value) * 100;
 
+
       // 如果存在鼠标事件回调，则调用onMouseMove
       if (mouseEventCallbacks && mouseEventCallbacks.onMouseMove) {
         mouseEventCallbacks.onMouseMove();

@@ -94,7 +94,6 @@ export const useVideo = (
    */
   const handleCanplay = () => {
     if (vRef.value) {
-      option.autoPlay && videoController.play(); // 自动播放（切换视频是也会调用）
       videoStates.isError = false;
       videoStates.duration = vRef.value.duration || 0;
       videoStates.videoWidth = vRef.value.videoWidth;
