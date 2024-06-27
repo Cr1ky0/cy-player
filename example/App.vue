@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import CyPlayer from '@/core/CyPlayer.vue';
+import CyPlayer from '@/core/index';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { PlayerOption, VideoCallback } from 'types';
-import { useViewport } from '@/useViewport.ts';
+import { useViewport } from './useViewport.ts';
 
 const test = ref(true);
 

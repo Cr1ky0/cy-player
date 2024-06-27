@@ -6,8 +6,8 @@
   "module": "index.es.js",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "dev": "vite --config vite.config.dev.ts",
+    "build": "vue-tsc && vite build --config vite.config.prod.ts",
     "preview": "vite preview"
   },
   "repository": {
