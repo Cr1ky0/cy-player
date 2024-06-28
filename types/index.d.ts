@@ -238,7 +238,7 @@ export interface VideoState<T = number, U = boolean, K = string> {
   videoHeight: T;
 }
 
-// Video操作
+// Vide控制
 export interface VideoController {
   load: () => void;
   play: () => void;
