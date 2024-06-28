@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, provide, ref, useSlots, watch } from 'vue';
-import { PlayerOption, VideoCallback } from 'types';
+import {
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  Ref,
+  ref,
+  useSlots,
+  watch,
+} from 'vue';
+import { CyPlayerRef, PlayerOption, VideoCallback } from 'types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
@@ -103,6 +111,13 @@ watch([() => option.width, () => option.height], () => {
 });
 
 const slots = useSlots();
+
+// expose
+defineExpose({
+  videoElement: videoRef,
+  states: videoStates,
+  controller: videoController,
+});
 </script>
 
 <template>

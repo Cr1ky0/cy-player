@@ -1,4 +1,6 @@
 // 视频种类
+import { Ref } from 'vue';
+
 export type SourceType = 'h264' | 'hls' | 'auto';
 // 视频清晰度选项
 export type VideoQuality =
@@ -43,6 +45,10 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    * @description 播放器宽度
    */
   width?: T | K;
+  /**
+   * @description video的尺寸自适应
+   */
+  videoAutoFix?: U;
   /**
    * @description 视频封面
    */
@@ -108,10 +114,6 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    */
   // qualitySave?: U;
   /**
-   * @description video的尺寸自适应
-   */
-  videoAutoFix?: U;
-  /**
    * @description 是否显示悬浮提示进度条（controller隐藏后的进度条提示）
    */
   showProgressFloat?: U;
@@ -123,16 +125,6 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
 
 // Video回调
 export type CallbackType<T = VideoState> = (e: T) => void;
-// export type HttpLoadState = {
-//   /**
-//    *  @description 视频Http加载状态
-//    */
-//   httpStateCode: number;
-//   /**
-//    *  @description 视频加载失败原因
-//    */
-//   failReason: string;
-// };
 
 export interface VideoCallback<T = CallbackType> {
   /**
@@ -170,11 +162,17 @@ export interface VideoCallback<T = CallbackType> {
   /**
    * @description 组件onMounted回调
    */
-  onPlayerMounted?: (videoRef: HTMLVideoElement, containerElem: HTMLDivElement) => void;
+  onPlayerMounted?: (
+    videoRef: HTMLVideoElement,
+    containerElem: HTMLDivElement,
+  ) => void;
   /**
    * @description 组件onBeforeUnmount回调
    */
-  onPlayerBeforeUnmount?: (videoRef: HTMLVideoElement, containerElem: HTMLDivElement) => void;
+  onPlayerBeforeUnmount?: (
+    videoRef: HTMLVideoElement,
+    containerElem: HTMLDivElement,
+  ) => void;
 }
 
 // Video状态
@@ -237,9 +235,36 @@ export interface VideoController {
   pause: () => void;
   setVolume: (volume: number) => void;
   setCurTime: (curTime: number) => void;
+  setVideoSrc: (src: string) => void;
 }
 
-interface CyPlayerVueComponent extends import('vue').DefineComponent<{}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, Readonly<import('vue').ExtractPropTypes<{}>>, {}, {}>{};
-declare const CyPlayer: CyVuePlayerComponent;
+export type CyPlayerRef = {
+  states: VideoState;
+  controller: VideoController;
+  videoElement: HTMLVideoElement;
+};
+
+interface NoneObject extends NonNullable<unknown> {}
+
+interface CyPlayerComponent
+  extends import('vue').DefineComponent<
+    NoneObject,
+    NoneObject,
+    NoneObject,
+    NoneObject,
+    NoneObject,
+    import('vue').ComponentOptionsMixin,
+    import('vue').ComponentOptionsMixin,
+    NoneObject,
+    string,
+    import('vue').VNodeProps &
+      import('vue').AllowedComponentProps &
+      import('vue').ComponentCustomProps,
+    Readonly<import('vue').ExtractPropTypes<NoneObject>>,
+    NoneObject,
+    NonNullable<unknown>
+  > {}
+
+declare const CyPlayer: CyPlayerComponent;
 export { CyPlayer };
 export default CyPlayer;

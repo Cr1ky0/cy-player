@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CyPlayer from '@/core/index';
 import { onMounted, reactive, ref, watch } from 'vue';
-import { PlayerOption, VideoCallback } from 'types';
+import { PlayerOption, VideoCallback, CyPlayerRef } from 'types';
 import { useViewport } from './useViewport.ts';
 
 const test = ref(true);
@@ -11,23 +11,24 @@ const test = ref(true);
  */
 const option = reactive<PlayerOption>({
   videoSrc:
-    // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
-    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
   // 'http://localhost:3000/test.mp4',
   // 'http://localhost:3000/input.m3u8',
   // '1231313231212333333333333333333333333333333333333333333333',
   sourceType: 'auto', // 默认h264(auto需要跨域支持)
-  autoPlay: true,
+  autoPlay: false,
+  videoAutoFix: false,
   // width: '60vw',
   // height: '300px',
   // themeColor: 'yellow',
   // videoAutoFix: false, // 默认true
   // showToast: false, // 默认true
-  maskIconPlacement: 'center',
-  toastPlacement: 'left-top',
-  customizedItemPlacement: 'right-bottom',
-  showProgressFloat: false, // 默认为true
+  // maskIconPlacement: 'center',
+  // toastPlacement: 'left-top',
+  // customizedItemPlacement: 'right-bottom',
+  // showProgressFloat: false, // 默认为true
   // keepControllerShow: true,
   // isSettingShow: true,
   // isPicInPicShow: true,
@@ -40,8 +41,8 @@ const option = reactive<PlayerOption>({
   // controllerStyles: {
   //   backgroundColor: 'transparent',
   // },
-  poster:
-    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
+  // poster:
+  //   'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
   // quality: [
   //   {
   //     vQ: '8K',
@@ -67,6 +68,9 @@ const option = reactive<PlayerOption>({
   // ],
   // qualitySave: true,
 });
+
+// ref
+const playerRef = ref<CyPlayerRef>();
 
 // 适配测试
 const setSize = (xw: number) => {
@@ -125,6 +129,7 @@ const callbacks = <VideoCallback>{
   },
 };
 const change = () => {
+  // console.log(playerRef.value?.videoElement);
   // option.videoSrc =
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
   // option.videoSrc = '112312';
@@ -140,7 +145,7 @@ const change = () => {
 </script>
 
 <template>
-  <CyPlayer v-if="test" :option="option" :callback="callbacks">
+  <CyPlayer ref="playerRef" v-if="test" :option="option" :callback="callbacks">
     <!--    <template #playend>-->
     <!--      <div>playend</div>-->
     <!--    </template>-->

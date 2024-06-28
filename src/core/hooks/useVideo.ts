@@ -68,6 +68,9 @@ export const useVideo = (
     setCurTime: (curTime) => {
       if (vRef.value) vRef.value.currentTime = curTime;
     },
+    setVideoSrc: (src: string) => {
+      videoStates.curSrc = src;
+    },
   });
   /****************************事件处理**********************************/
   /**
