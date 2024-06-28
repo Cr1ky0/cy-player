@@ -1,6 +1,4 @@
 // 视频种类
-import { Ref } from 'vue';
-
 export type SourceType = 'h264' | 'hls' | 'auto';
 // 视频清晰度选项
 export type VideoQuality =
@@ -198,7 +196,7 @@ export interface VideoState<T = number, U = boolean, K = string> {
    */
   currentPlayTime: T;
   /**
-   * @description 总时长
+   * @description 总时长/s
    */
   duration: T;
   /**
@@ -206,7 +204,7 @@ export interface VideoState<T = number, U = boolean, K = string> {
    */
   bufferedTime: T;
   /**
-   * @description 音量
+   * @description 音量(0-100)
    */
   volume: T;
 
