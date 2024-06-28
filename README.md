@@ -67,30 +67,30 @@ const callbacks = reactive<VideoCallback>({
 
 #### 组件option参数
 
-| 参数                    | 说明                                                         | 类型              | 默认值            |
-| ----------------------- | ------------------------------------------------------------ | ----------------- | ----------------- |
-| videoSrc                | 视频地址（必传）                                             | `string`          | 必传              |
-| sourceType              | 源视频格式，选择`auto`需要源视频的跨域支持                   | `SourceType`      | h264              |
-| autoPlay                | 自动播放                                                     | `boolean`         | false             |
-| themeColor              | 播放器主题颜色                                               | `string`          | #00aeec           |
-| styles                  | 容器元素样式                                                 | `CSSProperties`   | -                 |
-| controllerStyles        | 控制器根样式                                                 | `CSSProperties`   | -                 |
-| height                  | 容器元素高度                                                 | `string | number` | 根据video元素计算 |
-| width                   | 容器元素宽度                                                 | `string | number` | 根据video元素计算 |
-| videoAutoFix            | video尺寸自适应，根据`video本身加载的视频`尺寸比例以及`容器元素`尺寸比例自动计算video元素在容器元素中的位置和大小；例如在一个较宽的容器中播放一个较窄的视频，即`容器元素宽高比 > video元素宽高比`时video元素占满整个容器的高度，宽度按照video加载的视频比例计算。 | `boolean`         | true              |
-| poster                  | 视频封面                                                     | `string`          | -                 |
-| showToast               | 是否显示Toast提示                                            | `boolean`         | true              |
-| toastPlacement          | Toast显示位置                                                | `Position`        | left-top          |
-| keepControllerShow      | 是否始终显示控制器                                           | `boolean`         | false             |
-| isSettingShow           | 是否显示setting按钮                                          | `boolean`         | true              |
-| isPicInPicShow          | 是否显示画中画按钮                                           | `boolean`         | true              |
-| isWebScreenFullShow     | 是否显示网页全屏按钮                                         | `boolean`         | true              |
-| isScreenFullShow        | 是否显示全屏按钮                                             | `boolean`         | true              |
-| isMultiplePlayShow      | 是否显示倍速播放按钮                                         | `boolean`         | true              |
-| showProgressFloat       | 是否显示悬浮进度条（controller隐藏后的进度条）               | `boolean`         | true              |
-| customizedItemPlacement | 自定义组件(`customized`插槽)在屏幕上的位置                   | `Position`        | `center`          |
-| maskIconPlacement       | 遮罩图标位置（也是暂停、重播等自定义插槽的位置）             | `Position`        | `center`          |
-| quality                 | 播放器清晰度列表，如果不指定则不显示清晰度切换按钮           | `QualityOption[]` | -                 |
+| 参数                    | 说明                                                         | 类型                   | 默认值         |
+| ----------------------- | ------------------------------------------------------------ |----------------------|-------------|
+| videoSrc                | 视频地址（必传）                                             | `string`             | 必传          |
+| sourceType              | 源视频格式，选择`auto`需要源视频的跨域支持                   | `SourceType`         | h264        |
+| autoPlay                | 自动播放                                                     | `boolean`            | false       |
+| themeColor              | 播放器主题颜色                                               | `string`             | #00aeec     |
+| styles                  | 容器元素样式                                                 | `CSSProperties`      | -           |
+| controllerStyles        | 控制器根样式                                                 | `CSSProperties`      | -           |
+| height                  | 容器元素高度                                                 | `string \| number`   | 根据video元素计算 |
+| width                   | 容器元素宽度                                                 | `string \| number`   | 根据video元素计算 |
+| videoAutoFix            | video尺寸自适应，根据`video本身加载的视频`尺寸比例以及`容器元素`尺寸比例自动计算video元素在容器元素中的位置和大小；例如在一个较宽的容器中播放一个较窄的视频，即`容器元素宽高比 > video元素宽高比`时video元素占满整个容器的高度，宽度按照video加载的视频比例计算。 | `boolean`            | true        |
+| poster                  | 视频封面                                                     | `string`             | -           |
+| showToast               | 是否显示Toast提示                                            | `boolean`            | true        |
+| toastPlacement          | Toast显示位置                                                | `Position`           | left-top    |
+| keepControllerShow      | 是否始终显示控制器                                           | `boolean`            | false       |
+| isSettingShow           | 是否显示setting按钮                                          | `boolean`            | true        |
+| isPicInPicShow          | 是否显示画中画按钮                                           | `boolean`            | true        |
+| isWebScreenFullShow     | 是否显示网页全屏按钮                                         | `boolean`            | true        |
+| isScreenFullShow        | 是否显示全屏按钮                                             | `boolean`            | true        |
+| isMultiplePlayShow      | 是否显示倍速播放按钮                                         | `boolean`            | true        |
+| showProgressFloat       | 是否显示悬浮进度条（controller隐藏后的进度条）               | `boolean`            | true        |
+| customizedItemPlacement | 自定义组件(`customized`插槽)在屏幕上的位置                   | `Position`           | center      |
+| maskIconPlacement       | 遮罩图标位置（也是暂停、重播等自定义插槽的位置）             | `Position`           | center      |
+| quality                 | 播放器清晰度列表，如果不指定则不显示清晰度切换按钮           | `QualityOption[]`    | -           |
 
 #### 回调函数
 
