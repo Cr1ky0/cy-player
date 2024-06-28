@@ -253,5 +253,4 @@ export interface VideoState<T = number, U = boolean, K = string> {
   videoHeight: T;
 }
 ```
-
-**
+ 
