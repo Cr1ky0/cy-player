@@ -127,6 +127,15 @@ const callbacks = <VideoCallback>{
   onPlayerBeforeUnmount: (vElem, cElem) => {
     // console.log(vElem, cElem);
   },
+  onProgressMouseDown: (e) => {
+    console.log('mousedown');
+  },
+  onProgressMouseMove: (e) => {
+    console.log('mousemove');
+  },
+  onProgressMouseUp: (e) => {
+    console.log('mouseup');
+  },
 };
 const change = () => {
   // console.log(playerRef.value?.videoElement);

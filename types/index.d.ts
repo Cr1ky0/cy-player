@@ -173,6 +173,18 @@ export interface VideoCallback<T = CallbackType> {
     videoRef: HTMLVideoElement,
     containerElem: HTMLDivElement,
   ) => void;
+  /**
+   * @description 进度条MouseDown(TouchStart)事件
+   */
+  onProgressMouseDown?: T;
+  /**
+   * @description 进度条MouseMove(TouchMove)事件
+   */
+  onProgressMouseMove?: T;
+  /**
+   * @description 进度条MouseUp(TouchEnd)事件
+   */
+  onProgressMouseUp?: T;
 }
 
 // Video状态

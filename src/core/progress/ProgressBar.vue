@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { computed, inject, Ref, ref, useSlots, watch } from 'vue';
-import { PlayerOption, VideoController, VideoState } from 'types';
+import {
+  PlayerOption,
+  VideoCallback,
+  VideoController,
+  VideoState,
+} from 'types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
 import { formatTime } from '@/utils';
 
@@ -8,6 +13,7 @@ const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
 const progressDrag = <Ref>inject('isDrag');
 const playerOption = <PlayerOption>inject('playerOption');
+const callback = <VideoCallback>inject('callback');
 const progressRef = ref<HTMLDivElement>();
 
 const themeColor = computed(() => {
@@ -19,15 +25,23 @@ const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
   onMouseDown() {
     videoController.pause();
     videoController.setCurTime(moveTime.value);
+    // 用户指定回调
+    callback.onProgressMouseDown && callback.onProgressMouseDown(videoStates);
   },
   onMouseMove() {
     if (isDrag.value) {
       // 不让100%进度状态设置以免视频处于播放结束状态拖动时出现bug
       if (xProp.value < 100) videoController.setCurTime(moveTime.value);
+      // 用户指定回调
+      callback.onProgressMouseMove && callback.onProgressMouseMove(videoStates);
     }
   },
   onMouseUp() {
-    if (isDrag.value && !videoStates.isPlayEnd) videoController.play(); // 要加判断，不然其他地方点击也会play，且要在重置isDrag之前
+    if (isDrag.value && !videoStates.isPlayEnd) {
+      videoController.play();
+      // 用户指定回调
+      callback.onProgressMouseUp && callback.onProgressMouseUp(videoStates);
+    } // 拖动任务中再执行，以免全局执行
   },
 });
 
