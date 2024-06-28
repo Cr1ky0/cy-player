@@ -124,9 +124,6 @@ const callbacks = reactive<VideoCallback>({
 #### 组件ref
 
 ##### 示例
-
-- 组件使用时可以通过ref获取组件相关信息，接口为`CyPlayerRef`
-
 ```vue
 <script setup lang='ts'>
 import {ref} from 'vue';
