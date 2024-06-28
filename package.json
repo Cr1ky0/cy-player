@@ -1,7 +1,7 @@
 {
   "name": "cy-player",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.umd.js",
   "module": "index.es.js",
   "type": "module",
@@ -27,8 +27,9 @@
     "player",
     "vue",
     "vue3",
-    "vue-components",
-    "cy-player"
+    "cy-player",
+    "播放器",
+    "视频"
   ],
   "dependencies": {
     "hls.js": "^1.5.11",
