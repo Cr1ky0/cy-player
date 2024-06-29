@@ -57,7 +57,7 @@ useCallback(videoStates, {
   onVolumeChange: callback?.onVolumeChange,
   onWaiting: callback?.onWaiting,
   onError: callback?.onError,
-}); // quality回调在Quality.vue中
+});
 
 // Provide
 provide('containerRef', containerRef);

@@ -12,8 +12,8 @@ const option = reactive<PlayerOption>({
   videoSrc:
     'https://cdn.pixabay.com/video/2024/03/31/206294_small.mp4?download',
   sourceType: 'h264', // 默认h264(auto需要跨域支持)
-  autoPlay: false,
-  videoAutoFix: true,
+  // autoPlay: false,
+  // videoAutoFix: false,
   // width: '60vw',
   // height: '300px',
   // themeColor: 'yellow',

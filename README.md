@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="https://cr1ky0-storage.oss-cn-chengdu.aliyuncs.com/player.png" alt="player" style="width:600px;height:350px;"/>
+</p>
+
+
 <h1 align="center">Cy Player</h1>
 
 <p align="center">
@@ -12,8 +17,6 @@
    轻量化、性能优秀、美观的Vue3视频播放器组件
 </p>
 
-
-
 ## 说明
 
 - 组件未经过严格测试，出现bug请及时反馈~
@@ -25,7 +28,7 @@
 
 - 支持`Vue3.0+版本`，支持响应式参数传递
 - 使用Typescript开发，提供完整类型定义
-- 支持PC、移动端使用，支持视频自适应缩放，支持大量自定义插槽和自定义回调函数
+- 支持PC、移动端使用，支持视频自适应缩放，支持自定义插槽和自定义回调函数
 - 支持`HLS`(`application/x-mpegurl`,`application/vnd.apple.mpegurl`)以及`H264`(`video/mp4`,`video/ogg`,`video/webm`)格式的视频播放
 
 ## 安装
@@ -79,7 +82,7 @@ const callbacks = reactive<VideoCallback>({
 | width                   | 容器元素宽度                                                 | `string \| number` | 根据video元素计算 |
 | videoAutoFix            | video尺寸自适应，根据`video本身加载的视频`尺寸比例以及`容器元素`尺寸比例自动计算video元素在容器元素中的位置和大小；例如在一个较宽的容器中播放一个较窄的视频，即`容器元素宽高比 > video元素宽高比`时video元素占满整个容器的高度，宽度按照video加载的视频比例计算。 | `boolean`          | true              |
 | poster                  | 视频封面                                                     | `string`           | -                 |
-| showToast               | 是否显示Toast提示                                            | `boolean`          | true              |
+| showToast               | 是否显示Toast提示（不支持响应式）                            | `boolean`          | true              |
 | keepControllerShow      | 是否始终显示控制器                                           | `boolean`          | false             |
 | isSettingShow           | 是否显示setting按钮                                          | `boolean`          | true              |
 | isPicInPicShow          | 是否显示画中画按钮                                           | `boolean`          | true              |
@@ -90,7 +93,7 @@ const callbacks = reactive<VideoCallback>({
 | toastPlacement          | Toast显示位置                                                | `Position`         | left-top          |
 | customizedItemPlacement | 自定义组件(`customized`插槽)在屏幕上的位置                   | `Position`         | center            |
 | maskIconPlacement       | 遮罩图标位置（也是暂停、重播等自定义插槽的位置）             | `Position`         | center            |
-| quality                 | 播放器清晰度列表，如果不指定则不显示清晰度切换按钮           | `QualityOption[]`  | -                 |
+| quality                 | 播放器清晰度列表，如果不指定则不显示清晰度切换按钮，`chosen`为true时初始化默认加载该视频 | `QualityOption[]`  | -                 |
 
 #### 回调函数
 
@@ -251,4 +254,8 @@ export interface VideoState<T = number, U = boolean, K = string> {
   videoHeight: T;
 }
 ```
+
+#### Tips
+
+**练习作，请见谅**
 
