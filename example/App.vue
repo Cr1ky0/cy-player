@@ -3,7 +3,6 @@ import CyPlayer from '@/core/index';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { PlayerOption, VideoCallback, CyPlayerRef } from 'types';
 import { useViewport } from './useViewport.ts';
-import { useToast } from '@/core/hooks/useToast.ts';
 
 const test = ref(true);
 /**
@@ -51,8 +50,6 @@ const option = reactive<PlayerOption>({
 
 // ref
 const playerRef = ref<CyPlayerRef>();
-
-const { showToast, closeToast } = useToast(option);
 
 // 适配测试
 const setSize = (xw: number) => {
@@ -156,8 +153,6 @@ const change = () => {
   </CyPlayer>
   <button @click="test = false">卸载</button>
   <button @click="change">change</button>
-  <button @click="showToast(String(Date.now()))">show</button>
-  <button @click="closeToast">close</button>
 </template>
 
 <style scoped></style>
