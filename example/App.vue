@@ -76,45 +76,45 @@ onMounted(() => {
 });
 
 const callbacks = <VideoCallback>{
-  onPlay: (e) => {
-    // console.log('play');
-  },
-  onPlayEnd: (e) => {
-    // console.log('playend');
-  },
-  onPause: (e) => {
-    // console.log('pause');
-  },
-  onVolumeChange: (e) => {
-    // console.log('volumechange');
-  },
-  onTimeChange: (e) => {
-    // console.log('timechange');
-  },
-  onWaiting: (e) => {
-    // console.log('waiting');
-  },
-  onError: () => {
-    // console.log('err');
-  },
-  onQualityChange: (quality) => {
-    // console.log(quality);
-  },
-  onPlayerMounted: (vElem, cElem) => {
-    // console.log(vElem, cElem);
-  },
-  onPlayerBeforeUnmount: (vElem, cElem) => {
-    // console.log(vElem, cElem);
-  },
-  onProgressMouseDown: (e) => {
-    // console.log('mousedown');
-  },
-  onProgressMouseMove: (e) => {
-    // console.log('mousemove');
-  },
-  onProgressMouseUp: (e) => {
-    // console.log('mouseup');
-  },
+  // onPlay: (e) => {
+  //   // console.log('play');
+  // },
+  // onPlayEnd: (e) => {
+  //   // console.log('playend');
+  // },
+  // onPause: (e) => {
+  //   // console.log('pause');
+  // },
+  // onVolumeChange: (e) => {
+  //   // console.log('volumechange');
+  // },
+  // onTimeChange: (e) => {
+  //   // console.log('timechange');
+  // },
+  // onWaiting: (e) => {
+  //   // console.log('waiting');
+  // },
+  // onError: () => {
+  //   // console.log('err');
+  // },
+  // onQualityChange: (quality) => {
+  //   // console.log(quality);
+  // },
+  // onPlayerMounted: (vElem, cElem) => {
+  //   // console.log(vElem, cElem);
+  // },
+  // onPlayerBeforeUnmount: (vElem, cElem) => {
+  //   // console.log(vElem, cElem);
+  // },
+  // onProgressMouseDown: (e) => {
+  //   // console.log('mousedown');
+  // },
+  // onProgressMouseMove: (e) => {
+  //   // console.log('mousemove');
+  // },
+  // onProgressMouseUp: (e) => {
+  //   // console.log('mouseup');
+  // },
 };
 const change = () => {
   // option.videoSrc =

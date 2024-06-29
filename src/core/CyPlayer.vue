@@ -1,13 +1,6 @@
 <script setup lang="ts">
-import {
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  ref,
-  useSlots,
-  watch,
-} from 'vue';
-import { PlayerProps} from 'types';
+import { onBeforeUnmount, onMounted, provide, ref, useSlots, watch } from 'vue';
+import { PlayerProps } from 'types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
@@ -17,11 +10,10 @@ import { useSetSize } from '@/core/hooks/useSetSize.ts';
 import 'virtual:svg-icons-register';
 import './index.css';
 
-
 // Props
 const props = defineProps<PlayerProps>();
 const option = props.option;
-const callback = props.callback || null;
+const callback = props.callback || {};
 // default props
 option.videoAutoFix =
   typeof option.videoAutoFix === 'boolean' ? option.videoAutoFix : true;

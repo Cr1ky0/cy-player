@@ -1,6 +1,14 @@
-// 视频种类
-import CyPlayer from '@/core';
+import {
+  AllowedComponentProps,
+  ComponentCustomProps,
+  ComponentOptionsMixin,
+  DefineComponent,
+  ExtractPropTypes,
+  VNodeProps,
+  CSSProperties
+} from 'vue';
 
+// 视频种类
 export type SourceType = 'h264' | 'hls' | 'auto';
 // 视频清晰度选项
 export type VideoQuality =
@@ -60,7 +68,7 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 播放器根样式
    */
-  styles?: import('vue').CSSProperties;
+  styles?: CSSProperties;
   /**
    * @description 遮罩图标位置，默认center
    */
@@ -84,7 +92,7 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
   /**
    * @description 控制器根样式
    */
-  controllerStyles?: import('vue').CSSProperties;
+  controllerStyles?: CSSProperties;
   /**
    * @description 是否保持controller显示
    */
@@ -261,27 +269,27 @@ export interface PlayerProps {
   callback?: VideoCallback;
 }
 
-interface NoneObject extends NonNullable<unknown> {}
+interface NoneObject extends NonNullable<unknown> {
+}
 
-interface CyPlayerComponent
-  extends import('vue').DefineComponent<
-    PlayerProps, // props
-    NoneObject, // data
-    NoneObject, // computed
-    NoneObject, // methods
-    NoneObject, // watch
-    import('vue').ComponentOptionsMixin,
-    import('vue').ComponentOptionsMixin,
-    NoneObject, // emits
-    string,
-    import('vue').VNodeProps &
-      import('vue').AllowedComponentProps &
-      import('vue').ComponentCustomProps,
-    Readonly<import('vue').ExtractPropTypes<PlayerProps>>, // props
-    CyPlayerRef, // expose
-    NonNullable<unknown>
-  > {}
+export type CyPlayerComponent = DefineComponent<
+  PlayerProps, // props
+  NoneObject, // data
+  NoneObject, // computed
+  NoneObject, // methods
+  NoneObject, // watch
+  ComponentOptionsMixin,
+  ComponentOptionsMixin,
+  NoneObject, // emits
+  string,
+  VNodeProps &
+  AllowedComponentProps &
+  ComponentCustomProps,
+  Readonly<ExtractPropTypes<PlayerProps>>, // props
+  CyPlayerRef, // expose
+  NonNullable<unknown>
+>
 
 declare const CyPlayer: CyPlayerComponent;
-export { CyPlayer };
+export {CyPlayer};
 export default CyPlayer;

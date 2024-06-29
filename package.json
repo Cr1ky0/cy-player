@@ -35,6 +35,9 @@
     "hls.js": "^1.5.11",
     "vue": "^3.4.21"
   },
+  "peerDependencies": {
+    "vue": "^3.4.21"
+  },
   "devDependencies": {
     "@types/node": "^20.14.2",
     "@typescript-eslint/eslint-plugin": "^7.13.0",
