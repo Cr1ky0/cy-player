@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, inject, ref, Ref } from 'vue';
 import { PlayerOption } from 'types';
+import { useToast } from '@/core/hooks/useToast.ts';
 
 const multiples = ['2.0x', '1.75x', '1.5x', '1.25x', '1.0x', '0.75x', '0.5x'];
 const videoRef = <Ref>inject('videoRef');
@@ -14,11 +15,13 @@ const themeColorStyle = computed(() => {
   };
 });
 
+const { showToast } = useToast(playerOption);
 const handleClick = (index: number) => {
   const chosenMultiple = parseFloat(multiples[index]);
   const element = <HTMLVideoElement>videoRef.value;
   element.playbackRate = chosenMultiple;
   chosenIndex.value = index;
+  showToast(`当前倍速：${chosenMultiple}`);
 };
 </script>
 

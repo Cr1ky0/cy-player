@@ -41,6 +41,7 @@ const handleChangeQuality = (index: number) => {
   callback.onQualityChange && callback.onQualityChange(qualities.value[index]);
 };
 
+// TODO:切换时处理
 watch(
   () => videoStates.curSrc,
   () => {

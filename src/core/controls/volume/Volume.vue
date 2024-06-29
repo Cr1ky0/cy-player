@@ -1,26 +1,31 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { computed, inject, ref } from 'vue';
-import { VideoController, VideoState } from 'types';
+import { PlayerOption, VideoController, VideoState } from 'types';
 import VolumeSlider from '@/core/controls/volume/VolumeSlider.vue';
 import { useMouseCheck } from '@/utils/useMouseCheck.ts';
+import { useToast } from '@/core/hooks/useToast.ts';
 
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
+const playerOption = <PlayerOption>inject('playerOption');
 const isDrag = ref<boolean>(false);
 const isMuted = computed(() => {
   return videoStates.volume === 0;
 });
-
-const { mouseEnter,isMobile, handleMouseEnter, handleMouseLeave } = useMouseCheck();
+const { showToast } = useToast(playerOption);
+const { mouseEnter, isMobile, handleMouseEnter, handleMouseLeave } =
+  useMouseCheck();
 
 const handleIconClick = () => {
   if (!isMuted.value) {
     videoController.setVolume(0);
+    showToast('已开启静音');
   } else {
     const lastVolume = localStorage.getItem('lastVolume');
     if (lastVolume) videoController.setVolume(parseInt(lastVolume));
     else videoController.setVolume(50);
+    showToast('已关闭静音');
   }
 };
 

@@ -23,47 +23,47 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
     );
   }
 
-  const toggleScreenFull = () => {
+  const toggleScreenFull = async () => {
     const element = <HTMLElement>eRef.value;
     try {
       if (isFullScreenSupported()) {
         if (!isScreenFull.value) {
           if (element.requestFullscreen) {
-            element.requestFullscreen();
+            await element.requestFullscreen();
             // @ts-expect-error
           } else if (element.mozRequestFullScreen) {
             // Firefox
             // @ts-expect-error
-            element.mozRequestFullScreen();
+            await element.mozRequestFullScreen();
             // @ts-expect-error
           } else if (element.webkitRequestFullscreen) {
             // Chrome, Safari and Opera
             // @ts-expect-error
-            element.webkitRequestFullscreen();
+            await element.webkitRequestFullscreen();
             // @ts-expect-error
           } else if (element.msRequestFullscreen) {
             // IE/Edge
             // @ts-expect-error
-            element.msRequestFullscreen();
+            await element.msRequestFullscreen();
           }
         } else {
           if (document.exitFullscreen) {
-            document.exitFullscreen();
+            await document.exitFullscreen();
             // @ts-expect-error
           } else if (document.webkitExitFullscreen) {
             /* Safari */
             // @ts-expect-error
-            document.webkitExitFullscreen();
+            await document.webkitExitFullscreen();
             // @ts-expect-error
           } else if (document.mozCancelFullScreen) {
             /* Firefox */
             // @ts-expect-error
-            document.mozCancelFullScreen();
+            await document.mozCancelFullScreen();
             // @ts-expect-error
           } else if (document.msExitFullscreen) {
             /* IE11 */
             // @ts-expect-error
-            document.msExitFullscreen();
+            await document.msExitFullscreen();
           }
         }
       } else {
@@ -71,7 +71,7 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
         showToast(message.value);
       }
     } catch (err: any) {
-      message.value = '进入全屏失败:' + err.message;
+      message.value = '全屏操作失败:' + err.message;
       showToast(message.value);
     }
   };
