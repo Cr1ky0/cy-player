@@ -1,4 +1,4 @@
-import { computed, onBeforeUnmount, onMounted, Ref, ref } from 'vue';
+import { onBeforeUnmount, onMounted, Ref, ref } from 'vue';
 import { useToast } from '@/core/hooks/useToast.ts';
 import { PlayerOption } from 'types';
 
@@ -9,13 +9,7 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
   const isScreenFull = ref(false);
   const eRef = ref<HTMLElement | null>(null);
   const message = ref('');
-  const toast = computed(() => {
-    return useToast({
-      message: message.value,
-      duration: 2000,
-      option,
-    });
-  });
+  const { showToast } = useToast(option);
 
   function isFullScreenSupported() {
     return (
@@ -74,11 +68,11 @@ export const useScreenFull = (elementRef: Ref, option: PlayerOption) => {
         }
       } else {
         message.value = '当前浏览器不支持全屏！';
-        toast.value.showToast();
+        showToast(message.value);
       }
     } catch (err: any) {
       message.value = '进入全屏失败:' + err.message;
-      toast.value.showToast();
+      showToast(message.value);
     }
   };
 

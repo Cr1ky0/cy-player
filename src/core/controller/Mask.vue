@@ -25,13 +25,7 @@ const cusPos = computed(() => {
     : 'center';
 });
 
-const toast = computed(() => {
-  return useToast({
-    message: `视频因未知原因加载失败！`,
-    duration: 2000,
-    option: playerOption,
-  });
-});
+const { showToast } = useToast(playerOption);
 
 const handleClick = () => {
   if (videoStates.isPlay) videoController.pause();
@@ -42,7 +36,7 @@ watch(
   () => videoStates.isError,
   () => {
     if (videoStates.isError) {
-      toast.value.showToast();
+      showToast('视频因未知原因加载失败');
     }
   },
 );

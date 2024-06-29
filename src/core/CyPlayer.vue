@@ -3,12 +3,11 @@ import {
   onBeforeUnmount,
   onMounted,
   provide,
-  Ref,
   ref,
   useSlots,
   watch,
 } from 'vue';
-import { CyPlayerRef, PlayerOption, VideoCallback } from 'types';
+import { PlayerOption, VideoCallback } from 'types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
