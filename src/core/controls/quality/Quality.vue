@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PlayerOption, VideoCallback, VideoState } from 'types';
 import { computed, inject, ref, watch } from 'vue';
+import { useToast } from '@/core/hooks/useToast.ts';
 
 const playerOption = <PlayerOption>inject('playerOption');
 const videoStates = <VideoState>inject('videoStates');
@@ -30,11 +31,14 @@ const chosenItem = computed(() => {
   return qualities.value[chosenIndex.value];
 });
 
+const { showToast } = useToast(playerOption);
+
 const handleChangeQuality = (index: number) => {
   const curSrc = srcs.value[index];
   videoStates.curSrc = curSrc;
   chosenIndex.value = index;
   localStorage.setItem('curPlayTime', String(videoStates.currentPlayTime)); // 保证切换进度
+  showToast(`切换至清晰度:${qualities.value[chosenIndex.value]}`);
   // 视频质量切换保存
   // if (playerOption.qualitySave) localStorage.setItem('curSrc', curSrc);
   // 视频切换回调
@@ -60,7 +64,11 @@ watch(
 </script>
 
 <template>
-  <div v-if="chosenIndex !== -1" class="cy-player-quality" @click="showFunc = !showFunc">
+  <div
+    v-if="chosenIndex !== -1"
+    class="cy-player-quality"
+    @click="showFunc = !showFunc"
+  >
     <div class="cy-player-quality-icon">
       {{ chosenItem }}
     </div>
