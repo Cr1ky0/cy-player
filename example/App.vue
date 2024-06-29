@@ -11,7 +11,8 @@ const test = ref(true);
  */
 const option = reactive<PlayerOption>({
   videoSrc:
-    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+    'https://cdn.pixabay.com/video/2024/03/31/206294_small.mp4?download',
+  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
   // 'http://localhost:3000/test.mp4',
@@ -19,7 +20,7 @@ const option = reactive<PlayerOption>({
   // '1231313231212333333333333333333333333333333333333333333333',
   sourceType: 'h264', // 默认h264(auto需要跨域支持)
   autoPlay: false,
-  videoAutoFix: false,
+  videoAutoFix: true,
   // width: '60vw',
   // height: '300px',
   // themeColor: 'yellow',
@@ -58,12 +59,12 @@ const option = reactive<PlayerOption>({
     },
     {
       vQ: '720p',
-      src: 'https://dn720001.ca.archive.org/0/items/TheBarberOfSeville/TheBarberOfSeville1944.mp4',
+      src: 'https://cdn.pixabay.com/video/2024/02/21/201308-915375262_small.mp4?download',
       // chosen: true,
     },
     {
       vQ: '480p',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+      src: 'https://cdn.pixabay.com/video/2024/03/31/206294_small.mp4?download',
     },
   ],
   // qualitySave: true,

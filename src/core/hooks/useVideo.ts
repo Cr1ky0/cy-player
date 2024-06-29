@@ -92,6 +92,19 @@ export const useVideo = (
     }
   };
   /**
+   * @description 缓冲时间
+   */
+  const setBufferedTime = () => {
+    if (vRef.value && vRef.value.buffered.length >= 1) {
+      let max = 0;
+      for(let i = 0;i < vRef.value.buffered.length;i++){
+        const curBuffer = vRef.value.buffered.end(i)
+        if(curBuffer > max) max = curBuffer;
+      }
+      videoStates.bufferedTime = max; // 浏览器已经缓冲的媒体数据的最远时间点
+    }
+  };
+  /**
    *
    * @description loadedmetadata事件
    */
@@ -101,20 +114,21 @@ export const useVideo = (
       videoStates.duration = vRef.value.duration || 0;
       videoStates.videoWidth = vRef.value.videoWidth;
       videoStates.videoHeight = vRef.value.videoHeight;
+    }
+  };
+  /**
+   * @description loadeddata事件
+   */
+  const handleLoadedData = ()=>{
+    if(vRef.value){
       // 切换quality时逻辑
       const curPlayTime = localStorage.getItem('curPlayTime');
       const curTime = parseFloat(curPlayTime || '0');
       videoController.setCurTime(curTime);
       localStorage.removeItem('curPlayTime'); // 切换完毕后删除，避免初始化时快进
+      setBufferedTime();// 重置一下buffer
     }
-  };
-  /**
-   * @description 缓冲时间
-   */
-  const setBufferedTime = () => {
-    if (vRef.value && vRef.value.buffered.length >= 1)
-      videoStates.bufferedTime = vRef.value.buffered.end(0) || 0; // 浏览器已经缓冲的媒体数据的最远时间点
-  };
+  }
   /**
    * @description 视频播放中的waiting
    */
@@ -140,8 +154,8 @@ export const useVideo = (
   };
 
   const addEvents = (videoElement: HTMLVideoElement) => {
-
     videoElement.addEventListener('loadedmetadata', handleLoadedMetaData);
+    videoElement.addEventListener('loadeddata', handleLoadedData);
     videoElement.addEventListener('progress', setBufferedTime);
     videoElement.addEventListener('pause', setIsPlay);
     videoElement.addEventListener('play', setIsPlay);
@@ -152,8 +166,8 @@ export const useVideo = (
   };
 
   const removeEvents = (videoElement: HTMLVideoElement) => {
-
     videoElement.removeEventListener('loadedmetadata', handleLoadedMetaData);
+    videoElement.removeEventListener('loadeddata', handleLoadedData);
     videoElement.removeEventListener('progress', setBufferedTime);
     videoElement.removeEventListener('pause', setIsPlay);
     videoElement.removeEventListener('play', setIsPlay);
