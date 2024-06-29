@@ -12,12 +12,6 @@ const test = ref(true);
 const option = reactive<PlayerOption>({
   videoSrc:
     'https://cdn.pixabay.com/video/2024/03/31/206294_small.mp4?download',
-  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
-  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
-  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
-  // 'http://localhost:3000/test.mp4',
-  // 'http://localhost:3000/input.m3u8',
-  // '1231313231212333333333333333333333333333333333333333333333',
   sourceType: 'h264', // 默认h264(auto需要跨域支持)
   autoPlay: false,
   videoAutoFix: true,
@@ -42,21 +36,7 @@ const option = reactive<PlayerOption>({
   // controllerStyles: {
   //   backgroundColor: 'transparent',
   // },
-  // poster:
-  //   'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/-RlDl1ILrKky8kDo3TCf2.jpg',
   quality: [
-    {
-      vQ: '8K',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
-    },
-    {
-      vQ: '4K',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8_1/input.m3u8',
-    },
-    {
-      vQ: '2K',
-      src: 'https://cdn.gudsen.vip/2022/11/14/422e7528fce64f03bf1b378cff393237.mp4',
-    },
     {
       vQ: '720p',
       src: 'https://cdn.pixabay.com/video/2024/02/21/201308-915375262_small.mp4?download',
@@ -67,7 +47,6 @@ const option = reactive<PlayerOption>({
       src: 'https://cdn.pixabay.com/video/2024/03/31/206294_small.mp4?download',
     },
   ],
-  // qualitySave: true,
 });
 
 // ref
@@ -141,14 +120,12 @@ const callbacks = <VideoCallback>{
   },
 };
 const change = () => {
-  // console.log(playerRef.value?.videoElement);
   // option.videoSrc =
   // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
   // option.videoSrc = '112312';
   // option.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
   // option.width = '50vw';
   // option.isScreenFullShow = false;
-  // option.showToast = false;
   // option.toastPlacement = 'center';
   // option.maskIconPlacement = 'center';
   // option.themeColor = 'red';
