@@ -4,6 +4,7 @@ import path from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
+import dts from 'vite-plugin-dts';
 import baseConfig from './vite.config';
 
 const resolve = (dir: string) => {
@@ -15,12 +16,9 @@ export default defineConfig({
   plugins: [
     vue(),
     cssInjectedByJsPlugin(),
+    dts({ rollupTypes: true }),
     viteStaticCopy({
       targets: [
-        {
-          src: 'types/index.d.ts',
-          dest: '',
-        },
         {
           src: 'package.json',
           dest: '',

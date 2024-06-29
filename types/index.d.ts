@@ -1,12 +1,4 @@
-import {
-  AllowedComponentProps,
-  ComponentCustomProps,
-  ComponentOptionsMixin,
-  DefineComponent,
-  ExtractPropTypes,
-  VNodeProps,
-  CSSProperties
-} from 'vue';
+import { CSSProperties } from 'vue';
 
 // 视频种类
 export type SourceType = 'h264' | 'hls' | 'auto';
@@ -258,6 +250,7 @@ export interface VideoController {
   setVideoSrc: (src: string) => void;
 }
 
+// Player
 export type CyPlayerRef = {
   states: VideoState;
   controller: VideoController;
@@ -268,28 +261,3 @@ export interface PlayerProps {
   option: PlayerOption;
   callback?: VideoCallback;
 }
-
-interface NoneObject extends NonNullable<unknown> {
-}
-
-export type CyPlayerComponent = DefineComponent<
-  PlayerProps, // props
-  NoneObject, // data
-  NoneObject, // computed
-  NoneObject, // methods
-  NoneObject, // watch
-  ComponentOptionsMixin,
-  ComponentOptionsMixin,
-  NoneObject, // emits
-  string,
-  VNodeProps &
-  AllowedComponentProps &
-  ComponentCustomProps,
-  Readonly<ExtractPropTypes<PlayerProps>>, // props
-  CyPlayerRef, // expose
-  NonNullable<unknown>
->
-
-declare const CyPlayer: CyPlayerComponent;
-export {CyPlayer};
-export default CyPlayer;
