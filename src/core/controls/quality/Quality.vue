@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { PlayerOption, VideoCallback, VideoState } from 'types';
+import {
+  PlayerOption,
+  VideoCallback,
+  VideoController,
+  VideoState,
+} from 'types';
 import { computed, inject, ref, watch } from 'vue';
 import { useToast } from '@/core/hooks/useToast.ts';
 
 const playerOption = <PlayerOption>inject('playerOption');
 const videoStates = <VideoState>inject('videoStates');
 const callback = <VideoCallback>inject('callback');
+const controller = <VideoController>inject('videoController');
 const chosenIndex = ref(-1);
 const showFunc = ref(false);
 
@@ -39,6 +45,7 @@ const handleChangeQuality = (index: number) => {
   chosenIndex.value = index;
   localStorage.setItem('curPlayTime', String(videoStates.currentPlayTime)); // 保证切换进度
   showToast(`切换至清晰度:${qualities.value[chosenIndex.value]}`);
+  controller.play();
   // 视频质量切换保存
   // if (playerOption.qualitySave) localStorage.setItem('curSrc', curSrc);
   // 视频切换回调

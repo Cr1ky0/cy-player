@@ -93,17 +93,21 @@ export const useVideo = (
   };
   /**
    *
-   * @description canplay
+   * @description loadedmetadata事件
    */
-  const handleCanplay = () => {
+  const handleLoadedMetaData = () => {
     if (vRef.value) {
       videoStates.isError = false;
       videoStates.duration = vRef.value.duration || 0;
       videoStates.videoWidth = vRef.value.videoWidth;
       videoStates.videoHeight = vRef.value.videoHeight;
+      // 切换quality时逻辑
+      const curPlayTime = localStorage.getItem('curPlayTime');
+      const curTime = parseFloat(curPlayTime || '0');
+      videoController.setCurTime(curTime);
+      localStorage.removeItem('curPlayTime'); // 切换完毕后删除，避免初始化时快进
     }
   };
-
   /**
    * @description 缓冲时间
    */
@@ -117,6 +121,7 @@ export const useVideo = (
   const onWaiting = () => {
     videoStates.isWaiting = true;
   };
+
   /**
    * @description 从waiting恢复播放
    */
@@ -135,7 +140,8 @@ export const useVideo = (
   };
 
   const addEvents = (videoElement: HTMLVideoElement) => {
-    videoElement.addEventListener('canplay', handleCanplay);
+
+    videoElement.addEventListener('loadedmetadata', handleLoadedMetaData);
     videoElement.addEventListener('progress', setBufferedTime);
     videoElement.addEventListener('pause', setIsPlay);
     videoElement.addEventListener('play', setIsPlay);
@@ -146,7 +152,8 @@ export const useVideo = (
   };
 
   const removeEvents = (videoElement: HTMLVideoElement) => {
-    videoElement.removeEventListener('canplay', handleCanplay);
+
+    videoElement.removeEventListener('loadedmetadata', handleLoadedMetaData);
     videoElement.removeEventListener('progress', setBufferedTime);
     videoElement.removeEventListener('pause', setIsPlay);
     videoElement.removeEventListener('play', setIsPlay);
@@ -261,11 +268,6 @@ export const useVideo = (
     () => {
       initStates();
       loadVideo(videoStates.curSrc);
-      // 切换quality时逻辑
-      const curPlayTime = localStorage.getItem('curPlayTime');
-      const curTime = parseFloat(curPlayTime || '0');
-      videoController.setCurTime(curTime);
-      localStorage.removeItem('curPlayTime'); // 切换完毕后删除，避免初始化时快进
     },
   );
 

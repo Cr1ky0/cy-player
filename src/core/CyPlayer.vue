@@ -85,7 +85,7 @@ onMounted(() => {
   // video size auto fix
   if (option.videoAutoFix) {
     const vElement = <HTMLVideoElement>videoRef.value;
-    vElement.addEventListener('canplay', handleSize);
+    vElement.addEventListener('loadedmetadata', handleSize);
   }
   // 移动端修正音量
   if (isMobile.value) videoController.setVolume(80);
@@ -97,7 +97,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (option.videoAutoFix) {
     const vElement = <HTMLVideoElement>videoRef.value;
-    vElement.removeEventListener('canplay', handleSize);
+    vElement.removeEventListener('loadedmetadata', handleSize);
   }
   // 自定义beforeUnmount回调
   callback?.onPlayerBeforeUnmount &&
