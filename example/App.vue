@@ -17,7 +17,7 @@ const option = reactive<PlayerOption>({
   // 'http://localhost:3000/test.mp4',
   // 'http://localhost:3000/input.m3u8',
   // '1231313231212333333333333333333333333333333333333333333333',
-  sourceType: 'auto', // 默认h264(auto需要跨域支持)
+  sourceType: 'h264', // 默认h264(auto需要跨域支持)
   autoPlay: false,
   videoAutoFix: false,
   // width: '60vw',
@@ -58,7 +58,7 @@ const option = reactive<PlayerOption>({
     },
     {
       vQ: '720p',
-      src: 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/1630377480138360p.mp4',
+      src: 'https://dn720001.ca.archive.org/0/items/TheBarberOfSeville/TheBarberOfSeville1944.mp4',
       // chosen: true,
     },
     {

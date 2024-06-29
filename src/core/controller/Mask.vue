@@ -71,16 +71,6 @@ const slots = useSlots();
         <div class="cy-player-error-tip">视频出错了</div>
       </div>
     </div>
-    <div v-else-if="videoStates.isWaiting" class="cy-player-loading-icon">
-      <slot v-if="slots.waiting" name="waiting"></slot>
-      <SvgIcon
-        v-else
-        icon-name="loading"
-        fill="rgba(255,255,255,.8)"
-        font-size="3rem"
-        :style="{ cursor: 'default' }"
-      ></SvgIcon>
-    </div>
     <div v-else-if="videoStates.isPlayEnd" class="cy-player-replay">
       <slot v-if="slots.playend" name="playend"></slot>
       <div v-else>
@@ -106,6 +96,16 @@ const slots = useSlots();
         fill="rgba(255,255,255,.8)"
         font-size="3.125rem"
         :styles="{ cursor: 'default' }"
+      ></SvgIcon>
+    </div>
+    <div v-else-if="videoStates.isWaiting" class="cy-player-loading-icon">
+      <slot v-if="slots.waiting" name="waiting"></slot>
+      <SvgIcon
+        v-else
+        icon-name="loading"
+        fill="rgba(255,255,255,.8)"
+        font-size="3rem"
+        :style="{ cursor: 'default' }"
       ></SvgIcon>
     </div>
   </div>
