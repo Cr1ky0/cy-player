@@ -6,6 +6,9 @@
 <h1 align="center">Cy Player</h1>
 
 <p align="center">
+  <a href="https://www.npmjs.com/package/cy-player">
+    <img src="https://img.shields.io/badge/npm-1.1.0-blue" alt="npm:1.1.0">
+  </a>
   <a href="https://github.com/microsoft/TypeScript">
     <img src="https://img.shields.io/badge/typescript-5.2.2-blue" alt="typescript:5.2.2">
   </a>
