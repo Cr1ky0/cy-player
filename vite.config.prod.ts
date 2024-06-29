@@ -4,7 +4,7 @@ import path from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
-import baseConfig from './vite.config'
+import baseConfig from './vite.config';
 
 const resolve = (dir: string) => {
   return path.resolve(__dirname, dir);
@@ -23,6 +23,10 @@ export default defineConfig({
         },
         {
           src: 'package.json',
+          dest: '',
+        },
+        {
+          src: 'README.md',
           dest: '',
         },
       ],
