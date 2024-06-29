@@ -39,13 +39,13 @@
 #### npm
 
 ```bash
-npm install cy-player --save
+npm install cy-player-vue --save
 ```
 
 #### yarn
 
 ```bash
-yarn add cy-player 
+yarn add cy-player-vue 
 ```
 
 ## 示例
