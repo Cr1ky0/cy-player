@@ -1,13 +1,6 @@
 <script setup lang="ts">
-import {
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  ref,
-  useSlots,
-  watch,
-} from 'vue';
-import { PlayerProps} from 'types';
+import { onBeforeUnmount, onMounted, provide, ref, useSlots, watch } from 'vue';
+import { PlayerProps } from 'types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
@@ -16,7 +9,6 @@ import BottomProgress from '@/core/progress/BottomProgress.vue';
 import { useSetSize } from '@/core/hooks/useSetSize.ts';
 import 'virtual:svg-icons-register';
 import './index.css';
-
 
 // Props
 const props = defineProps<PlayerProps>();

@@ -1,7 +1,7 @@
 {
   "name": "cy-player-vue",
   "private": false,
-  "version": "1.2.0",
+  "version": "1.2.5",
   "main": "index.umd.js",
   "module": "index.es.js",
   "type": "module",
@@ -33,6 +33,9 @@
   ],
   "dependencies": {
     "hls.js": "^1.5.11",
+    "vue": "^3.4.21"
+  },
+  "peerDependencies": {
     "vue": "^3.4.21"
   },
   "devDependencies": {
