@@ -7,7 +7,7 @@ import {
   useSlots,
   watch,
 } from 'vue';
-import { PlayerOption, VideoCallback } from 'types';
+import { PlayerProps} from 'types';
 import { useCallback } from '@/core/hooks/useCallback.ts';
 import { useVideo } from '@/core/hooks/useVideo.ts';
 import Controller from '@/core/controller/Controller.vue';
@@ -17,10 +17,6 @@ import { useSetSize } from '@/core/hooks/useSetSize.ts';
 import 'virtual:svg-icons-register';
 import './index.css';
 
-export interface PlayerProps {
-  option: PlayerOption;
-  callback?: VideoCallback;
-}
 
 // Props
 const props = defineProps<PlayerProps>();

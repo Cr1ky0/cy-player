@@ -41,6 +41,10 @@
     "src/**/*.vue",
     "src/**/*.d.ts"
   ],
+  "exclude": [
+    "example",
+    "node_modules"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

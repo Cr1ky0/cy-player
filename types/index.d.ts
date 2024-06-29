@@ -1,4 +1,6 @@
 // 视频种类
+import CyPlayer from '@/core';
+
 export type SourceType = 'h264' | 'hls' | 'auto';
 // 视频清晰度选项
 export type VideoQuality =
@@ -254,24 +256,29 @@ export type CyPlayerRef = {
   videoElement: HTMLVideoElement;
 };
 
+export interface PlayerProps {
+  option: PlayerOption;
+  callback?: VideoCallback;
+}
+
 interface NoneObject extends NonNullable<unknown> {}
 
 interface CyPlayerComponent
   extends import('vue').DefineComponent<
-    NoneObject,
-    NoneObject,
-    NoneObject,
-    NoneObject,
-    NoneObject,
+    PlayerProps, // props
+    NoneObject, // data
+    NoneObject, // computed
+    NoneObject, // methods
+    NoneObject, // watch
     import('vue').ComponentOptionsMixin,
     import('vue').ComponentOptionsMixin,
-    NoneObject,
+    NoneObject, // emits
     string,
     import('vue').VNodeProps &
       import('vue').AllowedComponentProps &
       import('vue').ComponentCustomProps,
-    Readonly<import('vue').ExtractPropTypes<NoneObject>>,
-    NoneObject,
+    Readonly<import('vue').ExtractPropTypes<PlayerProps>>, // props
+    CyPlayerRef, // expose
     NonNullable<unknown>
   > {}
 
