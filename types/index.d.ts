@@ -1,6 +1,6 @@
+// 视频种类
 import { CSSProperties } from 'vue';
 
-// 视频种类
 export type SourceType = 'h264' | 'hls' | 'auto';
 // 视频清晰度选项
 export type VideoQuality =
@@ -250,7 +250,6 @@ export interface VideoController {
   setVideoSrc: (src: string) => void;
 }
 
-// Player
 export type CyPlayerRef = {
   states: VideoState;
   controller: VideoController;
