@@ -1,7 +1,7 @@
 {
-  "name": "cy-player-vue-test",
+  "name": "cy-player",
   "private": false,
-  "version": "1.2.2",
+  "version": "1.1.0",
   "main": "index.umd.js",
   "module": "index.es.js",
   "types": "dist/index.d.ts",
