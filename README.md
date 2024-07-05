@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/cy-player">
-    <img src="https://img.shields.io/badge/npm-1.3.4-blue" alt="npm:1.3.4">
+    <img src="https://img.shields.io/badge/npm-1.3.5-blue" alt="npm:1.3.5">
   </a>
   <a href="https://github.com/microsoft/TypeScript">
     <img src="https://img.shields.io/badge/typescript-5.2.2-blue" alt="typescript:5.2.2">
@@ -58,7 +58,7 @@ import {reactive} from 'vue';
 // 响应式option
 const option = reactive<PlayerOption>({
   videoSrc:
-    'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8',
+    'https://cdn.pixabay.com/video/2024/03/31/206294_small.mp4?download',
 });
 const callbacks = reactive<VideoCallback>({
     onPlay:(e)=>{console.log(e)}
