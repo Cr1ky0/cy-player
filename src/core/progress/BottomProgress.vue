@@ -28,7 +28,7 @@ const completedProportion = computed(() => {
 </script>
 
 <template>
-  <div v-if="!props.mouseEnter && !keepShow" class="cy-player-bottom-progress">
+  <div v-if="!props.mouseEnter && !keepShow || videoStates.isPlayEnd" class="cy-player-bottom-progress">
     <div
       class="cy-player-bottom-progress-completed"
       :style="{ width: `${completedProportion}%`, ...themeColorStyle }"

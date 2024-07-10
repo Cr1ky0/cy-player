@@ -44,7 +44,7 @@ const filteredSlots = Object.keys(slots).reduce(
     </template>
   </Mask>
   <div
-    :class="`cy-player-controller-container ${mouseEnter || keepShow ? 'cy-player-controller-active' : ''}`"
+    :class="`cy-player-controller-container ${(mouseEnter || keepShow) && !videoStates.isPlayEnd ? 'cy-player-controller-active' : ''}`"
     :style="style"
     v-if="!videoStates.isError"
   >
