@@ -7,10 +7,10 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/cy-player">
-    <img src="https://img.shields.io/badge/npm-1.3.6-blue" alt="npm:1.3.6">
+    <img src="https://img.shields.io/badge/npm-1.4.0-blue" alt="npm:1.4.0">
   </a>
   <a href="https://github.com/Cr1ky0/cy-player">
-    <img src="https://img.shields.io/badge/github-1.3.6-blue" alt="github">
+    <img src="https://img.shields.io/badge/github-1.4.0-blue" alt="github">
   </a>
   <a href="https://github.com/microsoft/TypeScript">
     <img src="https://img.shields.io/badge/typescript-5.2.2-blue" alt="typescript:5.2.2">
@@ -34,7 +34,7 @@
 
 - 支持`Vue3.0+`版本，支持响应式参数传递
 - 使用Typescript开发，提供完整类型定义
-- 支持PC、移动端使用，支持视频自适应缩放，支持自定义插槽和自定义回调函数
+- 支持PC、移动端使用（新增移动端左右滑动快进，上下滑动修改音量），支持视频自适应缩放，支持自定义插槽和自定义回调函数
 - 支持`HLS`(`application/x-mpegurl`,`application/vnd.apple.mpegurl`)以及`H264`(`video/mp4`,`video/ogg`,`video/webm`)格式的视频播放
 
 ## 安装
