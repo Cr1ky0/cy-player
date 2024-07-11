@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { PlayerOption, VideoController, VideoState } from 'types';
-import { computed, inject, Ref, useSlots, watch } from 'vue';
+import { computed, inject, ref, Ref, useSlots, watch } from 'vue';
 import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { useToast } from '@/core/hooks/useToast.ts';
+import { Operator, useTouchHandler } from '@/core/hooks/useTouchHandler.ts';
+import { formatTime } from '@/utils';
 
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
@@ -41,6 +43,59 @@ watch(
   },
 );
 
+// 移动端Touch操作修改音量和progress
+const maskContainer = ref<HTMLDivElement>();
+
+const touchStartEffect = (operator: Operator) => {
+  if (operator === 'Progress') {
+    // 视频暂停并打开isDrag
+    videoController.pause();
+    isDrag.value = true;
+  }
+};
+
+const touchEndEffect = (operater: Operator) => {
+  if (operater === 'Progress') {
+    videoController.play();
+    isDrag.value = false;
+    showToast(
+      `视频快进至:${formatTime(Math.floor(videoStates.currentPlayTime))}`,
+    );
+  }
+  if (operater === 'Volume') showToast(`音量调节至:${Math.floor(videoStates.volume)}`);
+};
+
+const handleChangeProgress = (xChangeProp: number) => {
+  // console.log(xChangeProp);
+  const mutiple = 3; // 操作速率，指定滑动前进的快慢 TODO:后续可以放在参数位置传入
+  let curTime =
+    videoStates.currentPlayTime + (xChangeProp / 100) * videoStates.duration;
+  // 判断是否<=0或超出播放总时长
+  curTime =
+    curTime <= 0
+      ? 0
+      : curTime >= videoStates.duration
+        ? videoStates.duration
+        : curTime;
+  // 乘以倍数
+  curTime =
+    videoStates.currentPlayTime +
+    (curTime - videoStates.currentPlayTime) * mutiple;
+  videoController.setCurTime(curTime);
+};
+
+const handleChangeVolume = (yChangeProp: number) => {
+  let curVolume = videoStates.volume - yChangeProp;
+  curVolume = curVolume <= 0 ? 0 : curVolume >= 100 ? 100 : curVolume;
+  videoController.setVolume(curVolume);
+};
+useTouchHandler(maskContainer, {
+  handleChangeProgress,
+  handleChangeVolume,
+  touchEndEffect,
+  touchStartEffect,
+});
+
 // slots
 const slots = useSlots();
 </script>
@@ -50,6 +105,7 @@ const slots = useSlots();
     :class="`cy-player-controller-mask cy-player-controller-mask-${pos}`"
     @click="handleClick"
     :style="styles"
+    ref="maskContainer"
   >
     <div
       v-if="slots.customized"

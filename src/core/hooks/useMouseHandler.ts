@@ -32,7 +32,7 @@ export const useMouseHandler = (
    */
   const xProp = ref(0);
   /**
-   * @description 鼠标y坐标占整体宽度的百分比(0-100)
+   * @description 鼠标y坐标占整体高度的百分比(0-100)
    */
   const yProp = ref(0);
   /**
@@ -47,7 +47,6 @@ export const useMouseHandler = (
   const handleMouseDown = (e: MouseEvent | TouchEvent) => {
     e.preventDefault();
     isDrag.value = true;
-    handleMouseMove(e); // Mobile支持，这里点击时需要计算一下坐标，以免点击时为上一次xProp，PC因为有mouseEnter就无所谓了
     if (mouseEventCallbacks && mouseEventCallbacks.onMouseDown)
       mouseEventCallbacks.onMouseDown();
   };
@@ -82,7 +81,6 @@ export const useMouseHandler = (
       mouseY.value = y;
       xProp.value = (x / width.value) * 100;
       yProp.value = (y / height.value) * 100;
-
 
       // 如果存在鼠标事件回调，则调用onMouseMove
       if (mouseEventCallbacks && mouseEventCallbacks.onMouseMove) {
