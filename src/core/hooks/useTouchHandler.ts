@@ -17,10 +17,10 @@ export const useTouchHandler = (
   callback: TouchHandlerCallback,
 ) => {
   const innerRef = ref<HTMLElement>();
+  const showVolume = ref(false);
   let operator: Operator = null;
   let lastX = 0;
   let lastY = 0;
-
   const getTouchPosition = (e: TouchEvent) => {
     const rect = innerRef.value!.getBoundingClientRect();
     const width = rect.width;
@@ -64,6 +64,7 @@ export const useTouchHandler = (
     if (operator === 'Progress') {
       callback.handleChangeProgress(xChangeProp);
     } else {
+      showVolume.value = true;
       callback.handleChangeVolume(yChangeProp);
     }
 
@@ -79,6 +80,7 @@ export const useTouchHandler = (
     lastX = 0;
     lastY = 0;
     operator = null;
+    showVolume.value = false
   };
 
   onMounted(() => {
@@ -106,4 +108,6 @@ export const useTouchHandler = (
       elem.removeEventListener('touchend', handleTouchEnd);
     }
   });
+
+  return { showVolume };
 };

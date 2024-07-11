@@ -5,6 +5,7 @@ import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 import { useToast } from '@/core/hooks/useToast.ts';
 import { Operator, useTouchHandler } from '@/core/hooks/useTouchHandler.ts';
 import { formatTime } from '@/utils';
+import VolumeSlider from '@/core/controls/volume/VolumeSlider.vue';
 
 const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
@@ -62,7 +63,8 @@ const touchEndEffect = (operater: Operator) => {
       `视频快进至:${formatTime(Math.floor(videoStates.currentPlayTime))}`,
     );
   }
-  if (operater === 'Volume') showToast(`音量调节至:${Math.floor(videoStates.volume)}`);
+  if (operater === 'Volume')
+    showToast(`音量调节至:${Math.floor(videoStates.volume)}`);
 };
 
 const handleChangeProgress = (xChangeProp: number) => {
@@ -89,12 +91,21 @@ const handleChangeVolume = (yChangeProp: number) => {
   curVolume = curVolume <= 0 ? 0 : curVolume >= 100 ? 100 : curVolume;
   videoController.setVolume(curVolume);
 };
-useTouchHandler(maskContainer, {
+
+const { showVolume } = useTouchHandler(maskContainer, {
   handleChangeProgress,
   handleChangeVolume,
   touchEndEffect,
   touchStartEffect,
 });
+
+const volumeStyles = {
+  left:'auto',
+  right: '10%',
+  top: '50%',
+  transform: 'translate(0,-50%)',
+  height:'9rem',
+};
 
 // slots
 const slots = useSlots();
@@ -164,6 +175,7 @@ const slots = useSlots();
         :style="{ cursor: 'default' }"
       ></SvgIcon>
     </div>
+    <VolumeSlider v-if="showVolume" :styles="volumeStyles" :show-icon="true"></VolumeSlider>
   </div>
 </template>
 

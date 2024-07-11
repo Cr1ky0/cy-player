@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { computed, inject, ref, watch } from 'vue';
+import { computed, CSSProperties, inject, ref, watch } from 'vue';
 import { PlayerOption, VideoController, VideoState } from 'types';
 import { useMouseHandler } from '@/core/hooks/useMouseHandler.ts';
+import SvgIcon from '@/components/svgicon/SvgIcon.vue';
 
 export interface VolumeSliderProps {
-  changeIsDrag: (value: boolean) => void;
+  changeIsDrag?: (value: boolean) => void;
+  styles?: CSSProperties;
+  showIcon?:boolean;
 }
 
 const { changeIsDrag } = defineProps<VolumeSliderProps>();
@@ -31,7 +34,7 @@ const { yProp, isDrag } = useMouseHandler(progressRef, {
 });
 
 watch(isDrag, () => {
-  changeIsDrag(isDrag.value);
+  changeIsDrag && changeIsDrag(isDrag.value);
 });
 
 const handleProgressClick = () => {
@@ -40,7 +43,7 @@ const handleProgressClick = () => {
 </script>
 
 <template>
-  <div class="cy-player-volume-slider-container">
+  <div class="cy-player-volume-slider-container" :style="styles">
     <div class="cy-player-volume-number">
       {{ Math.floor(videoStates.volume) }}
     </div>
@@ -52,14 +55,21 @@ const handleProgressClick = () => {
       <div class="cy-player-volume-base">
         <div
           class="cy-player-volume-slider"
-          :style="{ bottom: `${volumeProportion}%` ,...themeColorStyle}"
+          :style="{ bottom: `${volumeProportion}%`, ...themeColorStyle }"
         ></div>
         <div
           class="cy-player-volume-proportion"
-          :style="{ height: `${volumeProportion}%` ,...themeColorStyle}"
+          :style="{ height: `${volumeProportion}%`, ...themeColorStyle }"
         ></div>
       </div>
     </div>
+    <SvgIcon
+      v-if="showIcon"
+      :styles="{marginTop:'0.2rem'}"
+      icon-name="volume"
+      fill="#FFF"
+      font-size="1.25rem"
+    ></SvgIcon>
   </div>
 </template>
 
@@ -73,7 +83,7 @@ const handleProgressClick = () => {
   background-color: rgba(0, 0, 0, 0.8);
   height: 7.5rem;
   width: 2.5rem;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,8 +91,8 @@ const handleProgressClick = () => {
 
   .cy-player-volume-number {
     color: #fff;
-    font-size: .85rem;
-    padding: .3rem 0;
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
   }
 
   .cy-player-volume-progress {
@@ -94,15 +104,15 @@ const handleProgressClick = () => {
 
     .cy-player-volume-base {
       position: relative;
-      width: .125rem;
+      width: 0.125rem;
       height: 100%;
       background-color: #fff;
 
       .cy-player-volume-slider {
         @include position(absolute, auto, 0, auto, 0);
         transform: translate(-40%, 50%);
-        width: .5rem;
-        height: .5rem;
+        width: 0.5rem;
+        height: 0.5rem;
         background-color: $default-theme-color;
         border-radius: 100%;
         cursor: pointer;
@@ -110,7 +120,7 @@ const handleProgressClick = () => {
 
       .cy-player-volume-proportion {
         @include position(absolute, auto, 0, auto, 0);
-        width: .125rem;
+        width: 0.125rem;
         height: 0;
         background-color: $default-theme-color;
       }
