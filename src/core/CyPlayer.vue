@@ -7,9 +7,9 @@ import Controller from '@/core/controller/Controller.vue';
 import { useMouseCheck } from '@/utils/useMouseCheck.ts';
 import BottomProgress from '@/core/progress/BottomProgress.vue';
 import { useSetSize } from '@/core/hooks/useSetSize.ts';
+import { cyPlayerEmits } from '@/core/CyPlayer.ts';
 import 'virtual:svg-icons-register';
 import './index.css';
-import { cyPlayerEmits } from '@/core/CyPlayer.ts';
 
 // Props
 const props = defineProps<PlayerProps>();
