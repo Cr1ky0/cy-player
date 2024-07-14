@@ -1,27 +1,15 @@
 import { VideoCallback, VideoState } from 'types';
 import { readonly, watch } from 'vue';
 
-export const useCallback = (
-  videoStates: VideoState,
-  callbacks: VideoCallback,
-) => {
-  const {
-    onPlay,
-    onPlayEnd,
-    onVolumeChange,
-    onPause,
-    onTimeChange,
-    onWaiting,
-    onError,
-  } = callbacks;
+export const useCallback = (videoStates: VideoState, emits: VideoCallback) => {
   // 播放和暂停的回调（含自动播放）
   watch(
     () => videoStates.isPlay,
     () => {
       if (videoStates.isPlay) {
-        onPlay && onPlay(readonly(videoStates));
+        emits('play', readonly(videoStates));
       } else {
-        onPause && onPause(readonly(videoStates));
+        emits('pause', readonly(videoStates));
       }
     },
   );
@@ -31,7 +19,7 @@ export const useCallback = (
     () => videoStates.isPlayEnd,
     () => {
       if (videoStates.isPlayEnd) {
-        onPlayEnd && onPlayEnd(readonly(videoStates));
+        emits('playEnd', readonly(videoStates));
       }
     },
   );
@@ -40,7 +28,7 @@ export const useCallback = (
   watch(
     () => videoStates.volume,
     () => {
-      onVolumeChange && onVolumeChange(readonly(videoStates));
+      emits('volumeChange', readonly(videoStates));
     },
   );
 
@@ -48,7 +36,7 @@ export const useCallback = (
   watch(
     () => videoStates.currentPlayTime,
     () => {
-      onTimeChange && onTimeChange(readonly(videoStates));
+      emits('timeChange', readonly(videoStates));
     },
   );
 
@@ -56,7 +44,7 @@ export const useCallback = (
   watch(
     () => videoStates.isWaiting,
     () => {
-      onWaiting && onWaiting(readonly(videoStates));
+      emits('waiting', readonly(videoStates));
     },
   );
 
@@ -64,7 +52,7 @@ export const useCallback = (
   watch(
     () => videoStates.isError,
     () => {
-      onError && onError();
+      emits('error');
     },
   );
 };

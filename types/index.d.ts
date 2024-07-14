@@ -124,67 +124,79 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
 }
 
 // Video回调
-export type CallbackType<T = VideoState> = (e: T) => void;
-
-export interface VideoCallback<T = CallbackType> {
+export interface VideoCallback<T = VideoState> {
   /**
    * @description 视频开始播放回调
    */
-  onPlay?: T;
+  (e: 'play', arg: T): void;
+
   /**
    * @description 视频暂停播放的回调
    */
-  onPause?: T;
+  (e: 'pause', arg: T): void;
+
   /**
    * @description 视频在播放，时间变化回调
    */
-  onTimeChange?: T;
+  (e: 'timeChange', arg: T): void;
+
   /**
    * @description 视频结束时回调
    */
-  onPlayEnd?: T;
+  (e: 'playEnd', arg: T): void;
+
   /**
    * @description 音量改变时的回调
    */
-  onVolumeChange?: T;
+  (e: 'volumeChange', arg: T): void;
+
   /**
    * @description 视频加载错误回调
    */
-  onError?: () => void;
+  (e: 'error'): void;
+
   /**
    * @description 视频等待时回调
    */
-  onWaiting?: T;
+  (e: 'waiting', arg: T): void;
+
   /**
    * @description 视频质量切换时回调
    */
-  onQualityChange?: (quality: VideoQuality) => void;
+  (e: 'qualityChange', quality: VideoQuality): void;
+
   /**
    * @description 组件onMounted回调
    */
-  onPlayerMounted?: (
-    videoRef: HTMLVideoElement,
-    containerElem: HTMLDivElement,
-  ) => void;
+  (
+    e: 'playerMounted',
+    videoElement: HTMLVideoElement,
+    containerElement: HTMLDivElement,
+  ): void;
+
   /**
    * @description 组件onBeforeUnmount回调
    */
-  onPlayerBeforeUnmount?: (
-    videoRef: HTMLVideoElement,
-    containerElem: HTMLDivElement,
-  ) => void;
+  (
+    e: 'playerBeforeUnmount',
+    videoElement: HTMLVideoElement,
+    containerElement: HTMLDivElement,
+  ): void;
+
   /**
    * @description 进度条MouseDown(TouchStart)事件
    */
-  onProgressMouseDown?: T;
+  (e: 'progressMouseDown', arg: T): void;
+
   /**
    * @description 进度条MouseMove(TouchMove)事件
    */
-  onProgressMouseMove?: T;
+  (e: 'progressMouseMove', arg: T): void;
+
   /**
    * @description 进度条MouseUp(TouchEnd)事件
    */
-  onProgressMouseUp?: T;
+  (e: 'progressMouseUp', arg: T): void;
 }
 
 // Video状态
@@ -258,5 +270,4 @@ export type CyPlayerRef = {
 
 export interface PlayerProps {
   option: PlayerOption;
-  callback?: VideoCallback;
 }

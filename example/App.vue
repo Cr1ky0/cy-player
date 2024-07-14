@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CyPlayer from '@/core/index';
 import { onMounted, reactive, ref, watch } from 'vue';
-import { PlayerOption, VideoCallback, CyPlayerRef } from 'types';
+import { PlayerOption, CyPlayerRef } from 'types';
 import { useViewport } from './useViewport.ts';
 
 const test = ref(true);
@@ -75,63 +75,54 @@ onMounted(() => {
   setSize(window.innerWidth);
 });
 
-const callbacks = <VideoCallback>{
-  // onPlay: (e) => {
-  //   // console.log('play');
-  // },
-  // onPlayEnd: (e) => {
-  //   // console.log('playend');
-  // },
-  // onPause: (e) => {
-  //   // console.log('pause');
-  // },
-  // onVolumeChange: (e) => {
-  //   // console.log('volumechange');
-  // },
-  // onTimeChange: (e) => {
-  //   // console.log('timechange');
-  // },
-  // onWaiting: (e) => {
-  //   // console.log('waiting');
-  // },
-  // onError: () => {
-  //   // console.log('err');
-  // },
-  // onQualityChange: (quality) => {
-  //   // console.log(quality);
-  // },
-  // onPlayerMounted: (vElem, cElem) => {
-  //   // console.log(vElem, cElem);
-  // },
-  // onPlayerBeforeUnmount: (vElem, cElem) => {
-  //   // console.log(vElem, cElem);
-  // },
-  // onProgressMouseDown: (e) => {
-  //   // console.log('mousedown');
-  // },
-  // onProgressMouseMove: (e) => {
-  //   // console.log('mousemove');
-  // },
-  // onProgressMouseUp: (e) => {
-  //   // console.log('mouseup');
-  // },
-};
-const change = () => {
-  // option.videoSrc =
-  // 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/m3u8/input.m3u8';
-  // option.videoSrc = '112312';
-  // option.poster = 'https://criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com/blog_image/wqyZDFQ3PtTCl2TxZF4Xe.png'
-  // option.width = '50vw';
-  // option.isScreenFullShow = false;
-  // option.toastPlacement = 'center';
-  // option.maskIconPlacement = 'center';
-  // option.themeColor = 'red';
-  // option.keepControllerShow = !option.keepControllerShow;
-};
+// const callbacks = {
+//   onPlay: (e) => {
+//     // console.log('play');
+//   },
+//   onPlayEnd: (e) => {
+//     // console.log('playend');
+//   },
+//   onPause: (e) => {
+//     // console.log('pause');
+//   },
+//   onVolumeChange: (e) => {
+//     // console.log('volumechange');
+//   },
+//   onTimeChange: (e) => {
+//     // console.log('timechange');
+//   },
+//   onWaiting: (e) => {
+//     // console.log('waiting');
+//   },
+//   onError: () => {
+//     // console.log('err');
+//   },
+//   onQualityChange: (quality) => {
+//     // console.log(quality);
+//   },
+//   onPlayerMounted: (vElem, cElem) => {
+//     // console.log(vElem, cElem);
+//   },
+//   onPlayerBeforeUnmount: (vElem, cElem) => {
+//     // console.log(vElem, cElem);
+//   },
+//   onProgressMouseDown: (e) => {
+//     // console.log('mousedown');
+//   },
+//   onProgressMouseMove: (e) => {
+//     // console.log('mousemove');
+//   },
+//   onProgressMouseUp: (e) => {
+//     // console.log('mouseup');
+//   },
+//   onPlayerMounted(videoRef, containerElem) {
+//     console.log(1213);
+//   },
+// };
 </script>
 
 <template>
-  <CyPlayer ref="playerRef" v-if="test" :option="option" :callback="callbacks">
+  <CyPlayer ref="playerRef" v-if="test" :option="option">
     <!--    <template #playend>-->
     <!--      <div>playend</div>-->
     <!--    </template>-->
@@ -152,7 +143,6 @@ const change = () => {
     <!--    </template>-->
   </CyPlayer>
   <button @click="test = false">卸载</button>
-  <button @click="change">change</button>
 </template>
 
 <style scoped></style>

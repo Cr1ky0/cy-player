@@ -7,10 +7,10 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/cy-player">
-    <img src="https://img.shields.io/badge/npm-1.4.1-blue" alt="npm:1.4.1">
+    <img src="https://img.shields.io/badge/npm-1.4.3-blue" alt="npm:1.4.3">
   </a>
   <a href="https://github.com/Cr1ky0/cy-player">
-    <img src="https://img.shields.io/badge/github-1.4.1-blue" alt="github">
+    <img src="https://img.shields.io/badge/github-1.4.3-blue" alt="github">
   </a>
   <a href="https://github.com/microsoft/TypeScript">
     <img src="https://img.shields.io/badge/typescript-5.2.2-blue" alt="typescript:5.2.2">
@@ -22,6 +22,7 @@
 <p align="center">
    轻量化、性能优秀、美观的Vue3视频播放器组件
 </p>
+
 
 ## 说明
 
@@ -42,13 +43,13 @@
 #### npm
 
 ```bash
-npm install cy-player-vue --save
+npm install cy-player --save
 ```
 
 #### yarn
 
 ```bash
-yarn add cy-player-vue 
+yarn add cy-player 
 ```
 
 ## 示例
@@ -56,19 +57,17 @@ yarn add cy-player-vue
 ```vue
 <script setup lang="ts">
 import 'cy-player';
-import {PlayerOption,VideoCallback} from 'cy-player'
+import {PlayerOption} from 'cy-player'
 import {reactive} from 'vue';
 // 响应式option
 const option = reactive<PlayerOption>({
   videoSrc:
     'https://cdn.pixabay.com/video/2024/03/31/206294_small.mp4?download',
 });
-const callbacks = reactive<VideoCallback>({
-    onPlay:(e)=>{console.log(e)}
-})
+const onPlay = (e)=>{console.log(e)}
 </script>
 <template>
-  <cy-player :option="option" :callback="callbacks"/>
+  <cy-player :option="option" @play="onPlay"/>
 </template>
 ```
 
@@ -101,23 +100,23 @@ const callbacks = reactive<VideoCallback>({
 | maskIconPlacement       | 遮罩图标位置（也是暂停、重播等自定义插槽的位置）             | `Position`         | center            |
 | quality                 | 播放器清晰度列表，如果不指定则不显示清晰度切换按钮，`chosen`为true时初始化默认加载该视频 | `QualityOption[]`  | -                 |
 
-#### 回调函数
+#### 自定义事件
 
-| 名称                  | 说明                                                     | 类型                                                         |
-| --------------------- | -------------------------------------------------------- | ------------------------------------------------------------ |
-| onPlay                | 视频开始播放时回调                                       | `CallbackType`                                               |
-| onPause               | 视频停止播放时回调                                       | `CallbackType`                                               |
-| onPlayEnd             | 视频播放结束时回调                                       | `CallbackType`                                               |
-| onWaiting             | 视频处于waiting事件时回调                                | `CallbackType`                                               |
-| onTimeChange          | 视频播放事件更新时回调                                   | `CallbackType`                                               |
-| onVolumeChange        | 视频音量更改时回调                                       | `CallbackType`                                               |
-| onError               | 视频触发`error`事件时回调                                | () => void                                                   |
-| onQualityChange       | 视频质量切换时回调                                       | (quality: `VideoQuality`) => void                            |
-| onPlayerMounted       | 组件加载时onMounted中执行回调                            | (   videoRef: `HTMLVideoElement`,  containerElem: `HTMLDivElement`) => void |
-| onPlayerBeforeUnmount | 组件卸载时onBeforeUnmount中执行回调                      | (   videoRef: `HTMLVideoElement`,  containerElem: `HTMLDivElement`) => void |
-| onProgressMouseDown   | 进度条触发`mousedown`或`touchstart`回调                  | `CallbackType`                                               |
-| onProgressMouseMove   | 进度条处于拖拽状态时全局触发`mousemove`或`touchmove`回调 | `CallbackType`                                               |
-| onProgressMouseUp     | 进度条处于拖拽状态时全局触发`mouseup`或`touchend`回调    | `CallbackType`                                               |
+| 事件名称            | 说明                                                     | 类型                                                         |
+| ------------------- | -------------------------------------------------------- | ------------------------------------------------------------ |
+| play                | 视频开始播放时回调                                       | (arg: `VideoState`): `void`                                  |
+| pause               | 视频停止播放时回调                                       | (arg: `VideoState`): `void`                                  |
+| playEnd             | 视频播放结束时回调                                       | (arg: `VideoState`): `void`                                  |
+| waiting             | 视频处于waiting事件时回调                                | (arg: `VideoState`): `void`                                  |
+| timeChange          | 视频播放事件更新时回调                                   | (arg: `VideoState`): `void`                                  |
+| volumeChange        | 视频音量更改时回调                                       | (arg: `VideoState`): `void`                                  |
+| error               | 视频触发`error`事件时回调                                | (): `void`                                                   |
+| qualityChange       | 视频质量切换时回调                                       | (quality: `VideoQuality`): `void`                            |
+| playerMounted       | 组件加载时onMounted中执行回调                            | (videoElement: `HTMLVideoElement`,  containerElement: `HTMLDivElement`) => `void` |
+| playerBeforeUnmount | 组件卸载时onBeforeUnmount中执行回调                      | (videoElement: `HTMLVideoElement`,  containerElement: `HTMLDivElement`) => `void` |
+| progressMouseDown   | 进度条触发`mousedown`或`touchstart`回调                  | (arg: `VideoState`): `void`                                  |
+| progressMouseMove   | 进度条处于拖拽状态时全局触发`mousemove`或`touchmove`回调 | (arg: `VideoState`): `void`                                  |
+| progressMouseUp     | 进度条处于拖拽状态时全局触发`mouseup`或`touchend`回调    | (arg: `VideoState`): `void`                                  |
 
 #### 自定义插槽
 
@@ -203,9 +202,6 @@ export interface QualityOption {
   src: string;
   chosen?: boolean;
 }
-
-// 回调
-export type CallbackType<T = VideoState> = (e: T) => void;
 
 // Video状态
 export interface VideoState<T = number, U = boolean, K = string> {

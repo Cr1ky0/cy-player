@@ -9,11 +9,12 @@ import BottomProgress from '@/core/progress/BottomProgress.vue';
 import { useSetSize } from '@/core/hooks/useSetSize.ts';
 import 'virtual:svg-icons-register';
 import './index.css';
+import { cyPlayerEmits } from '@/core/CyPlayer.ts';
 
 // Props
 const props = defineProps<PlayerProps>();
+const emits = defineEmits(cyPlayerEmits);
 const option = props.option;
-const callback = props.callback || {};
 // default props
 option.videoAutoFix =
   typeof option.videoAutoFix === 'boolean' ? option.videoAutoFix : true;
@@ -37,23 +38,14 @@ const { setTotalSize } = useSetSize(
   option,
   videoStates,
 );
-useCallback(videoStates, {
-  onTimeChange: callback?.onTimeChange,
-  onPause: callback?.onPause,
-  onPlay: callback?.onPlay,
-  onPlayEnd: callback?.onPlayEnd,
-  onVolumeChange: callback?.onVolumeChange,
-  onWaiting: callback?.onWaiting,
-  onError: callback?.onError,
-});
-
+useCallback(videoStates, emits);
 // Provide
 provide('containerRef', containerRef);
 provide('videoRef', videoRef);
 provide('playerOption', option);
 provide('videoStates', videoStates);
 provide('videoController', videoController);
-provide('callback', callback);
+provide('emits', emits);
 
 const handleSize = () => {
   setTotalSize(option.videoAutoFix);
@@ -75,11 +67,12 @@ onMounted(() => {
     const vElement = <HTMLVideoElement>videoRef.value;
     vElement.addEventListener('loadedmetadata', handleSize);
   }
-  // 移动端修正音量
-  // if (isMobile.value) videoController.setVolume(80);
   // 自定义Mount回调
-  callback?.onPlayerMounted &&
-    callback.onPlayerMounted(videoRef.value!, containerRef.value!);
+  emits(
+    'playerMounted',
+    <HTMLVideoElement>videoRef.value,
+    <HTMLDivElement>containerRef.value,
+  );
 });
 
 onBeforeUnmount(() => {
@@ -88,8 +81,11 @@ onBeforeUnmount(() => {
     vElement.removeEventListener('loadedmetadata', handleSize);
   }
   // 自定义beforeUnmount回调
-  callback?.onPlayerBeforeUnmount &&
-    callback.onPlayerBeforeUnmount(videoRef.value!, containerRef.value!);
+  emits(
+    'playerBeforeUnmount',
+    <HTMLVideoElement>videoRef.value,
+    <HTMLDivElement>containerRef.value,
+  );
 });
 
 // option size监视

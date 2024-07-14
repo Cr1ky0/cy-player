@@ -285,6 +285,7 @@ export const useVideo = (
     },
   );
 
+  // TODO:初次音量修改不调用用户回调
   onMounted(() => {
     // 如果没有quality不需要切换，把curSrc去除
     // if (!option.quality || option.quality.length === 0)

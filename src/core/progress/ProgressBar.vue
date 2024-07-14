@@ -13,7 +13,7 @@ const videoStates = <VideoState>inject('videoStates');
 const videoController = <VideoController>inject('videoController');
 const progressDrag = <Ref>inject('isDrag');
 const playerOption = <PlayerOption>inject('playerOption');
-const callback = <VideoCallback>inject('callback');
+const emits = <VideoCallback>inject('emits');
 const progressRef = ref<HTMLDivElement>();
 
 const themeColor = computed(() => {
@@ -26,21 +26,21 @@ const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
     videoController.pause();
     videoController.setCurTime(moveTime.value);
     // 用户指定回调
-    callback.onProgressMouseDown && callback.onProgressMouseDown(videoStates);
+    emits('progressMouseDown', videoStates);
   },
   onMouseMove() {
     if (isDrag.value) {
       // 不让100%进度状态设置以免视频处于播放结束状态拖动时出现bug
       if (xProp.value < 100) videoController.setCurTime(moveTime.value);
       // 用户指定回调
-      callback.onProgressMouseMove && callback.onProgressMouseMove(videoStates);
+      emits('progressMouseMove', videoStates);
     }
   },
   onMouseUp() {
     if (isDrag.value && !videoStates.isPlayEnd) {
       videoController.play();
       // 用户指定回调
-      callback.onProgressMouseUp && callback.onProgressMouseUp(videoStates);
+      emits('progressMouseUp', videoStates);
     } // 拖动任务中再执行，以免全局执行
   },
 });
