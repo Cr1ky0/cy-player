@@ -30,7 +30,7 @@ const containerRef = ref<HTMLDivElement>();
 
 // Hooks
 const { videoStates, videoController } = useVideo(videoRef, option);
-const { mouseEnter, isMobile } = useMouseCheck(containerRef);
+const { mouseEnter } = useMouseCheck(containerRef);
 const { setTotalSize } = useSetSize(
   videoRef,
   containerRef,
@@ -76,7 +76,7 @@ onMounted(() => {
     vElement.addEventListener('loadedmetadata', handleSize);
   }
   // 移动端修正音量
-  if (isMobile.value) videoController.setVolume(80);
+  // if (isMobile.value) videoController.setVolume(80);
   // 自定义Mount回调
   callback?.onPlayerMounted &&
     callback.onPlayerMounted(videoRef.value!, containerRef.value!);
@@ -105,6 +105,8 @@ defineExpose({
   states: videoStates,
   controller: videoController,
 });
+
+// TODO:i18n
 </script>
 
 <template>
