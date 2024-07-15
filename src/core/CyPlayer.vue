@@ -116,10 +116,9 @@ defineExpose({
       class="cy-player"
       id="cy-player"
       ref="videoRef"
-      :autoplay="option.autoPlay"
       :src="option.videoSrc"
     >
-      <source :src="option.videoSrc" type="video/mp4" />
+      <source src="" type="video/mp4" />
       <source :src="option.videoSrc" type="video/webm" />
       <source :src="option.videoSrc" type="video/ogg" />
       <source :src="option.videoSrc" type="application/x-mpegURL" />

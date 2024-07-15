@@ -33,7 +33,7 @@ export const useVideo = (
    */
   const videoStates = reactive<VideoState>({
     curSrc: '', // 当前的src
-    isPlay: option.autoPlay || false, // 是否播放
+    isPlay: false, // 是否播放
     isPlayEnd: false, // 是否播放结束
     isWaiting: false, // 视频播放过程中的暂停
     isLoop: false, // 视频是否循环播放
@@ -179,7 +179,7 @@ export const useVideo = (
   /**************************************************************/
 
   const initStates = () => {
-    videoStates.isPlay = option.autoPlay || false;
+    videoStates.isPlay = false;
     videoStates.isPlayEnd = false;
     videoStates.isWaiting = false;
     videoStates.duration = 0;

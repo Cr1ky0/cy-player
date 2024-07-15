@@ -79,7 +79,6 @@ const onPlay = (e)=>{console.log(e)}
 | ----------------------- | ------------------------------------------------------------ | ------------------ | ----------------- |
 | videoSrc                | 视频地址（必传）                                             | `string`           | 必传              |
 | sourceType              | 源视频格式，选择`auto`需要源视频的跨域支持                   | `SourceType`       | h264              |
-| autoPlay                | 自动播放                                                     | `boolean`          | false             |
 | themeColor              | 播放器主题颜色                                               | `string`           | #00aeec           |
 | styles                  | 容器元素样式                                                 | `CSSProperties`    | -                 |
 | controllerStyles        | 控制器根样式                                                 | `CSSProperties`    | -                 |

@@ -16,7 +16,6 @@ export const useToast = (option: PlayerOption, duration?: number) => {
    */
   const createToast = (message: string) => {
     toastRef.value = createApp(Toast, {
-      option: option,
       message,
       position: option.toastPlacement,
     });

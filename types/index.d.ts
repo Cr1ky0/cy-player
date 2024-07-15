@@ -34,10 +34,6 @@ export interface PlayerOption<T = string, U = boolean, K = number> {
    */
   videoSrc: T;
   /**
-   * @description 自动播放
-   */
-  autoPlay?: U;
-  /**
    * @description 播放器高度
    */
   height?: T | K;

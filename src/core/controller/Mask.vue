@@ -55,20 +55,19 @@ const touchStartEffect = (operator: Operator) => {
   }
 };
 
-const touchEndEffect = (operater: Operator) => {
-  if (operater === 'Progress') {
+const touchEndEffect = (operator: Operator) => {
+  if (operator === 'Progress') {
     videoController.play();
     isDrag.value = false;
     showToast(
       `视频快进至:${formatTime(Math.floor(videoStates.currentPlayTime))}`,
     );
   }
-  if (operater === 'Volume')
+  if (operator === 'Volume')
     showToast(`音量调节至:${Math.floor(videoStates.volume)}`);
 };
 
 const handleChangeProgress = (xChangeProp: number) => {
-  // console.log(xChangeProp);
   const mutiple = 3; // 操作速率，指定滑动前进的快慢 TODO:后续可以放在参数位置传入
   let curTime =
     videoStates.currentPlayTime + (xChangeProp / 100) * videoStates.duration;
