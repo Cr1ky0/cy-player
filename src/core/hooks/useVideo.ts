@@ -25,6 +25,10 @@ export const useVideo = (
    */
   const timer = ref<NodeJS.Timeout | null>(null);
   /**
+   * @desc Controller显示控制
+   */
+  const showController = ref(false);
+  /**
    * @description 全局hls对象
    */
   let curHls: Hls | null = null;
@@ -71,6 +75,9 @@ export const useVideo = (
     setVideoSrc: (src: string) => {
       videoStates.curSrc = src;
     },
+    setShowController: (flag: boolean) => {
+      showController.value = flag;
+    },
   });
   /****************************事件处理**********************************/
   /**
@@ -97,9 +104,9 @@ export const useVideo = (
   const setBufferedTime = () => {
     if (vRef.value && vRef.value.buffered.length >= 1) {
       let max = 0;
-      for(let i = 0;i < vRef.value.buffered.length;i++){
-        const curBuffer = vRef.value.buffered.end(i)
-        if(curBuffer > max) max = curBuffer;
+      for (let i = 0; i < vRef.value.buffered.length; i++) {
+        const curBuffer = vRef.value.buffered.end(i);
+        if (curBuffer > max) max = curBuffer;
       }
       videoStates.bufferedTime = max; // 浏览器已经缓冲的媒体数据的最远时间点
     }
@@ -119,16 +126,22 @@ export const useVideo = (
   /**
    * @description loadeddata事件
    */
-  const handleLoadedData = ()=>{
-    if(vRef.value){
+  const handleLoadedData = () => {
+    if (vRef.value) {
       // 切换quality时逻辑
       const curPlayTime = localStorage.getItem('curPlayTime');
       const curTime = parseFloat(curPlayTime || '0');
       videoController.setCurTime(curTime);
       localStorage.removeItem('curPlayTime'); // 切换完毕后删除，避免初始化时快进
-      setBufferedTime();// 重置一下buffer
+      setBufferedTime(); // 重置一下buffer
     }
-  }
+  };
+  /**
+   * @desc canplay
+   */
+  const handleCanplay = () => {
+    showController.value = true; // 开启Controller
+  };
   /**
    * @description 视频播放中的waiting
    */
@@ -151,6 +164,7 @@ export const useVideo = (
    */
   const handleError = () => {
     videoStates.isError = true;
+    showController.value = false;
   };
 
   const addEvents = (videoElement: HTMLVideoElement) => {
@@ -163,6 +177,7 @@ export const useVideo = (
     videoElement.addEventListener('waiting', onWaiting);
     videoElement.addEventListener('playing', onIsPlaying);
     videoElement.addEventListener('error', handleError);
+    videoElement.addEventListener('canplay', handleCanplay);
   };
 
   const removeEvents = (videoElement: HTMLVideoElement) => {
@@ -175,6 +190,7 @@ export const useVideo = (
     videoElement.removeEventListener('waiting', onWaiting);
     videoElement.removeEventListener('playing', onIsPlaying);
     videoElement.removeEventListener('error', handleError);
+    videoElement.removeEventListener('canplay', handleCanplay);
   };
   /**************************************************************/
 
@@ -330,5 +346,6 @@ export const useVideo = (
   return {
     videoStates,
     videoController,
+    showController,
   };
 };

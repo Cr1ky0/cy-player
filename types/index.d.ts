@@ -256,6 +256,7 @@ export interface VideoController {
   setVolume: (volume: number) => void;
   setCurTime: (curTime: number) => void;
   setVideoSrc: (src: string) => void;
+  setShowController: (flag: boolean) => void;
 }
 
 export type CyPlayerRef = {

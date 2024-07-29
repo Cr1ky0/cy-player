@@ -5,7 +5,7 @@ import {
   VideoController,
   VideoState,
 } from 'types';
-import { computed, inject, ref, watch } from 'vue';
+import { computed, inject, onMounted, ref, watch } from 'vue';
 import { useToast } from '@/core/hooks/useToast.ts';
 
 const playerOption = <PlayerOption>inject('playerOption');
@@ -46,32 +46,41 @@ const handleChangeQuality = (index: number) => {
   localStorage.setItem('curPlayTime', String(videoStates.currentPlayTime)); // 保证切换进度
   showToast(`切换至清晰度:${qualities.value[chosenIndex.value]}`);
   controller.play();
+  controller.setShowController(false); // 加载隐藏controller
   // 视频质量切换保存
   // if (playerOption.qualitySave) localStorage.setItem('curSrc', curSrc);
   // 视频切换回调
-  emits('qualityChange',qualities.value[index]);
+  emits('qualityChange', qualities.value[index]);
+};
+
+const handleChosen = () => {
+  // 优先选择chosen的
+  chosenIndex.value = playerOption.quality!.findIndex((item) => {
+    return item.chosen;
+  });
+  if (chosenIndex.value === -1) {
+    // 根据url来判断选中颜色,quality中的src与curSrc相符的
+    chosenIndex.value = playerOption.quality!.findIndex((item) => {
+      return item.src === videoStates.curSrc;
+    });
+  }
 };
 
 watch(
   () => videoStates.curSrc,
   () => {
-    // 优先选择chosen的
-    chosenIndex.value = playerOption.quality!.findIndex((item) => {
-      return item.chosen;
-    });
-    if (chosenIndex.value === -1) {
-      // 根据url来判断选中颜色,quality中的src与curSrc相符的
-      chosenIndex.value = playerOption.quality!.findIndex((item) => {
-        return item.src === videoStates.curSrc;
-      });
-    }
+    handleChosen();
   },
 );
+
+onMounted(() => {
+  handleChosen();
+});
 </script>
 
 <template>
   <div
-    v-if="chosenIndex !== -1"
+    v-if="playerOption.quality && playerOption.quality.length"
     class="cy-player-quality"
     @click="showFunc = !showFunc"
   >

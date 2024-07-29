@@ -22,7 +22,7 @@ const option = reactive<PlayerOption>({
   // toastPlacement: 'left-top',
   // customizedItemPlacement: 'right-bottom',
   // showProgressFloat: false, // 默认为true
-  // keepControllerShow: true,
+  keepControllerShow: true,
   // isSettingShow: true,
   // isPicInPicShow: true,
   // isWebScreenFullShow: true,

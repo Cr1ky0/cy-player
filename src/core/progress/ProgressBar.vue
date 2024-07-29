@@ -226,7 +226,7 @@ $progress-radius: 0.1rem;
     border-radius: 100%;
   }
 
-  /* 用vue3格式的transition，出现时会闪现，这里沿用vue2格式的 */
+  /* 用vue3格式 */
   .v-enter-from,
   .v-leave-to {
     opacity: 0;

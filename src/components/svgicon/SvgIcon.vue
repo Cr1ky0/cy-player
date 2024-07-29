@@ -19,7 +19,12 @@ const click = computed(() => {
 
 <template>
   <svg
-    :style="{ ...styles, fontSize: fontSize || '1.125rem' }"
+    :style="{
+      ...styles,
+      fontSize: fontSize || '1.125rem',
+      width: fontSize,
+      height: fontSize,
+    }"
     @click="click"
     aria-hidden="true"
   >
@@ -33,8 +38,6 @@ const click = computed(() => {
 svg {
   @include selectable(none);
   cursor: pointer;
-  width: 1em;
-  height: 1em;
   overflow: hidden;
 }
 </style>

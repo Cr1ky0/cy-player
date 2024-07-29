@@ -16,9 +16,7 @@ const handleLoop = () => {
 </script>
 
 <template>
-  <div
-    class="cy-player-controls-setting"
-  >
+  <div class="cy-player-controls-setting">
     <SvgIcon
       class="cy-player-controls-setting-icon"
       @click="showFunc = !showFunc"
@@ -53,12 +51,13 @@ const handleLoop = () => {
   height: 100%;
   position: relative;
   cursor: pointer;
-  padding: 0 .7rem;
+  padding: 0 0.7rem;
 
-  .cy-player-controls-setting-icon{
-    transition: transform .3s ease;
-    &:hover{
-      transform:rotateZ(60deg);
+  .cy-player-controls-setting-icon {
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: rotateZ(60deg);
     }
   }
 
@@ -74,8 +73,8 @@ const handleLoop = () => {
     @include xCenterAlign(-115%);
     color: #fff;
     width: 6.25rem;
-    padding: .7rem;
-    border-radius: .2rem;
+    padding: 0.7rem;
+    border-radius: 0.2rem;
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
@@ -84,7 +83,7 @@ const handleLoop = () => {
     animation: show 0.3s ease;
 
     > div {
-      margin: .3rem 0;
+      margin: 0.3rem 0;
     }
 
     .cy-player-controls-setting-light-off {
@@ -92,10 +91,10 @@ const handleLoop = () => {
       justify-content: space-between;
 
       > div:first-child {
-        font-size: .8rem;
+        font-size: 0.8rem;
         width: 4.7rem;
         text-align: center;
-        letter-spacing: .3rem;
+        letter-spacing: 0.3rem;
       }
     }
 
@@ -103,7 +102,7 @@ const handleLoop = () => {
       @extend .cy-player-controls-setting-light-off;
 
       > div:first-child {
-        letter-spacing: .125rem;
+        letter-spacing: 0.125rem;
       }
     }
   }
