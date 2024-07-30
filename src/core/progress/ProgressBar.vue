@@ -23,7 +23,7 @@ const themeColor = computed(() => {
 const showSlider = ref<boolean>(false);
 const { xProp, isDrag, mouseEnter } = useMouseHandler(progressRef, {
   onMouseDown() {
-    videoController.pause();
+    // if (!videoStates.isWaiting) videoController.pause();
     videoController.setCurTime(moveTime.value);
     // 用户指定回调
     emits('progressMouseDown', videoStates);
