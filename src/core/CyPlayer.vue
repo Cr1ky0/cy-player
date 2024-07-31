@@ -127,7 +127,7 @@ defineExpose({
       <source :src="option.videoSrc" type="application/x-mpegURL" />
       <source :src="option.videoSrc" type="application/vnd.apple.mpegURL" />
     </video>
-    <Controller :mouseEnter="mouseEnter" v-if="showController">
+    <Controller :mouseEnter="mouseEnter" :showController="showController">
       <template v-for="(_, key) in slots" :key="key" v-slot:[key]>
         <slot :name="key" />
       </template>

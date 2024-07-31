@@ -7,10 +7,10 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/cy-player">
-    <img src="https://img.shields.io/badge/npm-1.4.5-blue" alt="npm:1.4.5">
+    <img src="https://img.shields.io/badge/npm-1.4.6-blue" alt="npm:1.4.6">
   </a>
   <a href="https://github.com/Cr1ky0/cy-player">
-    <img src="https://img.shields.io/badge/github-1.4.5-blue" alt="github">
+    <img src="https://img.shields.io/badge/github-1.4.6-blue" alt="github">
   </a>
   <a href="https://github.com/microsoft/TypeScript">
     <img src="https://img.shields.io/badge/typescript-5.2.2-blue" alt="typescript:5.2.2">

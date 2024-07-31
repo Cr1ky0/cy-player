@@ -31,8 +31,10 @@ const cusPos = computed(() => {
 const { showToast } = useToast(playerOption);
 
 const handleClick = () => {
-  if (videoStates.isPlay) videoController.pause();
-  else videoController.play();
+  if (!videoStates.isError) {
+    if (videoStates.isPlay) videoController.pause();
+    else videoController.play();
+  }
 };
 
 watch(
@@ -48,47 +50,55 @@ watch(
 const maskContainer = ref<HTMLDivElement>();
 
 const touchStartEffect = (operator: Operator) => {
-  if (operator === 'Progress') {
-    // 视频暂停并打开isDrag
-    videoController.pause();
-    isDrag.value = true;
+  if (!videoStates.isError) {
+    if (operator === 'Progress') {
+      // 视频暂停并打开isDrag
+      videoController.pause();
+      isDrag.value = true;
+    }
   }
 };
 
 const touchEndEffect = (operator: Operator) => {
-  if (operator === 'Progress') {
-    videoController.play();
-    isDrag.value = false;
-    showToast(
-      `视频快进至:${formatTime(Math.floor(videoStates.currentPlayTime))}`,
-    );
+  if (!videoStates.isError) {
+    if (operator === 'Progress') {
+      videoController.play();
+      isDrag.value = false;
+      showToast(
+        `视频快进至:${formatTime(Math.floor(videoStates.currentPlayTime))}`,
+      );
+    }
+    if (operator === 'Volume')
+      showToast(`音量调节至:${Math.floor(videoStates.volume)}`);
   }
-  if (operator === 'Volume')
-    showToast(`音量调节至:${Math.floor(videoStates.volume)}`);
 };
 
 const handleChangeProgress = (xChangeProp: number) => {
-  const mutiple = 3; // 操作速率，指定滑动前进的快慢 TODO:后续可以放在参数位置传入
-  let curTime =
-    videoStates.currentPlayTime + (xChangeProp / 100) * videoStates.duration;
-  // 判断是否<=0或超出播放总时长
-  curTime =
-    curTime <= 0
-      ? 0
-      : curTime >= videoStates.duration
-        ? videoStates.duration
-        : curTime;
-  // 乘以倍数
-  curTime =
-    videoStates.currentPlayTime +
-    (curTime - videoStates.currentPlayTime) * mutiple;
-  videoController.setCurTime(curTime);
+  if(!videoStates.isError) {
+    const mutiple = 3; // 操作速率，指定滑动前进的快慢 TODO:后续可以放在参数位置传入
+    let curTime =
+      videoStates.currentPlayTime + (xChangeProp / 100) * videoStates.duration;
+    // 判断是否<=0或超出播放总时长
+    curTime =
+      curTime <= 0
+        ? 0
+        : curTime >= videoStates.duration
+          ? videoStates.duration
+          : curTime;
+    // 乘以倍数
+    curTime =
+      videoStates.currentPlayTime +
+      (curTime - videoStates.currentPlayTime) * mutiple;
+    videoController.setCurTime(curTime);
+  }
 };
 
 const handleChangeVolume = (yChangeProp: number) => {
-  let curVolume = videoStates.volume - yChangeProp;
-  curVolume = curVolume <= 0 ? 0 : curVolume >= 100 ? 100 : curVolume;
-  videoController.setVolume(curVolume);
+  if(!videoStates.isError) {
+    let curVolume = videoStates.volume - yChangeProp;
+    curVolume = curVolume <= 0 ? 0 : curVolume >= 100 ? 100 : curVolume;
+    videoController.setVolume(curVolume);
+  }
 };
 
 const { showVolume } = useTouchHandler(maskContainer, {
@@ -99,11 +109,11 @@ const { showVolume } = useTouchHandler(maskContainer, {
 });
 
 const volumeStyles = {
-  left:'auto',
+  left: 'auto',
   right: '10%',
   top: '50%',
   transform: 'translate(0,-50%)',
-  height:'9rem',
+  height: '9rem',
 };
 
 // slots
@@ -174,7 +184,11 @@ const slots = useSlots();
         :style="{ cursor: 'default' }"
       ></SvgIcon>
     </div>
-    <VolumeSlider v-if="showVolume" :styles="volumeStyles" :show-icon="true"></VolumeSlider>
+    <VolumeSlider
+      v-if="showVolume"
+      :styles="volumeStyles"
+      :show-icon="true"
+    ></VolumeSlider>
   </div>
 </template>
 

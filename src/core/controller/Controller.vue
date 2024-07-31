@@ -6,7 +6,7 @@ import Playback from '@/core/controls/Playback.vue';
 import Controls from '@/core/controls/Controls.vue';
 import { PlayerOption, VideoState } from 'types';
 
-defineProps(['mouseEnter']);
+defineProps(['mouseEnter','showController']);
 const videoStates = <VideoState>inject('videoStates');
 const playerOption = <PlayerOption>inject('playerOption');
 const style = computed(() => {
@@ -46,7 +46,7 @@ const filteredSlots = Object.keys(slots).reduce(
   <div
     :class="`cy-player-controller-container ${(mouseEnter || keepShow) && !videoStates.isPlayEnd ? 'cy-player-controller-active' : ''}`"
     :style="style"
-    v-if="!videoStates.isError"
+    v-if="!videoStates.isError && showController"
   >
     <ProgressBar>
       <template v-if="slots.slider" #slider>
