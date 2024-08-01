@@ -30,6 +30,7 @@
 - 组件使用Typescript和Vue3进行开发，代码逻辑比较清晰注释完善，如有需要可以自己拿来定制开发~
 - 参考了部分[JoL-Player](https://github.com/lgf196/JoL-player)实现和功能，沿用了一些其中的素材，如果喜欢也请支持一下他~
 - 该组件如果对你有帮助请点一个⭐，如果有需要的其他功能请反馈~
+- Vue2版本见：<a href="https://github.com/Cr1ky0/cy-player-vue2">Cy-Player-Vue2</a>
 
 ## 特性
 
