@@ -263,6 +263,8 @@ export type CyPlayerRef = {
   states: VideoState;
   controller: VideoController;
   videoElement: HTMLVideoElement;
+  showToast: (message: string) => void;
+  closeToast: () => void;
 };
 
 export interface PlayerProps {

@@ -7,10 +7,10 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/cy-player">
-    <img src="https://img.shields.io/badge/npm-1.4.6-blue" alt="npm:1.4.6">
+    <img src="https://img.shields.io/badge/npm-1.4.8-blue" alt="npm:1.4.8">
   </a>
   <a href="https://github.com/Cr1ky0/cy-player">
-    <img src="https://img.shields.io/badge/github-1.4.6-blue" alt="github">
+    <img src="https://img.shields.io/badge/github-1.4.8-blue" alt="github">
   </a>
   <a href="https://github.com/microsoft/TypeScript">
     <img src="https://img.shields.io/badge/typescript-5.2.2-blue" alt="typescript:5.2.2">
@@ -144,10 +144,10 @@ const handleSetCurTime = () => {
     console.log(playerRef.value!.videoElement)
 }
 </script>
-<templaye>
+<template>
   <CyPlayer ref="playerRef" :option="{src:''}"></CyPlayer>
   <button @click="handleSetCurTime">Click</button>
-</templaye>
+</template>
 ```
 
 ##### Controller
@@ -169,6 +169,8 @@ export type CyPlayerRef = {
   states: VideoState;
   controller: VideoController;
   videoElement: HTMLVideoElement;
+  showToast: (message: string) => void;
+  closeToast: () => void;
 };
 ```
 

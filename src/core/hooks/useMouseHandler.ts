@@ -120,9 +120,9 @@ export const useMouseHandler = (
       } else {
         dom.addEventListener('mouseenter', handleMouseEnter);
         dom.addEventListener('mouseleave', handleMouseLeave);
-        window.addEventListener('mouseup', handleMouseUp);
         dom.addEventListener('mousedown', handleMouseDown);
         window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
       }
     }
   });
@@ -136,9 +136,9 @@ export const useMouseHandler = (
     } else {
       dom.removeEventListener('mouseenter', handleMouseEnter);
       dom.removeEventListener('mouseleave', handleMouseLeave);
-      window.removeEventListener('mouseup', handleMouseUp);
       dom.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     }
   });
 

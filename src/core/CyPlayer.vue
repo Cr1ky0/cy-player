@@ -10,6 +10,7 @@ import { useSetSize } from '@/core/hooks/useSetSize.ts';
 import { cyPlayerEmits } from '@/core/CyPlayer.ts';
 import 'virtual:svg-icons-register';
 import './index.css';
+import { useToast } from '@/core/hooks/useToast.ts';
 
 // Props
 const props = defineProps<PlayerProps>();
@@ -99,13 +100,17 @@ watch([() => option.width, () => option.height], () => {
 const slots = useSlots();
 
 // expose
+const { showToast, closeToast } = useToast(option);
 defineExpose({
   videoElement: videoRef,
   states: videoStates,
   controller: videoController,
+  showToast,
+  closeToast,
 });
 
 // TODO:i18n
+// TODO:expose toast
 </script>
 
 <template>
